@@ -1,56 +1,39 @@
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+Received: from mta-202a.earthlink-vadesecure.net (mta-202a.earthlink-vadesecure.net [51.81.232.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D416B569C
-	for <distributions@lists.linux.dev>; Mon, 30 Jan 2023 17:02:42 +0000 (UTC)
-Received: by mail-yb1-f170.google.com with SMTP id 123so14818929ybv.6
-        for <distributions@lists.linux.dev>; Mon, 30 Jan 2023 09:02:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=contractor.linuxfoundation.org; s=google;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=vbPPNjyz+mLqt55wbBdddgHiHGQ1N9SMDtstq/T90SA=;
-        b=UHu/zo4qpMi1aGlOBexTUisrhL+cxd+55E7tGkmFnmY5YBGVaim+WuieJIn99D3tEB
-         zzam/HfYk0wbsJ8/dQAJTQjYuiSclw99yNdCk4dGbpfQTjiMa+n20Lw9/PN7PU0SWtk0
-         4Ss50FczmyA2YmORnl6b41XPLXrIjufryMqewnG5SWbNHiCR0JnPScyqVnOOo9k3XEbq
-         VBusamSNIT2S6Q16v2gdFSQ3RMSnvlT73oqhGklLvUYKlCvSCUIVtAmeqxbWDV27OhKI
-         0Ma1lBUFjU+j3YYXgFV571h61UbzMB+mvN6iq9BQYyjDuMU2S2nLETtHGsfPxBA8onFs
-         g3yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vbPPNjyz+mLqt55wbBdddgHiHGQ1N9SMDtstq/T90SA=;
-        b=2Yrh6NEVPBdak+6DTwV97R45vS5Q3I+eZyA1huonQY5+MoMLqfGfATOTyNiwY2MXbN
-         g8F8lPgcyke+U5+Cwk4xO8fvnSona9eDmelQx7Dk1HeEjqwoa/eNHviC8hXxitN5YwuN
-         CohdvSUUQCNFJYkwPdyzGy0+otyaM2DGuYD0CKjEzjIrAkQRW5w0312L+1ygRllk/lGi
-         yqgwYnLoiJiFjoKvXCipx8jodPAKjVW0XoOAXVv0iQkoHd9xi1Xd5sRuQFXZ91p66T4A
-         qncuOgDr4FBV9vWyDOlqfENfk7iDqj1TQuKcAeAvJDBo0H3mYLbyyi96JN+s++vx/3u/
-         stKQ==
-X-Gm-Message-State: AO0yUKWppM0v2QUmMegL/Xlxio8WiBmL+F+JFUpynx1HwLTRG1kDWdp6
-	X9vP83X5NxRBFX6ojmLp1ZTHwdGobIig6R6i0V74M7w5KppNmQ==
-X-Google-Smtp-Source: AK7set+rPjl/OD+dyBGbTXK3aTsNhKTSnFNeDEfB+1mCMxSj+84FL2kiUUIYigsYrZrC7+mBxnEDDt21jzhja4A0k6k=
-X-Received: by 2002:a25:86c2:0:b0:80b:7e2e:f94 with SMTP id
- y2-20020a2586c2000000b0080b7e2e0f94mr2429511ybm.273.1675098161578; Mon, 30
- Jan 2023 09:02:41 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8758C15
+	for <distributions@lists.linux.dev>; Tue, 31 Jan 2023 16:27:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6
+ OvBfk=; c=relaxed/relaxed; d=earthlink.net; h=from:reply-to:subject:
+ date:to:cc:resent-date:resent-from:resent-to:resent-cc:in-reply-to:
+ references:list-id:list-help:list-unsubscribe:list-subscribe:list-post:
+ list-owner:list-archive; q=dns/txt; s=dk12062016; t=1675182153;
+ x=1675786953; b=mppIMWdibsuc8QC1aw4awz6myg392hvnMYMLrRwpdJeU8GVurPAkc9f
+ Ff7Df5zQnlfkHwCQlI3kgs3Dd+TQn0YNoNyugrRqiUHXU0nClfZMxn2b+rNKDURyUGLF/zX
+ qi689er4zLEvL2c0QfWOhdU7lOPhbMW6TZs27T7ZFWpS8j8zvAlIJv8clb4msFQfo5tiAtn
+ MXvx44Z+n4W8JDgVQLN6leYk1q5+dYbbJrr9s/uhfu81db+MsF7mhfiUsJ9uH964U7S61qt
+ i1Xrt4akgdmodLY/f9REiOe9xNZG72Fo6AnnCgDIcitT6ppB7AH4kb13jmvgId/PVHqRRDN
+ Qpg==
+Received: from [192.168.0.11] ([24.50.25.173])
+ by smtp.earthlink-vadesecure.net ESMTP vsel2nmtao02p with ngmta
+ id 1ff4d9d6-173f714abaa25ec8; Tue, 31 Jan 2023 16:22:33 +0000
+To: distributions@lists.linux.dev
+From: Felix Miata <mrmazda@earthlink.net>
+Subject: subscribe
+Organization: less than infinite
+Message-ID: <848b56a8-312f-2a5a-6cad-c04a0292eb84@earthlink.net>
+Date: Tue, 31 Jan 2023 11:22:30 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ SeaMonkey/2.53.14
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Shyam Kumar <skachukattu@contractor.linuxfoundation.org>
-Date: Mon, 30 Jan 2023 22:32:30 +0530
-Message-ID: <CAH=dH9_oz92b8n3dHmHPzfmRsKZqyv_2Bip8LsTkN23a5Qw9Gg@mail.gmail.com>
-Subject: Test Mail to distributions
-To: distributions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Authentication-Results: earthlink-vadesecure.net;
+ auth=pass smtp.auth=jdcpa@earthlink.net smtp.mailfrom=mrmazda@earthlink.net;
 
-Hi
-
-This is a test mail.
-
--- 
-Regards
-Shyam Kumar
-The Linux Foundation Core Projects
+subscribe
