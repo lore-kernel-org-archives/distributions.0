@@ -1,141 +1,219 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43CEF7FB
-	for <distributions@lists.linux.dev>; Tue, 31 Jan 2023 16:49:27 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id gr7so18830061ejb.5
-        for <distributions@lists.linux.dev>; Tue, 31 Jan 2023 08:49:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=9qfEJcQ51QT3i7ATMA8Bi2xnMNisGtDqFaJw0ZnJOWk=;
-        b=jryObGBXLvOn0MT7UJM7xA44YGY6DqWmx5P8U4UA6suWVMI6rakOeUG1aHlJmsaQUw
-         fU5KJhZsM9kfURUgAHBDIewRTBUbR37AmqGAUjX43yVePWhFetKvrtYaB4TEhMSfQQze
-         kLWXVOlxptPo9eZZyDkPxcJHrweLLCPcU6Zl2lmmrxJuBV8ukvmDt/sqgIULnQHlpPpn
-         RziWl3/fCAvooFulAXIAxS5u0ebznxMiOijebi9DvdEWevbwIsuMcR/x793T2FzxyD8V
-         1RgyGu4kjVh0Tv0FxuFzwwwNg7hXgb3t1toPnPrT8bVlM3Jt4BFyghRFbCacSJv95HE8
-         ykZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9qfEJcQ51QT3i7ATMA8Bi2xnMNisGtDqFaJw0ZnJOWk=;
-        b=hyI+lCrnSreAy2VL5UiZLtqJVE3qh8VM+TSnpiQwkuUMBrOANP64v/uwZy6PlC5h1S
-         Sbecmim6VlVrXl97xGsJAEix0CegF5dCWtwUGqVkbS08hnvJy/qCctnLYf18cG9oBSGr
-         RWtsHEspjTE/M3i2zGLqqPhQPanm3tear8RUTuT99nhcr62BmpGGr40myd1vXprFZTH/
-         bhV6XxRwW5P7Kq+YS3y5jvaCP6istz+cxrikcI4tlFiJvmVjqr8Er0Sxn7zDnxuPi/KY
-         gJaXLp5fVoowAXDdK1j5sumaya1WbajX3gh11oPz5x0rWRj3oKGEDYZYi+UfvR+Aadf/
-         txhg==
-X-Gm-Message-State: AO0yUKWRpQLyv6C455K64cxa+WZJBigD3qTHF74L1MFp/wR7RW44JWti
-	cIMVRiBOKaZaDhxuBHt41ebmAbUa2hviRUwk4KnJyAObEByoMg==
-X-Google-Smtp-Source: AK7set8ujV7kSXvCX5ombCNDv/dEvIcBErMJ+U9xHsrRXzHP3o64NSmcZbgmFg+9xCXeeiLt7NlIc+1V3G1kmcuZvx8=
-X-Received: by 2002:a17:906:2347:b0:87a:ed8f:ba12 with SMTP id
- m7-20020a170906234700b0087aed8fba12mr4540511eja.293.1675183764956; Tue, 31
- Jan 2023 08:49:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6209A610A
+	for <distributions@lists.linux.dev>; Mon,  6 Feb 2023 20:28:16 +0000 (UTC)
+From: Sam James <sam@gentoo.org>
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_3E220EBA-99CE-495A-B068-C818D21A0589";
+	protocol="application/pgp-signature";
+	micalg=pgp-sha512
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-From: Neal Gompa <ngompa13@gmail.com>
-Date: Tue, 31 Jan 2023 17:48:48 +0100
-Message-ID: <CAEg-Je_sqMA4v1L16ngVehwwpxnNNGP9RbOSENUJwzWNvYBQ-Q@mail.gmail.com>
-Subject: Self-introduction: Neal Gompa (Fedora, CentOS, openSUSE)
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
+Subject: Fwd: OpenPGP interoperability issues with gnupg >= 2.4
+Message-Id: <F30D6590-3E0C-4865-A944-7DE118A619CF@gentoo.org>
+References: <Y+FiAeD5eiuC0tMX@hmbx>
 To: distributions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Date: Mon, 6 Feb 2023 20:27:57 +0000
+X-Mailer: Apple Mail (2.3731.300.101.1.3)
+
+
+--Apple-Mail=_3E220EBA-99CE-495A-B068-C818D21A0589
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_E156C011-E5F5-47B1-88A3-02D18F69524B"
+
+
+--Apple-Mail=_E156C011-E5F5-47B1-88A3-02D18F69524B
 Content-Transfer-Encoding: quoted-printable
-
-Hello all,
-
-My name is Neal Gompa. I'm a Linux enthusiast and Linux distro
-contributor spanning across many Linux distribution communities. I=E2=80=99=
-ve
-been using Linux for two decades now, and I=E2=80=99ve been contributing to
-open source for almost as long. From a =E2=80=9Cdistro leadership=E2=80=9D
-perspective, I participate in leadership roles in multiple Linux
-distributions:
-
-* Fedora Engineering Steering Committee (FESCo[1]) member since May 2020
-* Mageia.Org Council[2] member since April 2018
-* Mageia.Org Board[3] member since March 2021
-* openSUSE Project Board[4] member since January 2021
-
-I also informally participate in leadership roles in various
-distributions. In the CentOS Project[5], I am the co-chair in the
-CentOS Hyperscale SIG[6] and the chief developer of the CentOS Stream
-Hyperscale Workstation Spin[7]. Within the Fedora Project[8], I also
-run the KDE Special Interest Group (SIG)[9]; the Workstation Working
-Group (WG)[10]; the Cloud SIG[11]; and lead the Fedora Btrfs project.
-In the openSUSE Project[12], I assist with the planning process for
-future openSUSE Leap releases[13] and act as a community bridge to
-SUSE Linux Enterprise engineering.
-
-I previously did work in Yocto, OpenMandriva Lx, and ROSA Linux
-distributions to help modernize their software management systems, and
-established bridges with upstream projects so they could work with the
-larger community around RPM-based distributions. I have assisted in
-the creation of custom Linux distributions in the past as well.
-
-In the past couple of years, I've done a fair bit of work around
-modernizing the Linux desktop experience in Fedora Linux. User-facing
-changes I've implemented or assisted with implementing: Btrfs by
-default in Fedora Linux 33 on the desktop[14], Wayland by default for
-KDE Plasma in Fedora Linux 34[15], PipeWire for audio in Fedora Linux
-34[16], Btrfs in Fedora Linux 35 for the cloud[17], WirePlumber for
-PipeWire in Fedora Linux 35[18], replaced SDL 1.2 with a shim using
-SDL2 in Fedora Linux 35[19], and improved power management on Fedora
-Linux 35[20]. Through my work in the CentOS Hyperscale SIG, I have
-brought many of these features to CentOS Stream 9[21], which will
-enhance the experience for anyone using RHEL 9 and derivatives.
-
-I would like to lend my experience, expertise, and community
-connections to help this community solidify their future on Linux. I
-would also like to invite anyone interested to come meet me on Matrix in
-#kde:fedoraproject.org[22], #workstation:fedoraproject.org[23], or
-#centos-hyperscale:fedoraproject.org[24].
-
-If you want to know a little bit more about me personally, I gave a
-pretty good interview about myself on the Destination Linux podcast
-a couple of years ago[25]. I hope the wall of text doesn't intimidate you, =
-I'm
-generally a friendly guy and happy to talk about all kinds of tech and
-Linux stuff! :)
-
-Thank you for your time and best regards,
-Neal
-
-[1]: https://docs.fedoraproject.org/en-US/fesco/
-[2]: https://wiki.mageia.org/en/Org_Council
-[3]: https://wiki.mageia.org/en/Org_Board
-[4]: https://en.opensuse.org/openSUSE:Board
-[5]: https://www.centos.org/about/#the-centos-project
-[6]: https://sigs.centos.org/hyperscale/
-[7]: https://sigs.centos.org/hyperscale/spins/workstation/
-[8]: https://docs.fedoraproject.org/en-US/project/
-[9]: https://fedoraproject.org/wiki/SIGs/KDE
-[10]: https://docs.fedoraproject.org/en-US/workstation-working-group/
-[11]: https://fedoraproject.org/wiki/Cloud_SIG
-[12]: https://en.opensuse.org/Portal:Project
-[13]: https://en.opensuse.org/Feature_Planning_15.4
-[14]: https://fedoraproject.org/wiki/Changes/BtrfsByDefault
-[15]: https://fedoraproject.org/wiki/Changes/WaylandByDefaultForPlasma
-[16]: https://fedoraproject.org/wiki/Changes/DefaultPipeWire
-[17]: https://fedoraproject.org/wiki/Changes/FedoraCloudBtrfsByDefault
-[18]: https://fedoraproject.org/wiki/Changes/WirePlumber
-[19]: https://fedoraproject.org/wiki/Changes/SDL12onSDL2
-[20]: https://fedoraproject.org/wiki/Changes/Power_Profiles_Daemon
-[21]: https://blog.centos.org/2022/01/centos-hyperscale-sig-quarterly-repor=
-t-for-2021q4/
-[22]: https://matrix.to/#/#kde:fedoraproject.org
-[23]: https://matrix.to/#/#workstation:fedoraproject.org
-[24]: https://matrix.to/#/#centos-hyperscale:fedoraproject.org
-[25]: https://destinationlinux.org/episode-198/
+Content-Type: text/plain;
+	charset=us-ascii
 
 
 
---
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+> Begin forwarded message:
+>=20
+> From: David Runge <dvzrv@archlinux.org>
+> Subject: OpenPGP interoperability issues with gnupg >=3D 2.4
+> Date: 6 February 2023 at 20:24:27 GMT
+> To: tmz@pobox.com, ncopa@alpinelinux.org, tbier@posteo.de, =
+sam@gentoo.org, demm@kaosx.us, mail@jann-roeder.net, cho-m@tuta.io, =
+fpletz@fnordicwalking.de, rahul@gopinath.org, tpgxyz@gmail.com, =
+jan.christian@gruenhage.xyz, dkg@fifthhorseman.net, eric@debian.org, =
+xtkoba@gmail.com, dleuenberger@suse.com, adridg@freebsd.org, =
+jjelen@redhat.com, anthraxx@archlinux.org
+>=20
+> Hi all,
+>=20
+> I am one of the package maintainers of gnupg on Arch Linux.
+> DISCLAIMER: Since December 2022 I am also a contracted developer for =
+the
+> Sequoia project (an alternative implementation of the OpenPGP standard
+> in Rust).
+>=20
+> We (Levente Polyak and I) are writing to you because you are the
+> maintainers of gnupg on other downstream distributions.
+> With gnupg 2.4.0 a change has been merged [1], which has gpg operate
+> with certificate material in a way that is incompatible with the
+> upcoming IETF approved "crypto-refresh" approach.
+> This means, that e.g. messages encrypted using a key generated with
+> gnupg >=3D 2.4.0 will not be compatible with OpenPGP implementations
+> following the upcoming IETF standard.
+>=20
+> While this has especially integrators such as Thunderbird [2] and
+> keyserver authors worried, it is also a concern for us as a downstream
+> distributor of gnupg.
+> Some of you have already updated gnupg to >=3D 2.4.0 in some form, but =
+we
+> would like to take the time and open the discussion on this topic, as =
+we
+> believe that the change is harmful to the larger OpenPGP ecosystem.
+>=20
+> We are currently still shipping 2.2.x due to (only now resolved) =
+issues
+> with our distribution keyring. However, we are wondering how to =
+proceed
+> with gnupg in the future, as it will also negatively affect the trust
+> model of our own distribution.
+>=20
+> Several scenarios seem likely (depending on adoption):
+>=20
+> * notifying users of upcoming incompatibilities if they create a key
+>  with gnupg >=3D 2.4.0
+> * shipping/ using gnupg 2.2.x alongside (or exclusively) for as long =
+as
+>  possible
+> * undoing the change in gnupg
+>=20
+> We would like to raise awareness and gather some feedback of current
+> packagers of gnupg to form a broader response to this issue.
+>=20
+> As mail threads with large To: headers might get very tedious for
+> discussing this topic, we would also like to invite you to
+> #openpgp-interop on libera.chat [3].
+>=20
+> Best,
+> David and Levente
+>=20
+> P.S.: The addressed persons have been gathered via links to downstream
+> source data on repology.org [4]. In case we have missed anyone (very
+> likely), that should join the discussion, please feel free to forward
+> this e-mail to them.
+>=20
+> [1] =
+https://lists.gnupg.org/pipermail/gnupg-devel/2022-December/035183.html
+> [2] =
+https://lists.gnupg.org/pipermail/gnupg-devel/2023-February/035270.html
+> [3] ircs://irc.libera.chat/openpgp-interop
+> [4] https://repology.org/project/gnupg/versions
+>=20
+> --
+> https://archlinux.org
+
+
+--Apple-Mail=_E156C011-E5F5-47B1-88A3-02D18F69524B
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; =
+charset=3Dus-ascii"></head><body style=3D"overflow-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: =
+after-white-space;"><br><div><br><blockquote type=3D"cite"><div>Begin =
+forwarded message:</div><br class=3D"Apple-interchange-newline"><div =
+style=3D"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; =
+margin-left: 0px;"><span style=3D"font-family: -webkit-system-font, =
+Helvetica Neue, Helvetica, sans-serif; color:rgba(0, 0, 0, =
+1.0);"><b>From: </b></span><span style=3D"font-family: =
+-webkit-system-font, Helvetica Neue, Helvetica, sans-serif;">David Runge =
+&lt;dvzrv@archlinux.org&gt;<br></span></div><div style=3D"margin-top: =
+0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px;"><span =
+style=3D"font-family: -webkit-system-font, Helvetica Neue, Helvetica, =
+sans-serif; color:rgba(0, 0, 0, 1.0);"><b>Subject: </b></span><span =
+style=3D"font-family: -webkit-system-font, Helvetica Neue, Helvetica, =
+sans-serif;"><b>OpenPGP interoperability issues with gnupg &gt;=3D =
+2.4</b><br></span></div><div style=3D"margin-top: 0px; margin-right: =
+0px; margin-bottom: 0px; margin-left: 0px;"><span style=3D"font-family: =
+-webkit-system-font, Helvetica Neue, Helvetica, sans-serif; =
+color:rgba(0, 0, 0, 1.0);"><b>Date: </b></span><span style=3D"font-family:=
+ -webkit-system-font, Helvetica Neue, Helvetica, sans-serif;">6 February =
+2023 at 20:24:27 GMT<br></span></div><div style=3D"margin-top: 0px; =
+margin-right: 0px; margin-bottom: 0px; margin-left: 0px;"><span =
+style=3D"font-family: -webkit-system-font, Helvetica Neue, Helvetica, =
+sans-serif; color:rgba(0, 0, 0, 1.0);"><b>To: </b></span><span =
+style=3D"font-family: -webkit-system-font, Helvetica Neue, Helvetica, =
+sans-serif;">tmz@pobox.com, ncopa@alpinelinux.org, tbier@posteo.de, =
+sam@gentoo.org, demm@kaosx.us, mail@jann-roeder.net, cho-m@tuta.io, =
+fpletz@fnordicwalking.de, rahul@gopinath.org, tpgxyz@gmail.com, =
+jan.christian@gruenhage.xyz, dkg@fifthhorseman.net, eric@debian.org, =
+xtkoba@gmail.com, dleuenberger@suse.com, adridg@freebsd.org, =
+jjelen@redhat.com, =
+anthraxx@archlinux.org<br></span></div><br><div><div><div =
+class=3D"content-isolator__container">Hi all,<br><br>I am one of the =
+package maintainers of gnupg on Arch Linux.<br>DISCLAIMER: Since =
+December 2022 I am also a contracted developer for the<br>Sequoia =
+project (an alternative implementation of the OpenPGP standard<br>in =
+Rust).<br><br>We (Levente Polyak and I) are writing to you because you =
+are the<br>maintainers of gnupg on other downstream =
+distributions.<br>With gnupg 2.4.0 a change has been merged [1], which =
+has gpg operate<br>with certificate material in a way that is =
+incompatible with the<br>upcoming IETF approved "crypto-refresh" =
+approach.<br>This means, that e.g. messages encrypted using a key =
+generated with<br>gnupg &gt;=3D 2.4.0 will not be compatible with =
+OpenPGP implementations<br>following the upcoming IETF =
+standard.<br><br>While this has especially integrators such as =
+Thunderbird [2] and<br>keyserver authors worried, it is also a concern =
+for us as a downstream<br>distributor of gnupg.<br>Some of you have =
+already updated gnupg to &gt;=3D 2.4.0 in some form, but we<br>would =
+like to take the time and open the discussion on this topic, as =
+we<br>believe that the change is harmful to the larger OpenPGP =
+ecosystem.<br><br>We are currently still shipping 2.2.x due to (only now =
+resolved) issues<br>with our distribution keyring. However, we are =
+wondering how to proceed<br>with gnupg in the future, as it will also =
+negatively affect the trust<br>model of our own =
+distribution.<br><br>Several scenarios seem likely (depending on =
+adoption):<br><br>* notifying users of upcoming incompatibilities if =
+they create a key<br> &nbsp;with gnupg &gt;=3D 2.4.0<br>* shipping/ =
+using gnupg 2.2.x alongside (or exclusively) for as long as<br> =
+&nbsp;possible<br>* undoing the change in gnupg<br><br>We would like to =
+raise awareness and gather some feedback of current<br>packagers of =
+gnupg to form a broader response to this issue.<br><br>As mail threads =
+with large To: headers might get very tedious for<br>discussing this =
+topic, we would also like to invite you to<br>#openpgp-interop on =
+libera.chat [3].<br><br>Best,<br>David and Levente<br><br>P.S.: The =
+addressed persons have been gathered via links to downstream<br>source =
+data on repology.org [4]. In case we have missed anyone =
+(very<br>likely), that should join the discussion, please feel free to =
+forward<br>this e-mail to them.<br><br>[1] =
+https://lists.gnupg.org/pipermail/gnupg-devel/2022-December/035183.html<br=
+>[2] =
+https://lists.gnupg.org/pipermail/gnupg-devel/2023-February/035270.html<br=
+>[3] ircs://irc.libera.chat/openpgp-interop<br>[4] =
+https://repology.org/project/gnupg/versions<br><br>-- =
+<br>https://archlinux.org<br></div></div></div></blockquote></div><br></bo=
+dy></html>=
+
+--Apple-Mail=_E156C011-E5F5-47B1-88A3-02D18F69524B--
+
+--Apple-Mail=_3E220EBA-99CE-495A-B068-C818D21A0589
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iNUEARYKAH0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCY+FizV8UgAAAAAAuAChp
+c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
+NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MAAKCRBzhAn1IN+R
+kJ3PAP9JnD6Z2oFhKktAorJeWBGMPP2Y3/y8WKg+knS2RrKS0AD/SKOhUGagUBfN
+nv8TzFtbTsB7sv7Wvf6PcVrLyznFxw8=
+=vY/5
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_3E220EBA-99CE-495A-B068-C818D21A0589--
