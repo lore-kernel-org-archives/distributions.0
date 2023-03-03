@@ -1,113 +1,160 @@
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.217])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB796A938
-	for <distributions@lists.linux.dev>; Fri,  3 Mar 2023 22:14:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1677881509; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=hpQre4C9y4wn9c9lKmn981fw2k+IXkUsF6uE66/lNizTF6iUGjIioHzgIgF9L50lX/
-    NhcDZaQZxYVwiEUjsqamtMpmvjpS7MhApvw3jvt7ZM/haEEHjeoZdAZluURHOckB2O90
-    CN9GGkYe4mcp8Oos3pX7/MqkozrxooHwxt4Y7A6YsB9JFM7B5LJ3TSszon6BNDNEyiMx
-    jQCP6P99WZBf67S3usF71oXZ8KD+HKakJafzt3ALRNHmWIESnVc3mFlUHMve5FZZHify
-    5n0eA2MeZu+JrfEOxtd+2kqVbjCiKhUF5j4PlJ7nZBBsZkpUMRxBjMVcnLb+CmulG5yu
-    djgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1677881509;
-    s=strato-dkim-0002; d=strato.com;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=ViJjHv07+EHeoTimrRZv+ChzHMtxMYe009kHjDbNVwQ=;
-    b=hHpPIxO7PQqG7Xagd76WDvuW1fERAxXZaq/f3Pt/B3HCvDPC2kfJ6XxdWtiKprg9bs
-    wsE7wCybd2Arxk1e8XVAW9qsVOryP3P2M90vm0uwWc8ksQYsONJzrnJ+BH3RQNFqkzga
-    wi4ypcMj3g9A1pTCtqx0OJlpjqPjH6OEY2enD2Z0UoAlMdegv63d2RdZgrb5kj72msTg
-    Or3JU7Di4PFWDzjTuEvDZX5J9N6zWfBXiFis4lATbnuOPx9ZPrS9yimB6GnwM8t7RQ97
-    r3empsHT5rwp5OEi4/JjDi0VJiEkFBgeBOUl+j63pN77Qzv0ABQW27CeRfot5XYBQ8TS
-    4HIg==
-ARC-Authentication-Results: i=1; strato.com;
-    arc=none;
-    dkim=none
-X-RZG-CLASS-ID: mo00
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1677881509;
-    s=strato-dkim-0002; d=clisp.org;
-    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
-    From:Subject:Sender;
-    bh=ViJjHv07+EHeoTimrRZv+ChzHMtxMYe009kHjDbNVwQ=;
-    b=SEtlJKNxVJFxMrY3z7cpAjgQyfKsfrvkgFap55iO/rrHMDQNYipKW3JKonbxeoOpFx
-    3SX1McbVNmols2Kgl6VAFndYy3hJTF3i2FuW8oUBjniVCSe0bGjsogMLtpJQ99kImMS3
-    hipf5wi61iQOYcCxM24dZQqq9VrMhrzNFQ7IN/Ro+W1t71YCn59oKfjKBtBCStDATg/J
-    A7mmYLtFMX5PM2fWeabJChgiBPM+qwuGJPytAxtQUr7OzhXy1cVci/YHWLrmprJ0hiwu
-    kum490L3NIN6arxqDN+ueoJxpwtHyTJHsI8Th5tI5QNQNEMp8OLUX/6cXS1ckP0azERs
-    9hNg==
-X-RZG-AUTH: ":Ln4Re0+Ic/6oZXR1YgKryK8brlshOcZlIWs+iCP5vnk6shH0WWb0LN8XZoH94zq68+3cfpPAjffPEe8kXgv4Zw4zff4g9E7hUg=="
-Received: from nimes.localnet
-    by smtp.strato.de (RZmta 49.3.0 AUTH)
-    with ESMTPSA id Yddb27z23MBnRDC
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Fri, 3 Mar 2023 23:11:49 +0100 (CET)
-From: Bruno Haible <bruno@clisp.org>
-To: distributions@lists.linux.dev, Thorsten Kukuk <kukuk@suse.com>
-Cc: Eric Blake <eblake@redhat.com>
-Subject: Re: Y2038, glibc and utmp/utmpx on 64bit architectures
-Date: Fri, 03 Mar 2023 23:11:49 +0100
-Message-ID: <2900303.CPfdCl3LZh@nimes>
-In-Reply-To: <20230303205500.GA13773@suse.com>
-References: <20230303104647.GA20891@suse.com> <c420abff6abd43cabac8c2fa5d812091@DB6PR04MB3255.eurprd04.prod.outlook.com> <20230303205500.GA13773@suse.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 011958F6E;
+	Fri,  3 Mar 2023 23:39:22 +0000 (UTC)
+References: <A6582515-25ED-4F71-B924-4431F8139376@gentoo.org>
+ <7253e4c5-0f36-e725-f180-624f8887bf08@cs.ucla.edu>
+ <20230302110244.GK7636@redhat.com> <4158136.ciBtUerH68@nimes>
+User-agent: mu4e 1.8.14; emacs 30.0.50
+From: Arsen =?utf-8?Q?Arsenovi=C4=87?= <arsen@gentoo.org>
+To: Bruno Haible <bruno@clisp.org>
+Cc: Paul Eggert <eggert@cs.ucla.edu>, "Richard W.M. Jones"
+ <rjones@redhat.com>, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>, Demi
+ Marie Obenour <demiobenour@gmail.com>, Eric Blake <eblake@redhat.com>, Sam
+ James <sam@gentoo.org>, Carlos O'Donell via Libc-alpha
+ <libc-alpha@sourceware.org>, autoconf@gnu.org,
+ c-std-porting@lists.linux.dev, Zack Weinberg <zack@owlfolio.org>, David
+ Seifert <soap@gentoo.org>, Gentoo Toolchain <toolchain@gentoo.org>,
+ dueno@redhat.com, distributions@lists.linux.dev
+Subject: Re: On time64 and Large File Support
+Date: Sat, 04 Mar 2023 00:21:33 +0100
+In-reply-to: <4158136.ciBtUerH68@nimes>
+Message-ID: <86mt4tl80y.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
-Thorsten Kukuk wrote:
-> > Do the glibc developers plan to remove the utmpx
-> > interface as well (together with utmp interface)?
-> 
-> In glibc, utmpx is just an alias for utmp.
-> 
-> > If yes, then
-> >   - What is the point of your suggestion to "use the utmpx and not utmp
-> >     interface", above?
-> 
-> utmps only supports the utmpx interface, not utmp. So if you want to use
-> utmps, you need to convert all source code to utmpx.
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the explanations. It's clear now.
+Evening all,
 
-> >   - Since there is no "FUTURE DIRECTIONS" in POSIX
-> >     https://pubs.opengroup.org/onlinepubs/9699919799.2018edition/functions/endutxent.html
-> >     will the utmpx interface get deprecated in POSIX, or stay as it is?
-> >     Is the Austin Group already involved?
-> 
-> Linux is not POSIX conform, never was and there was never the plan to
-> become, but it tries to be as compatible with POSIX as possible where
-> it makes sense. If it does not make sense, POSIX will not be used. You
-> should be able to find several examples in glibc, where interfaces
-> derivate slightly from POSIX because the POSIX interface didn't made any
-> sense.
-> Parts of POSIX are really old (don't know how old utmp/utmpx are, but
-> they did exist already since a long time before I started to work
-> with Unix, and that's really a long time ago) and things are changing.
-> Today, utmp/utmpx create more problems then it solve. Many features of
-> it where never used on Linux or are meanwhile no longer used, at least
-> not with systemd.
-> There is just no benefit from it anymore. ...
+[CC +=3D distributions@lists.linux.dev as a thread about this popped up
+ there]
 
-I don't disagree with that.
+Before anything else, I'd like to say that I'd prefer no distributor
+acts on this issue until a smooth (or, at least, common) solution can be
+established.
 
-Just that, as part of keeping Linux + glibc as close a possible to POSIX
-over the long term, when we remove a feature from glibc that is POSIX-
-standardized, we should also remove (or at least mark as LEGACY) this
-part from POSIX. POSIX evolves, partially based on our inputs. I don't see
-the deprecation of [1][2] on the Austin Group's agenda so far [3].
+Bruno Haible <bruno@clisp.org> writes:
 
-Bruno
+> Richard W.M. Jones wrote:
+>> Another way to look at this is that it's a bug in gnutls and we should
+>> fix it only in this package
+>
+> It's by far not just this one package. An 'fgrep -rl time_t /usr/include'
+> search shows a number of libraries that use time_t in their API:
+>   alsa, boost, libstdc++, glib-2.0, gtk+-3.0, libpng, nettle, openssl,
+>   readline, libuuid, wxwidgets, X11, libxcb
+> - and that's just the few that I happen to have installed.
+>
+> If a distro takes a package-by-package approach:
+>   - Some of these packages use Gnulib, and are thus causing trouble now or
+>     will soon.
+>   - The other packages (and there are a number of them!) will either
+>     require a manual switch to _TIME_BITS=3D64 or blow up in 2038.
+>
+> I agree with Daniel and Paul that a global switch to _TIME_BITS=3D64 + ma=
+ss
+> rebuild is
+>   - more efficient than a package-by-package approach,
+>   - also less likely to leave out some packages by mistake.
 
-[1] https://pubs.opengroup.org/onlinepubs/9699919799.2018edition/basedefs/utmpx.h.html
-[2] https://pubs.opengroup.org/onlinepubs/9699919799.2018edition/functions/endutxent.html
-[3] https://www.austingroupbugs.net/view_all_bug_page.php
+While I do too, and I believe this is the path forward for supporting
+people with 32 bit hardware in y>=3D2038, this is *still* an ABI break,
+and there is a regrettably large amount of proprietary software in the
+world that users would expect to work (think games et al) which directly
+depends on this ABI.  It is not as trivial as it may seem at first.  On
+top of that, this still keeps the FFI problems Florian was talking
+about.
 
+I see two possibly slightly overlapping camps here:
 
+1) AMD64 -m32 multilib users, who need this ABI for old, crusty non-Free
+   binaries,
+2) People running 32-bit hardware
 
+(plus one that complains about 64 bit types consuming more memory which
+I choose to ignore)
+
+Supporting these both is a conflicting goal, (1) requires that time
+remains 32 bit, and (2) does not care about that at all, and would
+prefer a flag day which lets them have systems they can smoothly
+continue to operate in fifteen years.  This is why I don't think
+shoehorning _TIME_BITS=3D64 will work.
+
+I (in personal capacity) think our best shot at supporting all of these
+cases is to not opportunistically use _TIME_BITS (as it's difficult to
+detect whether the rest of the system was built the same way), and
+provide a hard break flag on glibc, with, potentially, a new
+multilib/whathaveyou.
+
+Let's establish a convention now, and just call the 64-bit time_t (et
+al) gnuy39.  We can then use existing multilib practice we all have to
+eventually migrate our i?86 systems to i?86-*-gnuy39 with an i?86-*-gnu
+multilib for those that need it.  I imagine amd64 users won't ever need
+i?86-*-gnuy39, but, in theory, this maps to that scenario, too.
+
+Keep in mind, also, that we need to form a consensus on this.  Vendors
+that produce the kind of software we're spending effort providing
+compatibility for will just pick one or two distros to target, and so,
+it's crucial that other distros follow the same conventions (including
+source-based ones, because source-based needn't imply *fully* built from
+source - we often need compatibility with software built for RHEL/Deb).
+
+Enabling this requires the previously suggested ability to shift
+"primary" symbols like gettimeofday to time64, rather than segregating
+them to _TIME_BITS=3D64.  What I was thinking of above is having that be a
+new $os value.  This should be easy to match.
+
+>> In Fedora we have a
+>> concept of global C/C++ flags which most C/C++ applications obey:
+>>
+>> $ rpm --eval '%{__global_cflags}'
+>> -O2 -flto=3Dauto -ffat-lto-objects -fexceptions -g -grecord-gcc-switches=
+ -pipe
+>> -Wall -Werror=3Dformat-security -Wp,-D_FORTIFY_SOURCE=3D2
+>> -Wp,-D_GLIBCXX_ASSERTIONS -specs=3D/usr/lib/rpm/redhat/redhat-hardened-c=
+c1
+>> -fstack-protector-strong -specs=3D/usr/lib/rpm/redhat/redhat-annobin-cc1=
+ -m64
+>> -mtune=3Dgeneric -fasynchronous-unwind-tables -fstack-clash-protection
+>> -fcf-protection
+>>
+>> We could stick -D_TIME_BITS=3D64 in there and then do a mass rebuild.
+>
+> How do you detect if a package (by mistake or intentionally) does
+> '#undef _TIME_BITS'?
+>
+> A safer solution might be to hack the compilers (gcc and clang), so that
+> they make _TIME_BITS evaluate to 64, regardless of any '#define _TIME_BIT=
+S 32'
+> or '#undef _TIME_BITS' in the package's source code.
+
+I'm not a huge fan of hacking cpp to do this, packagers could easily
+check for this automatically, which is already a lot of "free"
+"automated" testing.
+=2D-=20
+Arsen Arsenovi=C4=87
+
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iOcEARYKAI8WIQT+4rPRE/wAoxYtYGFSwpQwHqLEkwUCZAKFHV8UgAAAAAAuAChp
+c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0RkVF
+MkIzRDExM0ZDMDBBMzE2MkQ2MDYxNTJDMjk0MzAxRUEyQzQ5MxEcYXJzZW5AZ2Vu
+dG9vLm9yZwAKCRBSwpQwHqLEk+kOAP99yrQS6zsH6KEkg/tn8tyXfz1plqCzOeKm
+DOWuOnc+sgEA/bFvGTtjDB6/FZ1+HexMOQEun92VQDMlWHBAaLP9TgE=
+=9Yw3
+-----END PGP SIGNATURE-----
+--=-=-=--
