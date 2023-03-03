@@ -1,72 +1,63 @@
-Received: from pb-smtp20.pobox.com (pb-smtp20.pobox.com [173.228.157.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1E879C8
-	for <distributions@lists.linux.dev>; Thu, 16 Feb 2023 16:18:52 +0000 (UTC)
-Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
-	by pb-smtp20.pobox.com (Postfix) with ESMTP id F3E6D1EA538;
-	Thu, 16 Feb 2023 11:16:32 -0500 (EST)
-	(envelope-from mats@wichmann.us)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=pobox.com; h=message-id
-	:date:mime-version:subject:to:references:from:in-reply-to
-	:content-type:content-transfer-encoding; s=sasl; bh=LscfDOs9Z4k8
-	YMHunNdAR1uAuw3ZH9aktuFWdSKzH5w=; b=tIr+LDWGX6hKkd+O1zYsWz8XrDBv
-	9ZrZdMvPrw18bJ9r5dKI52vzMjxeaoNc0iMGJzyYJYh83wvPSZkXBtvc8E7EPXz+
-	YMHCS+gkZFFBw6elGc6aHw3TqasjIOVQGtv1cuK2zhatAHeO00dEQA6fn110D2m9
-	7jobUJBRFUZYtQI=
-Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
-	by pb-smtp20.pobox.com (Postfix) with ESMTP id EC65E1EA537;
-	Thu, 16 Feb 2023 11:16:32 -0500 (EST)
-	(envelope-from mats@wichmann.us)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=wichmann.us;
- h=message-id:date:mime-version:subject:to:references:from:in-reply-to:content-type:content-transfer-encoding; s=2018-07.pbsmtp; bh=LscfDOs9Z4k8YMHunNdAR1uAuw3ZH9aktuFWdSKzH5w=; b=I6TlscJ2yB7IgCTqnKEk2p+0j06hgD2mIhKOIMUOOqib8YXL1VJmTvr9fNfdT1JptLKADX7RaGe3MvQzYPkMUNwN8Mkox1nKQy6Rt+23fpZqzfyHTypoCuDpx9+uk5AodY08x8jz+EXCzpUmrkjbEKfSyLTV9yK+r4mmd/z2v5g=
-Received: from [192.168.137.86] (unknown [209.188.119.117])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by pb-smtp20.pobox.com (Postfix) with ESMTPSA id 5271C1EA530;
-	Thu, 16 Feb 2023 11:16:28 -0500 (EST)
-	(envelope-from mats@wichmann.us)
-Message-ID: <17469f43-674c-e09a-9635-597048527113@wichmann.us>
-Date: Thu, 16 Feb 2023 09:16:26 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F7A1FDD
+	for <distributions@lists.linux.dev>; Fri,  3 Mar 2023 10:46:49 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id 6A1B222AFD
+	for <distributions@lists.linux.dev>; Fri,  3 Mar 2023 10:46:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1677840407; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1ZTTitl2uxUpWv6RPH/ToCbvYO6t29x21/8DpF2GyTk=;
+	b=l5rwJ62AL0NGH6wC+1lqpohFTD24Z1o+QyUSe8XFVVhoL39OWbAmKzfJEbchd6GosBdDtD
+	4njkY2s3k8ni1R46lWxqfHpavcBw/EE7AJ6/A3iOpE1VKyMHZib+NeBMUHL4vl8xXdT39K
+	futIi3j7pu1X+CCo3ZNjhZBuPx18YQk=
+Received: from kukuk-phex.future.suse.de (unknown [10.162.233.67])
+	by relay2.suse.de (Postfix) with ESMTP id 60D5A2C141
+	for <distributions@lists.linux.dev>; Fri,  3 Mar 2023 10:46:47 +0000 (UTC)
+Received: by kukuk-phex.future.suse.de (Postfix, from userid 358)
+	id 4F0036488B; Fri,  3 Mar 2023 11:46:47 +0100 (CET)
+Date: Fri, 3 Mar 2023 11:46:47 +0100
+From: Thorsten Kukuk <kukuk@suse.com>
+To: distributions@lists.linux.dev
+Subject: Y2038, glibc and utmp/utmpx on 64bit architectures
+Message-ID: <20230303104647.GA20891@suse.com>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: Distributions coordination lists
-Content-Language: en-US
-To: Guillem Jover <guillem@debian.org>, distributions@lists.linux.dev,
- distributions@lists.freedesktop.org
-References: <Y+2JYG5pYyyG1CG0@thunder.hadrons.org>
-From: Mats Wichmann <mats@wichmann.us>
-In-Reply-To: <Y+2JYG5pYyyG1CG0@thunder.hadrons.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Pobox-Relay-ID:
- 4488E162-AE15-11ED-B60C-C2DA088D43B2-81526775!pb-smtp20.pobox.com
-
-On 2/15/23 18:39, Guillem Jover wrote:
-> Hi!
-> 
-> I just noticed this new distributions coordination list:
-> 
->    https://subspace.kernel.org/lists.linux.dev.html
-> 
-> Which seems to have already close to 80 participants. Although there
-> was already a list that seems had the exact same purpose at:
-> 
->    https://lists.freedesktop.org/mailman/listinfo/distributions
-> 
-> With around 280 participants. I think it would be nice to avoid
-> fragmentation for this kind of coordination efforts?
-
-The freedesktop list has been idle for many years so I'm not sure you 
-need to worry about duplication. I couldn't recall when I saw anything 
-from there, a glance at the archives shows there's been one message 
-since 2017 (and that was in 2018).
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
 
+Hi,
 
+I hope everybody is aware of the Y2038 problem. And not only for 32bit
+architectures, but also 64bit architectures are not ready today, at
+least not if they use glibc.
+glibc uses for compatibility with 32bit userland applications 32bit
+values for time_t and other variables even on 64bit systems.
+Affected is everything around utmp/utmpx, wtmp/wtmpx and lastlog.
+
+I wrote a blog about how to solve that for utmp/utmpx by using the data
+from systemd-logind instead:
+https://www.thkukuk.de/blog/Y2038_glibc_utmp_64bit/
+
+A detailed analysis also for wtmp and lastlog, which have the same
+problems, can be found here:
+https://github.com/thkukuk/utmpx/blob/main/Y2038.md
+
+
+   Thorsten
+
+-- 
+Thorsten Kukuk, Distinguished Engineer, Senior Architect, Future Technologies
+SUSE Software Solutions Germany GmbH, Frankenstraße 146, 90461 Nuernberg, Germany
+Managing Director: Ivo Totev, Andrew Myers, Andrew McDonald, Martje Boudien Moerman
+(HRB 36809, AG Nürnberg)
