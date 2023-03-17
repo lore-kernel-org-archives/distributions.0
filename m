@@ -1,14 +1,14 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907B17E
-	for <distributions@lists.linux.dev>; Wed, 15 Mar 2023 04:24:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDBA56AB6
+	for <distributions@lists.linux.dev>; Fri, 17 Mar 2023 14:04:17 +0000 (UTC)
 User-agent: mu4e 1.8.14; emacs 29.0.60
 From: Sam James <sam@gentoo.org>
 To: distributions@lists.linux.dev
-Subject: libevent changes ABI on >=glibc-2.36 upgrade, breaking e.g. Tor
-Date: Wed, 15 Mar 2023 04:20:29 +0000
-Message-ID: <878rfy7icf.fsf@gentoo.org>
+Subject: Breakage with glib-2.76.0 (exposes bugs in buggy packages)
+Date: Fri, 17 Mar 2023 14:00:43 +0000
+Message-ID: <87pm97325m.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
@@ -20,31 +20,37 @@ Content-Type: multipart/signed; boundary="=-=-=";
 
 --=-=-=
 Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-libevent hasn't made a release in a while, so this is probably worth
-getting out there.
+Hi folks,
 
-If libevent is built against a libc without arc4random, like
-<=glibc-2.36, it'll provide evutil_secure_rng_add_bytes. If
-it's built against a libc providing arc4random, it'll stop
-providing evutil_secure_rng_add_bytes without changing SONAME.
+glib-2.76 switches from using its own 'slice' allocator to using
+the system malloc instead.
 
-This breaks consumers like Tor which uses it if it exists in
-libevent, leading to runtime issues:
-```
-Feb 15 04:57:23 systemd[1]: Starting tor.service...
-Feb 15 04:57:23 tor[1321]: /usr/bin/tor: symbol lookup error:
-/usr/bin/tor: undefined symbol: evutil_secure_rng_add_bytes
-```
+This ends up exposing various memory safety bugs in consumers
+of glib, including some XFCE software.
 
-This originally bit us in Gentoo [0] and there's an upstream
-bug report [1] and patch available now (but no new release)
-to always provide evutil_secure_rng_add_bytes, but stubbed
-out if libc provides arc4random.
+So far:
+=2D openbox (https://bugzilla.icculus.org/show_bug.cgi?id=3D6669)
+=2D xfce4-session (https://gitlab.xfce.org/xfce/xfce4-session/-/issues/166)=
+=20
+=2D xfce4-screensaver (https://gitlab.xfce.org/apps/xfce4-screensaver/-/iss=
+ues/119)
+=2D thunar (https://gitlab.xfce.org/xfce/thunar/-/issues/1063)
+=2D gegl (https://gitlab.gnome.org/GNOME/gegl/-/issues/320)
+=2D girara (https://git.pwmt.org/pwmt/girara/-/issues/17)
+=2D tint2 (not yet reported upstream, https://bugs.gentoo.org/901775)
 
-[0] https://bugs.gentoo.org/894536
-[1] https://github.com/libevent/libevent/issues/1393
-[2] https://github.com/libevent/libevent/pull/1427
+See also:
+=2D
+https://bugs.gentoo.org/showdependencytree.cgi?id=3D901805&hide_resolved=3D0
+=2D https://gitlab.gnome.org/GNOME/glib/-/issues/2937
+=2D https://gitlab.gnome.org/GNOME/glib/-/issues/2941
+
+You can try see these issues with older glib by using Valgrind (which
+makes glib on older versions disable the slice allocator) or ASAN.
+
+I anticipate there'll be quite a few more of these.
 
 best,
 sam
@@ -54,11 +60,11 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZBFIYF8UgAAAAAAuAChp
+iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZBRzVl8UgAAAAAAuAChp
 c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
 NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
-by5vcmcACgkQc4QJ9SDfkZDMnwEAi5+jt9YrQzx1poeHN+EV6UaoJlr9Jc3HTpNa
-gAvHIiIBAMfOPUyXwF3McUdQ6TcZsKLe2ay9QQavohON32IDkIAI
-=xoSx
+by5vcmcACgkQc4QJ9SDfkZDufwEAj09igY0PU3JeFmGqAfaE44T2CUVb32nr/v/Z
+yfm+kNoA/38RPUwJJMN0gilztBErf2WZWnkPpG3ytOSKFE+cLU4L
+=e/dG
 -----END PGP SIGNATURE-----
 --=-=-=--
