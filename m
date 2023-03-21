@@ -1,88 +1,64 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BE16ABD
-	for <distributions@lists.linux.dev>; Fri, 17 Mar 2023 14:30:40 +0000 (UTC)
-References: <87pm97325m.fsf@gentoo.org>
-User-agent: mu4e 1.8.14; emacs 29.0.60
-From: Sam James <sam@gentoo.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80849460
+	for <distributions@lists.linux.dev>; Tue, 21 Mar 2023 13:53:01 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id 19D9221B4F
+	for <distributions@lists.linux.dev>; Tue, 21 Mar 2023 13:53:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1679406780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=/5CHmf6Lk96ncUNdfsqm+3Hiaq/GJ6dyUka69HbQT8A=;
+	b=azrcWWYnplh4OZRd09p1RQqsag+2wGa46wfjOgqP2enVRic6RhZhn2dT6iZ6+zwTY3wus7
+	pjKLfOdj8K8VXWjjcC8uFHsiCa//flnzAcHw/HDnc6qhlmh0FMuh7wL7bbO5xHhcHf2iYV
+	eIkTXso3w+ZWaLuxwHfspWh4RQlBz7A=
+Received: from wotan.suse.de (wotan.suse.de [10.160.0.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by relay2.suse.de (Postfix) with ESMTPS id 0E90A2C141
+	for <distributions@lists.linux.dev>; Tue, 21 Mar 2023 13:53:00 +0000 (UTC)
+Received: by wotan.suse.de (Postfix, from userid 358)
+	id 024F263BB; Tue, 21 Mar 2023 13:53:00 +0000 (UTC)
+Date: Tue, 21 Mar 2023 13:52:59 +0000
+From: Thorsten Kukuk <kukuk@suse.com>
 To: distributions@lists.linux.dev
-Subject: Re: Breakage with glib-2.76.0 (exposes bugs in buggy packages)
-Date: Fri, 17 Mar 2023 14:29:35 +0000
-In-reply-to: <87pm97325m.fsf@gentoo.org>
-Message-ID: <87ilez30xe.fsf@gentoo.org>
+Subject: lastlog2 as Y2038 safe lastlog replacement
+Message-ID: <20230321135259.GA32352@suse.com>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
-
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
 
-Sam James <sam@gentoo.org> writes:
+Hi,
 
-> [[PGP Signed Part:Undecided]]
-> Hi folks,
->
-> glib-2.76 switches from using its own 'slice' allocator to using
-> the system malloc instead.
->
-> This ends up exposing various memory safety bugs in consumers
-> of glib, including some XFCE software.
->
-> So far:
-> - openbox (https://bugzilla.icculus.org/show_bug.cgi?id=3D6669)
-> - xfce4-session (https://gitlab.xfce.org/xfce/xfce4-session/-/issues/166)=
-=20
-> - xfce4-screensaver (https://gitlab.xfce.org/apps/xfce4-screensaver/-/iss=
-ues/119)
-> - thunar (https://gitlab.xfce.org/xfce/thunar/-/issues/1063)
-> - gegl (https://gitlab.gnome.org/GNOME/gegl/-/issues/320)
-> - girara (https://git.pwmt.org/pwmt/girara/-/issues/17)
-> - tint2 (not yet reported upstream, https://bugs.gentoo.org/901775)
->
-> See also:
-> -
-> https://bugs.gentoo.org/showdependencytree.cgi?id=3D901805&hide_resolved=
-=3D0
-> - https://gitlab.gnome.org/GNOME/glib/-/issues/2937
-> - https://gitlab.gnome.org/GNOME/glib/-/issues/2941
->
-> You can try see these issues with older glib by using Valgrind (which
-> makes glib on older versions disable the slice allocator) or ASAN.
+as already written, there are several Y2038 problems with glibc even on
+some 64bit architectures
+(https://www.thkukuk.de/blog/Y2038_glibc_utmp_64bit/).
 
-To be explicit, you can do this with <glib-2.76:
-```
-$ export G_SLICE=3Dalways-malloc
-$ some-application
-```
+I wrote now "lastlog2" as Y2038 safe lastlog replacement.
 
-Or just valgrind in the usual way, etc.
+All the informations can be found in my blog: https://www.thkukuk.de/blog/Y2038_glibc_lastlog_64bit/
+and the code on github: https://github.com/thkukuk/lastlog2
 
-> I anticipate there'll be quite a few more of these.
->
-> best,
-> sam
->
-> [[End of PGP Signed Part]]
+In short: lastlog2 consist of a library, which provides a generic API
+for this, a PAM module, so that no application needs to be touched, and
+a lastlog2 application similar to 'lastlog' to display and maintain the
+data.
+sqlite3 is used as backend, a robust, well maintained database.
 
+   Thorsten
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZBR5jV8UgAAAAAAuAChp
-c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
-NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
-by5vcmcACgkQc4QJ9SDfkZAPlwD+Nk7wb7PJpBGfAieQRABrJAyxPcxAUKWQcRlD
-b7xSym0A+gP5cC09TIxYVKcc60H4oqI+WIn7PccntO6hNmhvvfQD
-=Bi1Z
------END PGP SIGNATURE-----
---=-=-=--
+-- 
+Thorsten Kukuk, Distinguished Engineer, Senior Architect, Future Technologies
+SUSE Software Solutions Germany GmbH, Frankenstraße 146, 90461 Nuernberg, Germany
+Managing Director: Ivo Totev, Andrew Myers, Andrew McDonald, Martje Boudien Moerman
+(HRB 36809, AG Nürnberg)
