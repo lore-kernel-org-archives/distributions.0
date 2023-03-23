@@ -1,64 +1,55 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80849460
-	for <distributions@lists.linux.dev>; Tue, 21 Mar 2023 13:53:01 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 19D9221B4F
-	for <distributions@lists.linux.dev>; Tue, 21 Mar 2023 13:53:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-	t=1679406780; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=/5CHmf6Lk96ncUNdfsqm+3Hiaq/GJ6dyUka69HbQT8A=;
-	b=azrcWWYnplh4OZRd09p1RQqsag+2wGa46wfjOgqP2enVRic6RhZhn2dT6iZ6+zwTY3wus7
-	pjKLfOdj8K8VXWjjcC8uFHsiCa//flnzAcHw/HDnc6qhlmh0FMuh7wL7bbO5xHhcHf2iYV
-	eIkTXso3w+ZWaLuxwHfspWh4RQlBz7A=
-Received: from wotan.suse.de (wotan.suse.de [10.160.0.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by relay2.suse.de (Postfix) with ESMTPS id 0E90A2C141
-	for <distributions@lists.linux.dev>; Tue, 21 Mar 2023 13:53:00 +0000 (UTC)
-Received: by wotan.suse.de (Postfix, from userid 358)
-	id 024F263BB; Tue, 21 Mar 2023 13:53:00 +0000 (UTC)
-Date: Tue, 21 Mar 2023 13:52:59 +0000
-From: Thorsten Kukuk <kukuk@suse.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52E919E
+	for <distributions@lists.linux.dev>; Thu, 23 Mar 2023 22:34:24 +0000 (UTC)
+User-agent: mu4e 1.8.14; emacs 29.0.60
+From: Sam James <sam@gentoo.org>
 To: distributions@lists.linux.dev
-Subject: lastlog2 as Y2038 safe lastlog replacement
-Message-ID: <20230321135259.GA32352@suse.com>
+Subject: cksum regression in coreutils-9.2
+Date: Thu, 23 Mar 2023 22:32:00 +0000
+Message-ID: <877cv7drmg.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
+--=-=-=
+Content-Type: text/plain
 
-Hi,
+Hi folks,
 
-as already written, there are several Y2038 problems with glibc even on
-some 64bit architectures
-(https://www.thkukuk.de/blog/Y2038_glibc_utmp_64bit/).
+coreutils-9.2 introduced a regression to the cksum utility
+where it may incorrectly say a file is "OK" even when it's not.
 
-I wrote now "lastlog2" as Y2038 safe lastlog replacement.
+Note that its *exit status* is accurate, but it prints the wrong
+message in 9.2.
 
-All the informations can be found in my blog: https://www.thkukuk.de/blog/Y2038_glibc_lastlog_64bit/
-and the code on github: https://github.com/thkukuk/lastlog2
+Bug: https://bugs.gnu.org/62403
+Patch: https://git.savannah.gnu.org/cgit/coreutils.git/commit/?id=76f2fb627118a26c25003dbd98c22c153b7ee1d2
+Patch mirror (savannah is slow/down for me right now): https://github.com/coreutils/coreutils/commit/76f2fb627118a26c25003dbd98c22c153b7ee1d2
 
-In short: lastlog2 consist of a library, which provides a generic API
-for this, a PAM module, so that no application needs to be touched, and
-a lastlog2 application similar to 'lastlog' to display and maintain the
-data.
-sqlite3 is used as backend, a robust, well maintained database.
+See also:
+- https://old.reddit.com/r/archlinux/comments/11zdecf/sha256sum_c_prints_ok_for_a_failed_checksum_when/
+- https://bugs.archlinux.org/task/77969
 
-   Thorsten
+best,
+sam
 
--- 
-Thorsten Kukuk, Distinguished Engineer, Senior Architect, Future Technologies
-SUSE Software Solutions Germany GmbH, Frankenstraße 146, 90461 Nuernberg, Germany
-Managing Director: Ivo Totev, Andrew Myers, Andrew McDonald, Martje Boudien Moerman
-(HRB 36809, AG Nürnberg)
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZBzT518UgAAAAAAuAChp
+c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
+NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
+by5vcmcACgkQc4QJ9SDfkZDiDgEAwhJSKQJ3+FDfKxpPqHk4ff3r8Cj7LiUsB38S
+T3H3SLMBAOUQcunBDy+9IB/eIgzKQoeXEMbZ+ZBEHpG5aavd93MH
+=VWK7
+-----END PGP SIGNATURE-----
+--=-=-=--
