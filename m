@@ -1,230 +1,59 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07AE36AB6
-	for <distributions@lists.linux.dev>; Mon, 27 Mar 2023 18:28:46 +0000 (UTC)
-References: <CH2PR17MB3701E420718A42766C03A4EFA58B9@CH2PR17MB3701.namprd17.prod.outlook.com>
- <3cd76fd8-97a7-d2db-a645-655cafcad46a@riseup.net>
- <CACEhUwJ=SZX4ns4r5VO+ueKmZEQCSevhxdVPHLV3qY-q5hOs9A@mail.gmail.com>
- <CH2PR17MB37019C81033BB7C766761896A58B9@CH2PR17MB3701.namprd17.prod.outlook.com>
- <CAFpi07ypP+cZmXrxhNDMEmbAmdM8MhApkAmgEKTKqAQRVvJUCg@mail.gmail.com>
- <CH2PR17MB3701E55A3D65907FB6E0208DA58B9@CH2PR17MB3701.namprd17.prod.outlook.com>
- <CAFpi07yR1ECG2os5vdDGGTzLkNVFcdkOLoWxATTLUV5rZ-N6RA@mail.gmail.com>
- <2b0f522c-5745-9a47-0920-179d3b6fbc8d@cs.ucla.edu>
-User-agent: mu4e 1.8.14; emacs 29.0.60
-From: Sam James <sam@gentoo.org>
-To: distributions@lists.linux.dev
-Cc: Paul Eggert <eggert@cs.ucla.edu>
-Subject: Fwd: [tz] Proposal to revert =?utf-8?Q?2023b=E2=80=99s?= Lebanon
- data changes
-Date: Mon, 27 Mar 2023 19:28:04 +0100
-Message-ID: <87cz4u2gmj.fsf@gentoo.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65DA723BC
+	for <distributions@lists.linux.dev>; Fri, 31 Mar 2023 10:17:08 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id x20so22468207ljq.9
+        for <distributions@lists.linux.dev>; Fri, 31 Mar 2023 03:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1680257826;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=94U9SdqT0RpSnY19t9m64eVoWqaFaiDqQkb1Vbej9qE=;
+        b=SqM8SsJDAiBZNDucxIFG/rbyCoNIEY7JLmOHLUBb12gsTuZlwzmF5ZnFWJDHM49OYz
+         oxziFTPydy+mG/F8wlfvQljxyaOG2vhcLyWL2uMxDMI46seG42G2Socli7gQ2K0nAW0J
+         RmE/aF37ierJ/X88VcxzIzZlDkZ+1eCjRVMFjixu5/rnBlJ2razmTKhYADGqR+7vkrNw
+         /FKAJhT7Jbt2eZgXWhDuvEvGu7vHCFbT/bmB/qLxds21ymYLOy0S5qRNJgvVIlDAzj7O
+         kv6pe2CywzYemKQ/Ie1XTaPxnqnbhGNZ/M9f8c+CUfXwItvH5inndzPt1QX5lhbcZA6h
+         UqBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1680257826;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=94U9SdqT0RpSnY19t9m64eVoWqaFaiDqQkb1Vbej9qE=;
+        b=jP02RZa0RFH9VkL/4xm/E5E3jXd6S5+sAvooUa+wJ+E9pNHUzC7MQq/sRYZ3trf7R3
+         Jkytij/6FCDicsqWcEptSHT7iFtLtwZtp5DFiWI0nvh9hLlaqm5+4y5J3o1p3UJAo1bH
+         fYc33mjdoOnGMJN37glb0QnXRWKMlrxAqkgzZg22EsXMeZBgLc9Hg72GEJJDGlGZ/o/4
+         2SMUaPnMTIH2+hxtxWTi5lVkY+JPWzkqBMtgLcxw1vBRRZRqqyiad68A4JVVdeDvokkF
+         TOlXMbcN9mIIqv6NsZoYvw44eHe6g6bbRgDNlHp3c7FTQPIzN25uDWjUT54B839/6II/
+         AgCg==
+X-Gm-Message-State: AAQBX9fCCciZ4fBZOUDYNr3NnNefmF2mRpFzCosxz1T5UQ88JSGkdgZ7
+	ZkH+YeZ5Qyj8CNWguFXoimnbTEDL9DCtMhlL5IzWFs32/j0=
+X-Google-Smtp-Source: AKy350aU4C0mCdX24U3NivSdK4JIg8cHFOT+HkjWivPq2+RgJdPZQ7XBJzLi6fEVu8mHHOpmMj6dafmJaZgn1WIcVcA=
+X-Received: by 2002:a2e:2408:0:b0:298:7c9e:505 with SMTP id
+ k8-20020a2e2408000000b002987c9e0505mr8107591ljk.8.1680257826362; Fri, 31 Mar
+ 2023 03:17:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="==-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+From: Christoph Reiter <reiter.christoph@gmail.com>
+Date: Fri, 31 Mar 2023 12:16:55 +0200
+Message-ID: <CAE6_+Ucj9muEancYdxb19oefnS4D1Zsa=YSNWA0dg5YX8_2zFA@mail.gmail.com>
+Subject: openblas 0.3.22 issues
+To: distributions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
---==-=-=
-Content-Type: multipart/mixed; boundary="=-=-="
+openblas 0.3.22 causes breakage/wrong results for various users:
 
---=-=-=
-Content-Type: text/plain
+https://github.com/xianyi/OpenBLAS/issues/3976
 
-Paul Eggert via tz <tz@iana.org> writes:
-> We need a new release soon to address the time zone chaos in
-> Lebanon. One option is to revert 2023b's data and go back to 2023a as
-> I suggested earlier. Another is to record the chaos in more detail in
-> the data. The attached proposed patch (which I installed into the
-> developmental repository on GitHub) takes the former approach, as I
-> expect the latter would cause more problems than it would cure. This
-> follows a similar (although not identical) precedent in Rio de Janeiro
-> in 1993.
->
-> In short, the patch would make 2023c identical to 2023a except for
-> comments, which do not count as part of the data.
->
-> It is a confusing and controversial situation. Comments welcome. In
-> the meantime I again suggest to downstream distributors to stick with
-> 2023a and avoid 2023b.
->
-> [2. text/x-patch; 0001-Revert-2023b-s-data-changes.patch]...
+* octave: https://octave.discourse.group/t/make-check-fails-with-openblas-0-3-22/4289/11
+* scipy: https://github.com/scipy/scipy/issues/18208
+* sagemath: https://github.com/sagemath/sage/pull/35371
 
+so distros should probably skip this release.
 
---=-=-=
-Content-Type: text/x-patch
-Content-Disposition: attachment;
- filename=0001-Revert-2023b-s-data-changes.patch
-Content-Transfer-Encoding: quoted-printable
-Content-Description: 0001-Revert-2023b-s-data-changes.patch
-
-From=200e0b0eb3e5b3c046971ff69aae1ca69c1450f5b4 Mon Sep 17 00:00:00 2001
-From: Paul Eggert <eggert@cs.ucla.edu>
-Date: Mon, 27 Mar 2023 10:17:37 -0700
-Subject: [PROPOSED] =3D?UTF-8?q?Revert=3D202023b=3DE2=3D80=3D99s=3D20data=
-=3D20changes?=3D
-MIME-Version: 1.0
-Content-Type: text/plain; charset=3DUTF-8
-Content-Transfer-Encoding: 8bit
-
-* NEWS: Mention this.
-* asia (Lebanon): Revert to 2023a data.  Add commentary.
-* tz-link.html: Warn further about confusion.
-=2D--
- NEWS         | 13 +++++++++----
- asia         | 39 ++++++++++++++++++++++++++++++++++-----
- tz-link.html |  6 +++---
- 3 files changed, 46 insertions(+), 12 deletions(-)
-
-diff --git a/NEWS b/NEWS
-index 9b235a29..fe0e809b 100644
-=2D-- a/NEWS
-+++ b/NEWS
-@@ -1,14 +1,19 @@
- News for the tz database
-=20
-=2DRelease 2023b - 2023-03-23 19:50:38 -0700
-+Unreleased, experimental changes
-=20
-=2D  Briefly:
-=2D    Lebanon delays the start of DST this year.
-+  Changes to past and future timestamps
-+
-+    Model Lebanon's DST chaos by reverting data to tzdb 2023a.
-+    (Thanks to Jad Baz for the heads-up.)
-+
-+
-+Release 2023b - 2023-03-23 19:50:38 -0700
-=20
-   Changes to future timestamps
-=20
-     This year Lebanon springs forward April 20/21 not March 25/26.
-=2D    (Thanks to Saadallah Itani.)
-+    (Thanks to Saadallah Itani.)  [This was reverted in 2023c.]
-=20
-=20
- Release 2023a - 2023-03-22 12:39:33 -0700
-diff --git a/asia b/asia
-index dd06a5fd..180b3992 100644
-=2D-- a/asia
-+++ b/asia
-@@ -2693,9 +2693,37 @@ Zone	Asia/Pyongyang	8:23:00 -	LMT	1908 Apr  1
- # Lebanon
- #
- # From Saadallah Itani (2023-03-23):
-=2D# Lebanon too announced today delay of Spring forward from March 25 to A=
-pril 20.
-=2D# From Paul Eggert (2023-03-23):
-+# Lebanon ... announced today delay of Spring forward from March 25 to Apr=
-il 20.
-+#
-+# From Paul Eggert (2023-03-27):
-+# This announcement was by the Lebanese caretaker prime minister Najib Mik=
-ati.
- # https://www.mtv.com.lb/en/News/Local/1352516/lebanon-postpones-daylight-=
-saving-time-adoption
-+# A video was later leaked to the media of parliament speaker Nabih Berri
-+# asking Mikati to postpone DST to aid observance of Ramadan, Mikati objec=
-ting
-+# that this would cause problems such as scheduling airline flights, to wh=
-ich
-+# Berri interjected, "What flights?"
-+#
-+# The change was controversial and led to a partly-sectarian divide.
-+# Many Lebanese institutions, including the education ministry, the Maroni=
-te
-+# church, and two news channels LCBI and MTV, ignored the announcement and
-+# went ahead with the long-scheduled spring-forward on March 25/26, some
-+# arguing that the prime minister had not followed the law because the cha=
-nge
-+# had not been approved by the cabinet.  Google went with the announcement;
-+# Apple ignored it.  At least one bank followed the announcement for its d=
-oors,
-+# but ignored the announcement in internal computer systems.
-+# Beirut international airport listed two times for each departure.
-+# Dan Azzi wrote "My view is that this whole thing is a Dumb and Dumber mo=
-vie."
-+# Eventually the prime minister backed down, said the cabinet had decided =
-to
-+# stick with its 1998 decision, and that DST would begin midnight March 29=
-/30.
-+# https://www.nna-leb.gov.lb/en/miscellaneous/604093/lebanon-has-two-times=
--of-day-amid-daylight-savings
-+# https://www.cnbc.com/2023/03/27/lebanon-in-two-different-time-zones-as-g=
-overnment-disagrees-on-daylight-savings.html
-+#
-+# Although we could model the chaos with two Zones, that would likely cause
-+# more trouble than it would cure.  Since so many manual clocks and
-+# computer-based timestamps ignored the announcement, stick with official
-+# cabinet resolutions in the data while recording the prime minister's
-+# announcement as a comment.  This is how we treated a similar situation in
-+# Rio de Janeiro in spring 1993.
- #
- # Rule	NAME	FROM	TO	-	IN	ON	AT	SAVE	LETTER/S
- Rule	Lebanon	1920	only	-	Mar	28	0:00	1:00	S
-@@ -2719,11 +2747,12 @@ Rule	Lebanon	1988	only	-	Jun	1	0:00	1:00	S
- Rule	Lebanon	1989	only	-	May	10	0:00	1:00	S
- Rule	Lebanon	1990	1992	-	May	1	0:00	1:00	S
- Rule	Lebanon	1992	only	-	Oct	4	0:00	0	-
-=2DRule	Lebanon	1993	2022	-	Mar	lastSun	0:00	1:00	S
-+Rule	Lebanon	1993	max	-	Mar	lastSun	0:00	1:00	S
- Rule	Lebanon	1993	1998	-	Sep	lastSun	0:00	0	-
- Rule	Lebanon	1999	max	-	Oct	lastSun	0:00	0	-
-=2DRule	Lebanon	2023	only	-	Apr	21	0:00	1:00	S
-=2DRule	Lebanon	2024	max	-	Mar	lastSun	0:00	1:00	S
-+# This one-time rule was announced by the prime minister but soon withdraw=
-n.
-+#Rule	Lebanon	2023	only	-	Apr	21	0:00	1:00	S
-+
- # Zone	NAME		STDOFF	RULES	FORMAT	[UNTIL]
- Zone	Asia/Beirut	2:22:00 -	LMT	1880
- 			2:00	Lebanon	EE%sT
-diff --git a/tz-link.html b/tz-link.html
-index 3b5fe770..43190dd7 100644
-=2D-- a/tz-link.html
-+++ b/tz-link.html
-@@ -282,7 +282,7 @@ community, and data distributors downstream.
- If your government plans to change its time zone boundaries or
- daylight saving rules, please send email to <a
- href=3D"mailto:tz@iana.org"><code>tz@iana.org</code></a> well in advance,
-=2Das this will coordinate updates to many cell phones,
-+as this will lessen confusion and will coordinate updates to many cell pho=
-nes,
- computers, and other devices around the world.
- In your email, please cite the legislation or regulation that specifies
- the change, so that it can be checked for details such as the exact times
-@@ -311,8 +311,8 @@ which means they will continue to use out-of-date rules=
-.</p>
- <p>
- For these reasons any rule change should be promulgated at least a
- year before it affects how clocks operate; otherwise, there is a good
-=2Dchance that many clocks will operate incorrectly after the change, due
-=2Dto delays in propagating updates to software and data.
-+chance that many clocks will be wrong due to delays in propagating updates,
-+and that residents will be confused or even actively resist the change.
- The shorter the notice, the more likely clock problems will arise; see "<a
- href=3D"https://codeofmatt.com/2016/04/23/on-the-timing-of-time-zone-chang=
-es/">On
- the Timing of Time Zone Changes</a>" for examples.
-=2D-=20
-2.37.2
-
-
---=-=-=--
-
---==-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZCHgVF8UgAAAAAAuAChp
-c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
-NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
-by5vcmcACgkQc4QJ9SDfkZDZfAD/acv1+qQ/tEOowl9QXDuI3tx9A8RE9iTlQoku
-n5r5X58A/29E/A1kCmS7pznm3un0XG2bcTtpH/JP1DnUrLt3LDII
-=Dc+u
------END PGP SIGNATURE-----
---==-=-=--
+regards
