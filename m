@@ -1,83 +1,94 @@
-Received: from mail.cs.ucla.edu (mail.cs.ucla.edu [131.179.128.66])
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979F55250
-	for <distributions@lists.linux.dev>; Mon, 10 Apr 2023 20:02:07 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id 716BA3C02213D;
-	Mon, 10 Apr 2023 12:52:21 -0700 (PDT)
-Received: from mail.cs.ucla.edu ([127.0.0.1])
-	by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id SVGaqHe0uRw2; Mon, 10 Apr 2023 12:52:21 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cs.ucla.edu (Postfix) with ESMTP id 22B153C097AFA;
-	Mon, 10 Apr 2023 12:52:21 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu 22B153C097AFA
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
-	s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C; t=1681156341;
-	bh=ngfIt2Bn8tA76TPWuwrQfZpeSLyVO4oFIgRglsp0Ebc=;
-	h=Message-ID:Date:MIME-Version:To:From;
-	b=dS6N8n3nRR4JHZHd2U0sFD0fAkDW4NtDbLOjBbZBUROU/zWRJbMHRXSlzVztlukph
-	 sZ0YpnDMu3HBIjAb8zacPINRYKyQ5wSFwRoLlCT/dLGwKCOn539gZslNnzccINnhN7
-	 QxaZ2YUggnuW7uDhL3Zlk8AX4stoVrLfW8GP0by5S4bHi+O39i5k7j+n1IEv9wQdF2
-	 XXckO1lCZQLu9jPXDjrG83S1T+kFxzw0YYXj7PcW9gcaOhJUVzndaq5kvcykD4zc3Q
-	 pL5zgauxTAErJIjc3uUp6EsNaVSnVHPCp4A1YlVunxytbGgHw+5RPCiZZJY5Utg7cv
-	 XGwHbiggH2aRA==
-X-Virus-Scanned: amavisd-new at mail.cs.ucla.edu
-Received: from mail.cs.ucla.edu ([127.0.0.1])
-	by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id NNIPsGATZcFx; Mon, 10 Apr 2023 12:52:21 -0700 (PDT)
-Received: from [192.168.1.9] (cpe-172-91-119-151.socal.res.rr.com [172.91.119.151])
-	by mail.cs.ucla.edu (Postfix) with ESMTPSA id E5C173C02213D;
-	Mon, 10 Apr 2023 12:52:20 -0700 (PDT)
-Message-ID: <c87cc7dd-4eb8-49a1-e27e-b5621909b617@cs.ucla.edu>
-Date: Mon, 10 Apr 2023 12:52:20 -0700
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE905C99
+	for <distributions@lists.linux.dev>; Mon, 10 Apr 2023 20:25:12 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1681155906; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=kkv5ouApYek388NkLkArh6khVgPdgjBXhGBNktT1SqoDj1DNcunux40n9vob7jwB1a
+    ey/Xbtw5I7c844HrtS+Db57H87SQxVTT9lR4BJG2/XYKHuagztrcSkM6KU8xuUXcpzTf
+    k022rQTZUdUrr4nrN9kuhU3w2fo3nJ7g2qcNuzY53wKEVdABnnNuETA9xOG767t7yZwx
+    qDG7dTD1fKxl7ZPmqEtv1IwfSODSRv1jWDJ0I97Nd8VoaiZZI0/QZZM2uDgGA1TmpdGp
+    QF7+6xaPXMhR2hRqV9auzaZzoFWBbYfopdnpNBAveiVFnJW86GiBU9ZM5vUgnoWT1JUy
+    2jbw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1681155906;
+    s=strato-dkim-0002; d=strato.com;
+    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=3Mknsryfp8XUuL2cJ5IN4d1MJUNeKpIwuEQjFxjGE6o=;
+    b=StPEwJXrR7GvdBmmruiosoWB9hW/DEnlLd83a2VvDHQV4Q21AHBmkqFD6X7uiWpY9r
+    j7UW30YxPiJf+oz1wyPBbylVzRVLdchBj79DQFFwC3vqwaOzwOaeAke3qRfTASueeYnr
+    13MmZD2eDNsz55BTbvbyO3yxqIPPSCL+TON8G42MkNKtUk7lYju9kMFmSrw6xLcVVMFO
+    swG0gRX3OsVP4PhbuCp23jWrKRSH0EOOK0YAB2w7emNFTyvh3ty0RMpDS+6SiHDl4QtG
+    FzKNxw0K9WT4LehHQCE/i3frHoWuSnvM73FchnyWCedELPBsASSGh55NBLCL1ZEnMBLC
+    SrQQ==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1681155906;
+    s=strato-dkim-0002; d=clisp.org;
+    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=3Mknsryfp8XUuL2cJ5IN4d1MJUNeKpIwuEQjFxjGE6o=;
+    b=HZqsD2Af5462mIGR2FkcPps8zMM+qJD5aT5CPoV6hg3CfaVpLDjOP2bzOmnNPRCK7T
+    MPKXjn9dLOTI7bjtAtUqKRuZ6KbgonHY5xGmwwRkNtg9dzHo1HF/GqlzuADvoj/6P+Bg
+    EAuOgGSg2ENumNaM2LcdER6JYdMwPNSKbGwhHKjeduTAUvHwNR3fO87m35o4IcltigG3
+    WU+IYZGWirchD2RWmn8TbOSWQ6J4ekr6oww97r/6QeLbA4wiCvoPRdiOzyefUPuJVkwk
+    P43Z37skMtdW0GOEHs851yL0gxCyWTQzu+Xp4dnFfu+eCRlSX+A4zmXo5zP8r/LeOPYo
+    bRew==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1681155906;
+    s=strato-dkim-0003; d=clisp.org;
+    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=3Mknsryfp8XUuL2cJ5IN4d1MJUNeKpIwuEQjFxjGE6o=;
+    b=aSIsr8Wvlezbf8ADG0PK4DIIpNsTMC9Q7bhACS+V+5tQVIM/lTGJgTqblykKyYRtaV
+    4s/k/4/PHKf72raUywCA==
+X-RZG-AUTH: ":Ln4Re0+Ic/6oZXR1YgKryK8brlshOcZlIWs+iCP5vnk6shH0WWb0LN8XZoH94zq68+3cfpOR2qCFhc6P4zzpzNGh8xZkWtKSsw=="
+Received: from nimes.localnet
+    by smtp.strato.de (RZmta 49.4.0 AUTH)
+    with ESMTPSA id D064b6z3AJj6bBN
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Mon, 10 Apr 2023 21:45:06 +0200 (CEST)
+From: Bruno Haible <bruno@clisp.org>
+To: =?ISO-8859-1?Q?P=E1draig?= Brady <P@draigbrady.com>, Paul Eggert <eggert@cs.ucla.edu>, bug-gnulib@gnu.org, Zack Weinberg <zack@owlfolio.org>
+Cc: Sam James <sam@gentoo.org>, distributions@lists.linux.dev
+Subject: Re: recommending AC_SYS_YEAR2038_REQUIRED ?
+Date: Mon, 10 Apr 2023 21:45:05 +0200
+Message-ID: <6250336.ySyUEvhnHf@nimes>
+In-Reply-To: <bffe78fa-dc4d-46e5-8c2d-27f7aaa7baac@app.fastmail.com>
+References: <6614772.670kD7asE2@nimes> <4f4298d3-76a9-3473-0963-f8eff4bdc29d@draigBrady.com> <bffe78fa-dc4d-46e5-8c2d-27f7aaa7baac@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.0
-Content-Language: en-US
-To: Zack Weinberg <zack@owlfolio.org>, =?UTF-8?Q?P=c3=a1draig_Brady?=
- <P@draigBrady.com>, Bruno Haible <bruno@clisp.org>, bug-gnulib@gnu.org
-Cc: Sam James <sam@gentoo.org>, distributions@lists.linux.dev
-References: <6614772.670kD7asE2@nimes>
- <4f4298d3-76a9-3473-0963-f8eff4bdc29d@draigBrady.com>
- <bffe78fa-dc4d-46e5-8c2d-27f7aaa7baac@app.fastmail.com>
-From: Paul Eggert <eggert@cs.ucla.edu>
-Organization: UCLA Computer Science Department
-Subject: Re: recommending AC_SYS_YEAR2038_REQUIRED ?
-In-Reply-To: <bffe78fa-dc4d-46e5-8c2d-27f7aaa7baac@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 2023-04-10 12:09, Zack Weinberg wrote:
-> I was imagining something to do
+Zack Weinberg wrote:
+> As the person who invented AC_SYS_YEAR2038_REQUIRED and
+> AC_SYS_LARGEFILE_REQUIRED, let me say that it was my intention that they
+> would only be used in rare circumstances, where the inability to install
+> the software on older ABIs is outweighed by some other strong
+> requirement for time_t and/or off_t to be at least 64 bits.  I didn't
+> have any specific use cases in mind but I was imagining something to do
 > with library ABIs involving time_t, or network and/or storage formats
 > explicitly specified to use 64-bit counts of seconds since the Unix
 > epoch, or similar.
 
-Needs are not limited to library code. Applications like 'ls' and 'date' 
-and even 'grep' need support for timestamps past 2038. A 'grep' built 
-with 32-bit time_t can't read files with timestamps after 2038.
+Thanks for the clarification.
 
-Many embedded systems being developed now will still be used after 2038, 
-long after their current developers have left (or fled :-) the scene. 
-And some of these will be part of important infrastructure such as 
-municipal water systems. For general-purpose apps like coreutils that 
-are widely used in these systems, 32-bit time_t should be opt-in not 
-opt-out, so that developers know of the problem and consciously decide 
-to go with 32-bit time_t despite the looming 2038 deadline.
+Note that I'm perfectly fine with AC_SYS_LARGEFILE_REQUIRED being
+documented, because
+  - it makes perfect sense for packages that regularly deal with files
+    larger than 2 GiB, such as video manipulation,
+  - hardly any platform nowadays lacks a way to enforce large files in
+    the API.
 
-Of course there are occasions where one can still safely build for 
-platforms that one *knows* won't be in use 15 years from now. So we'll 
-need to describe how to do that and I plan to follow up with a Gnulib 
-doc patch along those lines.
+Bruno
 
-PS. Timestamp needs are more complicated than 32 vs 64 bits. For 
-example, ustar format (specified by POSIX) has 33-bit unsigned 
-timestamps. And gzip format (specified by RFC 1952)  has timestamps in 
-the range 1 .. (2**32 - 1).
+
+
