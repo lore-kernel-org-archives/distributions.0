@@ -1,101 +1,77 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA9F631
-	for <distributions@lists.linux.dev>; Wed, 12 Apr 2023 05:00:02 +0000 (UTC)
-References: <6614772.670kD7asE2@nimes> <5343648.xEiunlC7Kx@nimes>
- <9636462e-920f-2e6e-3d2c-ec58e43021a2@cs.ucla.edu>
- <9797572.lZ1qq7WqSs@nimes>
-User-agent: mu4e 1.10.1; emacs 29.0.90
-From: Sam James <sam@gentoo.org>
-To: Bruno Haible <bruno@clisp.org>
-Cc: Zack Weinberg <zack@owlfolio.org>, =?utf-8?Q?P=C3=A1draig?= Brady
- <P@draigbrady.com>,
- bug-gnulib@gnu.org, Paul Eggert <eggert@cs.ucla.edu>,
- distributions@lists.linux.dev
-Subject: Re: recommending AC_SYS_YEAR2038_REQUIRED ?
-Date: Wed, 12 Apr 2023 05:49:24 +0100
-In-reply-to: <9797572.lZ1qq7WqSs@nimes>
-Message-ID: <87jzyhem84.fsf@gentoo.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68145660
+	for <distributions@lists.linux.dev>; Wed, 12 Apr 2023 13:45:28 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out2.suse.de (Postfix) with ESMTP id C8A971F890
+	for <distributions@lists.linux.dev>; Wed, 12 Apr 2023 13:45:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+	t=1681307126; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=AUu4aHQoKYboWrRZe6NeFXDryQvBZOQDthdXqrEiEzs=;
+	b=fE78KhriiLx5RHv76uqXdPtieH9HAD/Q311C6k2CR/fWZzgEd/ci19y0VYml7ww5KBTV/X
+	GogCbtN1hCnVqyGncSkOqZg+l45U80lKKuweDhPHgSqQinY9hiX+qBYi0S8J+YJqgaIiVD
+	4AkuYwOYXtJbA6WXnQzKn3chcYmsXzI=
+Received: from wotan.suse.de (wotan.suse.de [10.160.0.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by relay2.suse.de (Postfix) with ESMTPS id BFACC2C143
+	for <distributions@lists.linux.dev>; Wed, 12 Apr 2023 13:45:26 +0000 (UTC)
+Received: by wotan.suse.de (Postfix, from userid 358)
+	id 97ACF646B; Wed, 12 Apr 2023 13:45:26 +0000 (UTC)
+Date: Wed, 12 Apr 2023 13:45:26 +0000
+From: Thorsten Kukuk <kukuk@suse.com>
+To: distributions@lists.linux.dev
+Subject: wtmpdb as Y2038 safe wtmp replacement
+Message-ID: <20230412134526.GA11939@suse.com>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
-
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
 
-Bruno Haible <bruno@clisp.org> writes:
+Hi,
 
-> Paul Eggert wrote:
->> > How about a middle ground between the two macros? A macro, say
->> > AC_SYS_YEAR2038_UNLESS_OPT_OUT (*), that
->> >    - like AC_SYS_YEAR2038, has the option --disable-year2038,
->> >    - like AC_SYS_YEAR2038_REQUIRED, fails if a large 'time_t' is
->> >      unavailable and --disable-year2038 was not specified.
->>=20
->> Even simpler, let's have just one new macro instead of two. I.e., let's=
-=20
->> change Autoconf to remove AC_SYS_YEAR2038_REQUIRED and to define instead=
-=20
->> a macro AC_SYS_YEAR2038_OPT_OUT that acts like AC_SYS_YEAR2038 except it=
-=20
->> errors out if wide time_t and --disable-year2038 are both missing.
->>=20
->> Then let's propagate this change into Gnulib, and rename Gnulib's=20
->> year2030-required module to year2038-opt-out.
->
-> I like this. Thanks.
+as already written, there are several Y2038 problems with glibc even on
+some 64bit architectures
+(https://www.thkukuk.de/blog/Y2038_glibc_utmp_64bit/).
 
-Thanks for bringing this up Bruno. This is a reasonable compromise to me
-=2D not just in the change here, but in the documentation/phrasing tweak
-as I was concerned about the rather forthright recommendation & presentatio=
-n of
-year2038-required.
+There is now also an alternative to wtmp:
+https://github.com/thkukuk/wtmpdb
+https://www.thkukuk.de/blog/Y2038_glibc_wtmp_64bit/
 
->
-> And if the package would very much like to assume a wide time_t and
-> therefore has some test suite failures if --disable-year2038 was specifie=
-d,
-> so be it. It's better to be able to build a package at all, with some
-> test suite failures, than not being able to build it at all.
->
+In short, wtmpdb consist of a library, which provides a generic API
+to store login and logout times of an user. In contrast to wtmp, the
+logout time will not get an own entry, but the logout time is added to
+the existing login entry.
+Additional, there is a tool "wtmpdb" to replace "last" ("wtmpdb last"
+tries to be compatible with "last" for the most options), which is also
+able to create the boot and shutdown entries.
 
-I feel on the fence about this bit: I think it's reasonable to provide
-a macro to require it as a last resort for people, but on the other
-hand, providing it might be seen to encourage it as a reasonable
-solution, when in most cases, it's not that way at all,
-so I'll go with however the majority feels on that.
+pam_wtmpdb collects the login and logout times, so there is no need
+anymore for applications to bother about creating correct wtmp entries.
+Since there is no standard or something similar for this, currently it's
+a mess what applications are doing: some write up to three wtmp entries
+for the same user at login time, others use the generic /dev/console as TTY. 
+This leads to the problem that last, who combines login/logout entries
+by comparing the user and TTY, is no longer able to correctly match the
+login and logout records and prints out wrong informations.
 
->> Similarly for AC_SYS_LARGEFILE_REQUIRED.
+If an application does not know the TTY during authentication (like
+openssh), there is still libwtmpdb to create the entries.
 
-... and this.
+  Thorsten
 
->
-> For the sake of symmetry between the two, that makes sense.
->
-
-Thanks Paul as well.
-
-best,
-sam
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZDY4/F8UgAAAAAAuAChp
-c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
-NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
-by5vcmcACgkQc4QJ9SDfkZDD1AD7BVrCTdZHM7G1l7peqYS758eW45GZDC/T52ea
-ydX+h4ABAPDedScQC4jyv6h9cKk1RBIt4PYtp0XbqpIUtX5KbfwK
-=9nU+
------END PGP SIGNATURE-----
---=-=-=--
+-- 
+Thorsten Kukuk, Distinguished Engineer, Senior Architect, Future Technologies
+SUSE Software Solutions Germany GmbH, Frankenstraße 146, 90461 Nuernberg, Germany
+Managing Director: Ivo Totev, Andrew Myers, Andrew McDonald, Martje Boudien Moerman
+(HRB 36809, AG Nürnberg)
