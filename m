@@ -1,14 +1,14 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E9679CC
-	for <distributions@lists.linux.dev>; Tue,  4 Jul 2023 20:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE7D8474
+	for <distributions@lists.linux.dev>; Thu,  6 Jul 2023 08:17:23 +0000 (UTC)
 User-agent: mu4e 1.10.4; emacs 29.0.92
 From: Sam James <sam@gentoo.org>
 To: distributions@lists.linux.dev
-Subject: gnupg-2.4 breaks Emacs EasyPG
-Date: Tue, 04 Jul 2023 21:07:24 +0100
-Message-ID: <87v8ez30c2.fsf@gentoo.org>
+Subject: systemd-253.5 regression
+Date: Thu, 06 Jul 2023 09:15:54 +0100
+Message-ID: <877crdcv3q.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
@@ -21,19 +21,27 @@ Content-Type: multipart/signed; boundary="=-=-=";
 --=-=-=
 Content-Type: text/plain
 
-gnupg-2.4 breaks Emacs EasyPG (which does show up in test failures
-too, but IIRC it hangs at runtime as well).
+systemd-253.5 backported a problematic commit which has since been
+reverted in systemd master.
 
-Upstream don't intend on applying the fix to gnupg-2.4 so distributions
-will need to backport the gnupg patch (see below).
+Please see https://github.com/systemd/systemd-stable/issues/302.
 
-I haven't yet dug up the patch that gniibe mentions they sent to Emacs
-though.
+You'll need to backport https://github.com/systemd/systemd/pull/28000
+which is a revert of the problematic change.
 
-Bug: https://bugs.gentoo.org/907839
-Bug: https://dev.gnupg.org/T6481
-Patch: https://dev.gnupg.org/rG2f872fa68c6576724b9dabee9fb0844266f55d0d
-(https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commit;h=2f872fa68c6576724b9dabee9fb0844266f55d0d)
+Quoting the revert commit:
+"""
+[...]
+The change in question also breaks user level socket activation for
+`podman.service` as the termination of the main `podman system service`
+process is not properly handled, causing any application accessing the
+socket to hang.
+
+This is because the user-level `podman.service` unit also hosts two
+non-main processes: `rootlessport` and `rootlessport-child` which causes
+the `cgroup_good` check to still succeed.
+[...]
+"""
 
 best,
 sam
@@ -43,11 +51,11 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZKR8jV8UgAAAAAAuAChp
+iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZKZ4iV8UgAAAAAAuAChp
 c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
 NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
-by5vcmcACgkQc4QJ9SDfkZD7OQEAqhrOPYELnrFqenuNwdaXbVnowgnWLr3ds6vu
-gq6+770A/iyrLdFFzxqrWAjhvzSEf2PSF5Fjgwh9v2gGSb9unCkF
-=Co7z
+by5vcmcACgkQc4QJ9SDfkZA48gD+PJ2XE2tF+AtJFxMMOToutXo0sPLXRe6YiVeR
+tD3a4TUA/R6CGgmzvsNYTHNN8BO1PuHDiSik2EnTg/R0AjlKmuIA
+=jdOr
 -----END PGP SIGNATURE-----
 --=-=-=--
