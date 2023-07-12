@@ -1,61 +1,40 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from helios.lossy.network (helios.lossy.network [159.69.86.107])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE7D8474
-	for <distributions@lists.linux.dev>; Thu,  6 Jul 2023 08:17:23 +0000 (UTC)
-User-agent: mu4e 1.10.4; emacs 29.0.92
-From: Sam James <sam@gentoo.org>
-To: distributions@lists.linux.dev
-Subject: systemd-253.5 regression
-Date: Thu, 06 Jul 2023 09:15:54 +0100
-Message-ID: <877crdcv3q.fsf@gentoo.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3448D1D2F1
+	for <distributions@lists.linux.dev>; Wed, 12 Jul 2023 23:20:20 +0000 (UTC)
+Message-ID: <075a20b1-869b-78f3-9ace-e106a4d43ac4@linuxlounge.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxlounge.net;
+	s=mail; t=1689203423;
+	bh=jaRHwfiX7UOAZRhLpqEgt4SuNirg6MOUDHm3XW7sGiU=;
+	h=Date:To:From:Subject;
+	b=UO7ajr8w6vwAyRnfZYxOJ4jNSKozm8guyq5LYNl8g/sWShvrnew3mP8zWg9uyVa+U
+	 88PC2yhTLNa2/DE81mymV5tMpM0p+rvIb9M4BkDHE/4B44m5VcWafh8tJhnoXSULgj
+	 6BkD2kDfzXxNA06BD556jcGFerQA5p2lzns3OEA8=
+Date: Thu, 13 Jul 2023 01:10:21 +0200
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Language: en-US
+To: distributions@lists.linux.dev
+From: Martin Weinelt <martin@linuxlounge.net>
+Subject: Thunderbird 115.0 regression with system icu
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---=-=-=
-Content-Type: text/plain
+Thunderbird 115.0 when used --with-system-icu breaks the calendar, since 
+calendar events aren't rendered properly in some(?) timezones.
 
-systemd-253.5 backported a problematic commit which has since been
-reverted in systemd master.
+The vendored version of icu carries a patch (since Firefox 107), that 
+hasn't made it upstream yet.
 
-Please see https://github.com/systemd/systemd-stable/issues/302.
 
-You'll need to backport https://github.com/systemd/systemd/pull/28000
-which is a revert of the problematic change.
+Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1790071
+Bug: https://unicode-org.atlassian.net/browse/ICU-22132
+Patch: https://hg.mozilla.org/mozilla-central/rev/fb8582f80c55
 
-Quoting the revert commit:
-"""
-[...]
-The change in question also breaks user level socket activation for
-`podman.service` as the termination of the main `podman system service`
-process is not properly handled, causing any application accessing the
-socket to hang.
 
-This is because the user-level `podman.service` unit also hosts two
-non-main processes: `rootlessport` and `rootlessport-child` which causes
-the `cgroup_good` check to still succeed.
-[...]
-"""
-
-best,
-sam
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZKZ4iV8UgAAAAAAuAChp
-c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
-NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
-by5vcmcACgkQc4QJ9SDfkZA48gD+PJ2XE2tF+AtJFxMMOToutXo0sPLXRe6YiVeR
-tD3a4TUA/R6CGgmzvsNYTHNN8BO1PuHDiSik2EnTg/R0AjlKmuIA
-=jdOr
------END PGP SIGNATURE-----
---=-=-=--
+hexa
