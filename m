@@ -1,40 +1,43 @@
-Received: from helios.lossy.network (helios.lossy.network [159.69.86.107])
+Received: from kurisu.lahfa.xyz (kurisu.lahfa.xyz [163.172.69.160])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3448D1D2F1
-	for <distributions@lists.linux.dev>; Wed, 12 Jul 2023 23:20:20 +0000 (UTC)
-Message-ID: <075a20b1-869b-78f3-9ace-e106a4d43ac4@linuxlounge.net>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxlounge.net;
-	s=mail; t=1689203423;
-	bh=jaRHwfiX7UOAZRhLpqEgt4SuNirg6MOUDHm3XW7sGiU=;
-	h=Date:To:From:Subject;
-	b=UO7ajr8w6vwAyRnfZYxOJ4jNSKozm8guyq5LYNl8g/sWShvrnew3mP8zWg9uyVa+U
-	 88PC2yhTLNa2/DE81mymV5tMpM0p+rvIb9M4BkDHE/4B44m5VcWafh8tJhnoXSULgj
-	 6BkD2kDfzXxNA06BD556jcGFerQA5p2lzns3OEA8=
-Date: Thu, 13 Jul 2023 01:10:21 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22B7C2C2
+	for <distributions@lists.linux.dev>; Mon, 17 Jul 2023 18:32:37 +0000 (UTC)
+Date: Mon, 17 Jul 2023 20:23:07 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lahfa.xyz; s=kurisu;
+	t=1689618189; bh=Pq7MYwXmhQygHLjOtwPYZ8yM7zPHfJNEMgsV34NRZC0=;
+	h=Date:From:To:Cc:Subject;
+	b=cePZxkscV7+p3ZIcjL2diUQf37TMpqjzWToCul04kqyyippwKfVyOztHj35FaW1Eo
+	 zFe19apESoDTPUCndQnhg6Y1j3cpZrvnDUWqwAC422Ra6oqPbThZ7eAiNx6k9XHJzM
+	 ZRmJFyoO/fyeY6bbsg4sLg6TT9gXp5oMci3zlcNA=
+From: Ryan Lahfa <ryan@lahfa.xyz>
+To: distributions@lists.linux.dev
+Cc: lorenz@brun.one
+Subject: Heads-up on Chromium M115+: Rust is a dependency
+Message-ID: <ryjfql3ysicyyj64kgog3ipfys2skjddtmlsgdm3tcavvdt2xr@7cowkh32khr2>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Language: en-US
-To: distributions@lists.linux.dev
-From: Martin Weinelt <martin@linuxlounge.net>
-Subject: Thunderbird 115.0 regression with system icu
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thunderbird 115.0 when used --with-system-icu breaks the calendar, since 
-calendar events aren't rendered properly in some(?) timezones.
+Hello there,
 
-The vendored version of icu carries a patch (since Firefox 107), that 
-hasn't made it upstream yet.
+Through this
+https://security.googleblog.com/2023/01/supporting-use-of-rust-in-chromium.html,
+we noticed that Chromium M115+ ships with a bundled binary Rust compiler
+now, this may be of interest for distribution who want to assert control
+over the Chromium toolchain.
 
+We replaced it in
+https://github.com/NixOS/nixpkgs/pull/243319 in NixOS.
 
-Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=1790071
-Bug: https://unicode-org.atlassian.net/browse/ICU-22132
-Patch: https://hg.mozilla.org/mozilla-central/rev/fb8582f80c55
+M115 do not ship with production Rust code, so we do not know yet if our
+approach is valid.
 
-
-hexa
+Kind regards,
+-- 
+Ryan Lahfa, NixOS developer
