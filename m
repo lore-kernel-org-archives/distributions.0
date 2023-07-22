@@ -1,20 +1,24 @@
-Received: from kurisu.lahfa.xyz (kurisu.lahfa.xyz [163.172.69.160])
+Received: from sysrq.in (sysrq.in [37.79.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22B7C2C2
-	for <distributions@lists.linux.dev>; Mon, 17 Jul 2023 18:32:37 +0000 (UTC)
-Date: Mon, 17 Jul 2023 20:23:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lahfa.xyz; s=kurisu;
-	t=1689618189; bh=Pq7MYwXmhQygHLjOtwPYZ8yM7zPHfJNEMgsV34NRZC0=;
-	h=Date:From:To:Cc:Subject;
-	b=cePZxkscV7+p3ZIcjL2diUQf37TMpqjzWToCul04kqyyippwKfVyOztHj35FaW1Eo
-	 zFe19apESoDTPUCndQnhg6Y1j3cpZrvnDUWqwAC422Ra6oqPbThZ7eAiNx6k9XHJzM
-	 ZRmJFyoO/fyeY6bbsg4sLg6TT9gXp5oMci3zlcNA=
-From: Ryan Lahfa <ryan@lahfa.xyz>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D265CEC7
+	for <distributions@lists.linux.dev>; Sat, 22 Jul 2023 22:12:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=sysrq.in; bh=qZsrjm5crtw
+	VGkpzZcSDxnNzwGNExXShNtSU7q8R4pw=; h=to:from:date; d=sysrq.in; b=b0nFe
+	1zZm1+33ROjt00Bol6ixe6CpIfT67oCul+3VSe+TsY8/C+4XhI/9euA5fMDN+bcevs//t7
+	b793KltG9EUOuNH8XJLS7pXT2pSB32nOciFbuq8/uLA6rDo55t4uE21XHe/STEUSquCdJY
+	iYHFDRihGADtxo+hANDTgBjZnp8LNQ47TjtXJNeBCpqePfHk71LWiyimbaCBnd1LcU9RAW
+	jNsQv82rU56Zz0W5oQLVLkfKJwHUU1Xu/gaIJvAdsXioCTNDO+wE33SKOfgceDdNxLPHKc
+	P6752ynUJSYh5z7+nx9nL7NusPFQiu4x9yYLK/yp0FnwdAnDr7Zc4fahg==
+Received: from sysrq.in (localhost [127.0.0.1])
+	by sysrq.in (OpenSMTPD) with ESMTPS id 6c023f83 (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO)
+	for <distributions@lists.linux.dev>;
+	Sat, 22 Jul 2023 22:05:23 +0000 (UTC)
+Date: Sun, 23 Jul 2023 03:05:22 +0500
+From: "Anna (cybertailor) Vyalkova" <cyber+gentoo@sysrq.in>
 To: distributions@lists.linux.dev
-Cc: lorenz@brun.one
-Subject: Heads-up on Chromium M115+: Rust is a dependency
-Message-ID: <ryjfql3ysicyyj64kgog3ipfys2skjddtmlsgdm3tcavvdt2xr@7cowkh32khr2>
+Subject: eudev is no more compatible with libgudev
+Message-ID: <ZLxSolytyFht4Xvv@sysrq.in>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
@@ -23,21 +27,24 @@ List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+User-Agent: Mutt/2.2.10 (2023-03-25)
 
-Hello there,
+Hello, list!
 
-Through this
-https://security.googleblog.com/2023/01/supporting-use-of-rust-in-chromium.html,
-we noticed that Chromium M115+ ships with a bundled binary Rust compiler
-now, this may be of interest for distribution who want to assert control
-over the Chromium toolchain.
+Eudev is a fork of Udev separated from SystemD codebase. It was
+abandoned by Gentoo in 2021 and handed over to a team of cross-distro
+contributors.
 
-We replaced it in
-https://github.com/NixOS/nixpkgs/pull/243319 in NixOS.
+It's currently stuck at Udev API 243, while recent versions of libgudev
+require Udev API 247 at least.
 
-M115 do not ship with production Rust code, so we do not know yet if our
-approach is valid.
+The function in question was introduced to Udev in 2020 and added to
+libgudev in 2022. Eudev still haven't pulled the changes.
 
-Kind regards,
--- 
-Ryan Lahfa, NixOS developer
+See the upstream issue:
+https://github.com/eudev-project/eudev/issues/249
+
+libgudev is the first project that became incompatible with Eudev. As
+time passes, there will be others.
+
+If your distro uses Eudev, consider switching to systemd-udev instead.
