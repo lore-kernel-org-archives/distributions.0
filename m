@@ -1,75 +1,142 @@
-Received: from mx1.voidlinux.org (f-sfo3-us.m.voidlinux.org [143.198.238.190])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5981106
-	for <distributions@lists.linux.dev>; Sat, 14 Oct 2023 03:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=voidlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=voidlinux.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F78C3222
+	for <distributions@lists.linux.dev>; Sat, 23 Dec 2023 04:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=voidlinux.org header.i=@voidlinux.org header.b="qiSFafRd"
-DKIM-Signature: a=rsa-sha256; bh=tfyA1Xx7SYakwUa5V/aVwzJoHNCAGrdW/Z+H9GzGMdg=;
- c=relaxed/relaxed; d=voidlinux.org;
- h=Subject:Subject:Sender:To:To:Cc:From:From:Date:Date:MIME-Version:MIME-Version:Content-Type:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Reply-To:In-Reply-To:In-Reply-To:Message-Id:Message-Id:References:References:Autocrypt:Openpgp;
- i=@voidlinux.org; s=default; t=1697253119; v=1; x=1697685119;
- b=qiSFafRdf0zqLR60CBNuQcItlzEcMGfqEzh+HX9ibXgwmPRMqr0BUaP7cAy/UgaJsy2PzW5Y
- Hp+EO3o94ReFT75QDwHregLc2a0I/lgENwALgVKWfgakcaIlVHV1jqr0hYo5JOSsmYvNQvFsOkU
- bY/deDvNy64p7fC5KO2PoSOCpphK0e51kC8+YUcLjXWALXwGcNZPseDdZQasroi5wD6wQse6PDd
- odjOQ4G9F62JysV4hF9y5n0dBUtgzVQOZVFA1BOfrH2EcsLMq6OaHof4ZXKv2+LH1LJaH88IuSH
- AlAIjF0tc3BWTYfJSSPRYsZqmNVFDxb3nFGNVobSQHneQ==
-Received: by mx1.voidlinux.org (envelope-sender <abby@voidlinux.org>) with
- ESMTPS id ef51cf74; Sat, 14 Oct 2023 03:11:59 +0000
-Message-ID: <db24ba7d-1262-4192-9c82-eeb5e7a08ea3@voidlinux.org>
-Date: Fri, 13 Oct 2023 23:11:58 -0400
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0dmo6w8"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a2358a75b69so428850866b.1
+        for <distributions@lists.linux.dev>; Fri, 22 Dec 2023 20:38:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703306316; x=1703911116; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1YzYHkDZ+ZhNmh2/OCsGqJl9axPpoeGMJGuSMMSIFSA=;
+        b=M0dmo6w8hgSCQOhkp39yonajMiPZvMMJ71uZZTybifqltUIfoIWA+zcQYaiGUnZ2fG
+         rmPjRRcmf1p52am6gJAbmTrOtkWWg0siPWAzC18FZmsXw1C41seWHe0jT7vcyKWcraTy
+         loU/XvbiO97pglwuOTUMXx/3kByU5JYznAucYqisCyZYDG1tqn2hcIiH7E+vsYQ1E/mq
+         Po4V8QZFuGzWckl+hViUv2zzOYQhtCFF7xUIUIqKUfNLYet4OksNYVhMeNokcHFIe/rp
+         wHC88XO6Td5ThPzRORpSIUV+30w3RwXPp5erafykMeyy1ZLWYAy8ojQjDrUNIAZ6+1Cf
+         cwAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703306316; x=1703911116;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1YzYHkDZ+ZhNmh2/OCsGqJl9axPpoeGMJGuSMMSIFSA=;
+        b=mHEi/IW2nsHjml9DahQgQ16ZjvDtrTARNELZygtHa5Y9QH6kEHbY3d5PbZCgwa6R0W
+         s0XUKDV+dZ/qrhRMElAi5h5r2UC5qcg/3ziMGa14SFtDOOUAHTeqXTfRr9ntmjlXScC3
+         JblDhRkTjrqWE9SDkXK3LTUW36678CR2AmY7Bmds3akHGLA9IiSmo+eiFx+VbdlWI+Xm
+         cvIAevPeXomtLKA3tOPYkS3oMbgIOi848qBI2XxOImHV5EA4kCRa+rI3Fcnk/DXRSwZ1
+         Lg+5INzdgTDOgBCEqKayatnkxoewhioVm+a3a/rE+JCHyD4WJwomfzVA/zQcq2FBBFAA
+         zLxg==
+X-Gm-Message-State: AOJu0Ywz+eiqe4F6h0kKKxMv36u/wuB042isMw6oWyAHuLGcCR/8Ksv5
+	Y4q4qNKEsafJkglzK38VdkS5p/olEa486A==
+X-Google-Smtp-Source: AGHT+IEESPbUSP+fETtkPv0nCNi5x7kTs28IDomh82WuGD7lyZrqJJ/k3hHN9kueZqiG5eRF5y0tjA==
+X-Received: by 2002:a17:906:df52:b0:a19:a409:37dc with SMTP id if18-20020a170906df5200b00a19a40937dcmr2228522ejc.53.1703306316391;
+        Fri, 22 Dec 2023 20:38:36 -0800 (PST)
+Received: from dj3ntoo (70.sub-97-147-62.myvzw.com. [97.147.62.70])
+        by smtp.gmail.com with ESMTPSA id wh15-20020a170906fd0f00b00a26b37e0e7fsm1547694ejb.60.2023.12.22.20.38.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Dec 2023 20:38:35 -0800 (PST)
+Date: Fri, 22 Dec 2023 22:38:29 -0600
+From: Oskari Pirhonen <xxc3ncoredxx@gmail.com>
+To: Daniel Kiper <daniel.kiper@oracle.com>
+Cc: grub-devel@gnu.org, alexander.burmashev@oracle.com, phcoder@gmail.com,
+	distributions@lists.linux.dev
+Subject: Re: GRUB 2.12 released
+Message-ID: <ZYZkRS-fBQR0pLD_@dj3ntoo>
+Mail-Followup-To: Daniel Kiper <daniel.kiper@oracle.com>,
+	grub-devel@gnu.org, alexander.burmashev@oracle.com,
+	phcoder@gmail.com, distributions@lists.linux.dev
+References: <ZYMgIWh22neEPu2y@tomti.i.net-space.pl>
+ <ZYPpezkAFb3us9D2@dj3ntoo>
+ <ZYW1rXvSjDAQMsiY@tomti.i.net-space.pl>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Integration work needed for >=xdg-desktop-portal-1.18.0
-Content-Language: en-US
-To: Sam James <sam@gentoo.org>, distributions@lists.linux.dev
-References: <87sf6dap1g.fsf@gentoo.org>
-From: classabbyamp <abby@voidlinux.org>
-In-Reply-To: <87sf6dap1g.fsf@gentoo.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="+ysAnYD1wH2/e1NM"
+Content-Disposition: inline
+In-Reply-To: <ZYW1rXvSjDAQMsiY@tomti.i.net-space.pl>
 
-On 2023-10-13 22 h 55, Sam James wrote:
-> Hi all,
-> 
-> xdg-desktop-portal-1.18.0 changes its behaviour if no portals are
-> configured by the user, installed portals, or desktop environments.
-> 
-> Simon has a good summary at https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1050911#35
-> for what one needs to do.
-> 
-> I've filed a Gentoo tracker bug at https://bugs.gentoo.org/915704
-> with a list of things I'm aware of that need handling, but I'll
-> include a list here of some useful references:
-> * https://github.com/flatpak/xdg-desktop-portal/issues/1017
-> * https://github.com/flatpak/xdg-desktop-portal/issues/1077
-> * https://github.com/flatpak/xdg-desktop-portal/issues/1102
-> 
-> Thanks to abby from Void and to psykose as well for the heads up.
-> 
-> best,
-> sam
-> 
 
-On Void we're shipping a default portals.conf to ensure all users have 
-at least some working portal, regardless of WM or DE (assuming they 
-installed one of the backends):
+--+ysAnYD1wH2/e1NM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-     [preferred]
-     default=*
+On Fri, Dec 22, 2023 at 17:13:33 +0100, Daniel Kiper wrote:
+> On Thu, Dec 21, 2023 at 01:30:03AM -0600, Oskari Pirhonen wrote:
+> > On Wed, Dec 20, 2023 at 18:10:57 +0100, Daniel Kiper wrote:
+> > > Hi all,
+> > >
+> > > GRUB maintainers are proud to announce GRUB 2.12 that has been just r=
+eleased.
+> > > You can find list of new features and major fixes since release 2.06 =
+in the
+> > > NEWS file.
+> > >
+> > > We would like to thank all the people who have contributed to the pro=
+ject.
+> > >
+> >
+> > First of all, congrats on releasing. It's been a long time in the
+>=20
+> Thank you!
+>=20
+> > making. But...
+>=20
+> Yeah, I am not happy with that too. I hope we will be releasing yearly
+> starting from now and shorten release candence at point when it is
+> needed/possible/...
+>=20
 
-in the lowest-precedence location, /usr/share/xdg-desktop-portal.
+This is good to hear. I know there's distro maintainers who don't enjoy
+having to keep large patch sets on top of the releases.
 
-More of the rationale behind this is available in the commit:
-https://github.com/void-linux/void-packages/commit/b4c404aac0af3ced08671a8840cd261198689cef
+> > > The tarball is available at https://ftp.gnu.org/gnu/grub/grub-2.12.ta=
+r.xz
+> > > and its signature at https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz.sig
+> > >
+> >
+> > The release tarball fails to build because the grub-core/extra_deps.lst
+> > file is not included in it. I just sent a patch which fixes it (at least
+> > on my end).
+> >
+> > Hopefully it works for others too and a new release can be made.
+>=20
+> I have just pushed your patch. If more issues will pop up then maybe
+> I will cut a minor release.
+>=20
+> Daniel
 
--- 
-classabbyamp
+CC'd distributions list in case there's people there who don't watch
+this list but might be interested in knowing why the release tarball
+fails.
 
+FYI for them, the missing file is grub-core/extra_deps.lst and, at the
+time of writing, contains the following line:
+
+    depends bli part_gpt
+
+- Oskari
+
+--+ysAnYD1wH2/e1NM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQQfOU+JeXjo4uxN6vCp8he9GGIfEQUCZYZkQAAKCRCp8he9GGIf
+EWo6AQDWzoZIwaRTSishNoKHGBvghriJ6HsDSes9nTAHxPutvgD+JO/uTvaUemwI
+tBCpYeLTn5UlZ5SxoDgJXEHH3x9TIg0=
+=cxPd
+-----END PGP SIGNATURE-----
+
+--+ysAnYD1wH2/e1NM--
