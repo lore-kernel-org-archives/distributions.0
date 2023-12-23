@@ -1,142 +1,109 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F78C3222
-	for <distributions@lists.linux.dev>; Sat, 23 Dec 2023 04:38:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0dmo6w8"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a2358a75b69so428850866b.1
-        for <distributions@lists.linux.dev>; Fri, 22 Dec 2023 20:38:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703306316; x=1703911116; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1YzYHkDZ+ZhNmh2/OCsGqJl9axPpoeGMJGuSMMSIFSA=;
-        b=M0dmo6w8hgSCQOhkp39yonajMiPZvMMJ71uZZTybifqltUIfoIWA+zcQYaiGUnZ2fG
-         rmPjRRcmf1p52am6gJAbmTrOtkWWg0siPWAzC18FZmsXw1C41seWHe0jT7vcyKWcraTy
-         loU/XvbiO97pglwuOTUMXx/3kByU5JYznAucYqisCyZYDG1tqn2hcIiH7E+vsYQ1E/mq
-         Po4V8QZFuGzWckl+hViUv2zzOYQhtCFF7xUIUIqKUfNLYet4OksNYVhMeNokcHFIe/rp
-         wHC88XO6Td5ThPzRORpSIUV+30w3RwXPp5erafykMeyy1ZLWYAy8ojQjDrUNIAZ6+1Cf
-         cwAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703306316; x=1703911116;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1YzYHkDZ+ZhNmh2/OCsGqJl9axPpoeGMJGuSMMSIFSA=;
-        b=mHEi/IW2nsHjml9DahQgQ16ZjvDtrTARNELZygtHa5Y9QH6kEHbY3d5PbZCgwa6R0W
-         s0XUKDV+dZ/qrhRMElAi5h5r2UC5qcg/3ziMGa14SFtDOOUAHTeqXTfRr9ntmjlXScC3
-         JblDhRkTjrqWE9SDkXK3LTUW36678CR2AmY7Bmds3akHGLA9IiSmo+eiFx+VbdlWI+Xm
-         cvIAevPeXomtLKA3tOPYkS3oMbgIOi848qBI2XxOImHV5EA4kCRa+rI3Fcnk/DXRSwZ1
-         Lg+5INzdgTDOgBCEqKayatnkxoewhioVm+a3a/rE+JCHyD4WJwomfzVA/zQcq2FBBFAA
-         zLxg==
-X-Gm-Message-State: AOJu0Ywz+eiqe4F6h0kKKxMv36u/wuB042isMw6oWyAHuLGcCR/8Ksv5
-	Y4q4qNKEsafJkglzK38VdkS5p/olEa486A==
-X-Google-Smtp-Source: AGHT+IEESPbUSP+fETtkPv0nCNi5x7kTs28IDomh82WuGD7lyZrqJJ/k3hHN9kueZqiG5eRF5y0tjA==
-X-Received: by 2002:a17:906:df52:b0:a19:a409:37dc with SMTP id if18-20020a170906df5200b00a19a40937dcmr2228522ejc.53.1703306316391;
-        Fri, 22 Dec 2023 20:38:36 -0800 (PST)
-Received: from dj3ntoo (70.sub-97-147-62.myvzw.com. [97.147.62.70])
-        by smtp.gmail.com with ESMTPSA id wh15-20020a170906fd0f00b00a26b37e0e7fsm1547694ejb.60.2023.12.22.20.38.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Dec 2023 20:38:35 -0800 (PST)
-Date: Fri, 22 Dec 2023 22:38:29 -0600
-From: Oskari Pirhonen <xxc3ncoredxx@gmail.com>
-To: Daniel Kiper <daniel.kiper@oracle.com>
-Cc: grub-devel@gnu.org, alexander.burmashev@oracle.com, phcoder@gmail.com,
-	distributions@lists.linux.dev
-Subject: Re: GRUB 2.12 released
-Message-ID: <ZYZkRS-fBQR0pLD_@dj3ntoo>
-Mail-Followup-To: Daniel Kiper <daniel.kiper@oracle.com>,
-	grub-devel@gnu.org, alexander.burmashev@oracle.com,
-	phcoder@gmail.com, distributions@lists.linux.dev
-References: <ZYMgIWh22neEPu2y@tomti.i.net-space.pl>
- <ZYPpezkAFb3us9D2@dj3ntoo>
- <ZYW1rXvSjDAQMsiY@tomti.i.net-space.pl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752CF8BE5
+	for <distributions@lists.linux.dev>; Sat, 23 Dec 2023 06:18:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Message-ID: <a0db38ec-347d-4b26-97a2-e77d679f05fe@gentoo.org>
+Date: Sat, 23 Dec 2023 08:18:03 +0200
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: distributions@lists.linux.dev
+Reply-To: distributions@lists.linux.dev
+From: Joonas Niilola <juippis@gentoo.org>
+Subject: LXD going to lose access to its image server
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="+ysAnYD1wH2/e1NM"
-Content-Disposition: inline
-In-Reply-To: <ZYW1rXvSjDAQMsiY@tomti.i.net-space.pl>
+ protocol="application/pgp-signature";
+ boundary="------------47Q4jgUjfQZKylEy4x61CxZk"
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------47Q4jgUjfQZKylEy4x61CxZk
+Content-Type: multipart/mixed; boundary="------------DX9dMtoO6Qfa1wGSKoUGtqfl";
+ protected-headers="v1"
+From: Joonas Niilola <juippis@gentoo.org>
+Reply-To: distributions@lists.linux.dev
+To: distributions@lists.linux.dev
+Message-ID: <a0db38ec-347d-4b26-97a2-e77d679f05fe@gentoo.org>
+Subject: LXD going to lose access to its image server
 
---+ysAnYD1wH2/e1NM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--------------DX9dMtoO6Qfa1wGSKoUGtqfl
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 22, 2023 at 17:13:33 +0100, Daniel Kiper wrote:
-> On Thu, Dec 21, 2023 at 01:30:03AM -0600, Oskari Pirhonen wrote:
-> > On Wed, Dec 20, 2023 at 18:10:57 +0100, Daniel Kiper wrote:
-> > > Hi all,
-> > >
-> > > GRUB maintainers are proud to announce GRUB 2.12 that has been just r=
-eleased.
-> > > You can find list of new features and major fixes since release 2.06 =
-in the
-> > > NEWS file.
-> > >
-> > > We would like to thank all the people who have contributed to the pro=
-ject.
-> > >
-> >
-> > First of all, congrats on releasing. It's been a long time in the
->=20
-> Thank you!
->=20
-> > making. But...
->=20
-> Yeah, I am not happy with that too. I hope we will be releasing yearly
-> starting from now and shorten release candence at point when it is
-> needed/possible/...
->=20
+Hey,
 
-This is good to hear. I know there's distro maintainers who don't enjoy
-having to keep large patch sets on top of the releases.
+short gist is: Earlier this year Canonical moved the LXD project from
+community-hosted LinuxContainers under Canonical's management. They
+removed administrative access from non-Canonical employees and
+introduced Canonical's CLA on all future contributors. Community didn't
+like this, so they forked LXD and so Incus was born. Incus would pull
+code from upstream LXD to stay compatible.
 
-> > > The tarball is available at https://ftp.gnu.org/gnu/grub/grub-2.12.ta=
-r.xz
-> > > and its signature at https://ftp.gnu.org/gnu/grub/grub-2.12.tar.xz.sig
-> > >
-> >
-> > The release tarball fails to build because the grub-core/extra_deps.lst
-> > file is not included in it. I just sent a patch which fixes it (at least
-> > on my end).
-> >
-> > Hopefully it works for others too and a new release can be made.
->=20
-> I have just pushed your patch. If more issues will pop up then maybe
-> I will cut a minor release.
->=20
-> Daniel
+Now recently Canonical re-licensed LXD so that Incus couldn't pull code
+from them anymore. Therefore Incus will become a fully independent projec=
+t.
 
-CC'd distributions list in case there's people there who don't watch
-this list but might be interested in knowing why the release tarball
-fails.
+However it is LinuxContainers that builds and hosts nearly all LXD &
+Incus container & VM images in https://images.linuxcontainers.org/ -
+note that sites such as https://uk.lxd.images.canonical.com/ are just
+mirroring the linuxcontainers.org one. Canonical only builds and hosts
+their own Ubuntu images.
 
-FYI for them, the missing file is grub-core/extra_deps.lst and, at the
-time of writing, contains the following line:
+Because LinuxContainers community can't lean on to LXD, they've decided
+not to build and publish LXD images anymore. Non-LTS LXD will gradually
+start losing access to these images immediately in 2024, while LTS LXD
+is allowed until ~April-May of 2024 to have a fair chance migrating into
+Incus LTS, which is expected to be out in April 2024.
 
-    depends bli part_gpt
+At the time of writing it's unclear what Canonical will do. Are they
+going to start offering variety of distributions, or just focus on
+Ubuntu? Either way this will most likely require actions from downstream
+packages.
 
-- Oskari
+I've written a more-detailed, Gentoo-focused summary with current
+timetables and "what can you do" actions to:
+https://bugs.gentoo.org/920527
 
---+ysAnYD1wH2/e1NM
-Content-Type: application/pgp-signature; name="signature.asc"
+but basically:
+ 1: move to incus,
+ 2: host your own image server,
+ 3: wait and see what Canonical does.
+
+Follow upstream announcement here:
+https://discuss.linuxcontainers.org/t/important-notice-for-lxd-users-imag=
+e-server/18479
+
+Canonical's discussion forums:
+https://discourse.ubuntu.com/c/lxd/126
+
+-- juippis
+
+--------------DX9dMtoO6Qfa1wGSKoUGtqfl--
+
+--------------47Q4jgUjfQZKylEy4x61CxZk
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQQfOU+JeXjo4uxN6vCp8he9GGIfEQUCZYZkQAAKCRCp8he9GGIf
-EWo6AQDWzoZIwaRTSishNoKHGBvghriJ6HsDSes9nTAHxPutvgD+JO/uTvaUemwI
-tBCpYeLTn5UlZ5SxoDgJXEHH3x9TIg0=
-=cxPd
+iQGTBAEBCgB9FiEEltRJ9L6XRmDQCngHc4OUK43AaWIFAmWGe5tfFIAAAAAALgAo
+aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldDk2
+RDQ0OUY0QkU5NzQ2NjBEMDBBNzgwNzczODM5NDJCOERDMDY5NjIACgkQc4OUK43A
+aWKn/wgAmX0pTLQD5jAFmHkUygASwbyIiL/Nmigj8+qU6VBP/RFXaeA140PMhHYU
+pdSPR5j+eXImvrEDbaHdoxbV6dACKEbfYZQKk207k2srw983Z9P1+ACLdU9CeFM5
+G7APlOB637EeigzqlhDUESS5+TKte34ZIj7Cxu2lAz3MXHjyUlB3VqRMxifrqk8w
+cgtJ7qA6yD3CjMDg/vDcTnDIQDNfLzcQ6XFCMvj3ijjXY3FozgNjUr1wxwsFDGj/
+522oBA4nwRztX/nGuY6aTp/DP6UYL29IspQ9ySoUK1SOwwuK7kYCjjFeYOvJFZyJ
+t8pS7Vuc9HZTcyocNrJQwdYwOER2OQ==
+=2seF
 -----END PGP SIGNATURE-----
 
---+ysAnYD1wH2/e1NM--
+--------------47Q4jgUjfQZKylEy4x61CxZk--
