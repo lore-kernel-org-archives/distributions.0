@@ -1,204 +1,103 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22887F9C3
-	for <distributions@lists.linux.dev>; Tue,  2 Jan 2024 12:44:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Zst336+n";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AC0pIg41";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Zst336+n";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AC0pIg41"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 29E7F1FCF7
-	for <distributions@lists.linux.dev>; Tue,  2 Jan 2024 12:44:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704199451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:autocrypt:autocrypt;
-	bh=wyI9yn8hxZHemJojwUOOIS05gvn/LpbdxHSibT7mxmI=;
-	b=Zst336+nOQ7iGS6HSK+H9jOMo9lOw739XHkZ1RQ6xApxEaM6IfX2IkmOcszpv5a1iKG3xB
-	vLGw2aKQCXkV37r4eIzIAMzQWBBPCkq7sSpTHqNyk0K8aTwZI1diENBI4v4WH+7kYHZVhV
-	KYld+0/w6vEVdEfO8Cd7rbiPcuqUMro=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704199451;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:autocrypt:autocrypt;
-	bh=wyI9yn8hxZHemJojwUOOIS05gvn/LpbdxHSibT7mxmI=;
-	b=AC0pIg41S4V+/RhdispTnhEspOX94BYafxn+7roOzdCoedjiiZTayw/DnYnLyZ/78ZXMM4
-	fACjUVl9EMUI2ZCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1704199451; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:autocrypt:autocrypt;
-	bh=wyI9yn8hxZHemJojwUOOIS05gvn/LpbdxHSibT7mxmI=;
-	b=Zst336+nOQ7iGS6HSK+H9jOMo9lOw739XHkZ1RQ6xApxEaM6IfX2IkmOcszpv5a1iKG3xB
-	vLGw2aKQCXkV37r4eIzIAMzQWBBPCkq7sSpTHqNyk0K8aTwZI1diENBI4v4WH+7kYHZVhV
-	KYld+0/w6vEVdEfO8Cd7rbiPcuqUMro=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1704199451;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:autocrypt:autocrypt;
-	bh=wyI9yn8hxZHemJojwUOOIS05gvn/LpbdxHSibT7mxmI=;
-	b=AC0pIg41S4V+/RhdispTnhEspOX94BYafxn+7roOzdCoedjiiZTayw/DnYnLyZ/78ZXMM4
-	fACjUVl9EMUI2ZCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0B79C1340C
-	for <distributions@lists.linux.dev>; Tue,  2 Jan 2024 12:44:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id l3IoABsFlGVMRAAAD6G6ig
-	(envelope-from <bwiedemann@suse.de>)
-	for <distributions@lists.linux.dev>; Tue, 02 Jan 2024 12:44:11 +0000
-Message-ID: <2a182576-0382-45ce-a5b4-b469f154a6de@suse.de>
-Date: Tue, 2 Jan 2024 13:44:06 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBA5F517
+	for <distributions@lists.linux.dev>; Tue,  2 Jan 2024 12:51:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-50e7be1c65dso5913503e87.3
+        for <distributions@lists.linux.dev>; Tue, 02 Jan 2024 04:51:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1704199864; x=1704804664;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2GDNIyczWhV5VlkKCFOknwtC3LOFQyX3BLGQaAC5xhA=;
+        b=auxVVxKuvZkkU/GxGLgFfoHyWTxj7WisJu5Ukjr5q6rYAhBF/cKgVENrOGXhHJHvBG
+         unAMcYr6J2KcdZVbaY9jJQE1aGAVOz1nlMivAme2Ph9CBKzOkiaPwOrY7iTZS3YmzaKP
+         nw3WpMS573YNGtsYqPKnyL1K6fbm+2xWIsJkNsjeZsCghijC8PaDw3Z6O6K8RMykhKSO
+         f9toCB2XzLKiS4QdfUjQcRMhuo1FQZ8vKHVAXwbWW4J2T3TSjiY/9+inyU/iCbOql7l9
+         78+S/BXrXLHsVFx3Qpf7K1M0iKtsVGZKkQqJzxYXvI3+NRWZYYlP4S4yuiB5MuKwFyfl
+         bxyQ==
+X-Gm-Message-State: AOJu0Yzkm1VloXSxAX51ODEIqclO/sC+xvecOTu6m2Fq6DDNwq1bdR95
+	s0ULLIxxZqvDjrjiLrMFJSD9C67sNIQxrA==
+X-Google-Smtp-Source: AGHT+IFugN7V6HnWjLcXxXkfmzNH7vS/mJbhb4ds4MHQ9uUtS1KsR/W+dndqqDCBNV9TEzxTt2vsbA==
+X-Received: by 2002:a05:6512:1055:b0:50e:7e22:3143 with SMTP id c21-20020a056512105500b0050e7e223143mr6584767lfb.19.1704199864054;
+        Tue, 02 Jan 2024 04:51:04 -0800 (PST)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id u12-20020a056402110c00b0054c9211021csm15768593edv.69.2024.01.02.04.51.03
+        for <distributions@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jan 2024 04:51:03 -0800 (PST)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a2331caab22so942107166b.3
+        for <distributions@lists.linux.dev>; Tue, 02 Jan 2024 04:51:03 -0800 (PST)
+X-Received: by 2002:a17:906:7810:b0:9ae:699d:8a2a with SMTP id
+ u16-20020a170906781000b009ae699d8a2amr7139285ejm.5.1704199863651; Tue, 02 Jan
+ 2024 04:51:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: distributions@lists.linux.dev
-Content-Language: en-US
-From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
-Subject: 64-bit time_t
-Autocrypt: addr=bwiedemann@suse.de; keydata=
- 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
- 12bW2FfpiwAGOQ==
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------VZgTCBZjPGjTIwpxbxValdhl"
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.31 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	 HAS_ATTACHMENT(0.00)[];
-	 TO_DN_NONE(0.00)[];
-	 MIME_BASE64_TEXT_BOGUS(1.00)[];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_TRACE(0.00)[suse.de:+];
-	 MIME_BASE64_TEXT(0.10)[];
-	 MX_GOOD(-0.01)[];
-	 SIGNED_PGP(-2.00)[];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 BAYES_HAM(-0.01)[46.53%];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 FROM_HAS_DN(0.00)[];
-	 DWL_DNSWL_MED(-2.00)[suse.de:dkim];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
-	 PREVIOUSLY_DELIVERED(0.00)[distributions@lists.linux.dev];
-	 RCPT_COUNT_ONE(0.00)[1];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Zst336+n;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=AC0pIg41
-X-Spam-Score: -3.31
-X-Rspamd-Queue-Id: 29E7F1FCF7
+References: <2a182576-0382-45ce-a5b4-b469f154a6de@suse.de>
+In-Reply-To: <2a182576-0382-45ce-a5b4-b469f154a6de@suse.de>
+From: Neal Gompa <neal@gompa.dev>
+Date: Tue, 2 Jan 2024 07:50:26 -0500
+X-Gmail-Original-Message-ID: <CAEg-Je-GXuGJH66_FBZsi-Uxrg6HM6Ra6=mdCmj4gRO06oSRAA@mail.gmail.com>
+Message-ID: <CAEg-Je-GXuGJH66_FBZsi-Uxrg6HM6Ra6=mdCmj4gRO06oSRAA@mail.gmail.com>
+Subject: Re: 64-bit time_t
+To: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+Cc: distributions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------VZgTCBZjPGjTIwpxbxValdhl
-Content-Type: multipart/mixed; boundary="------------8y0bZgMY1sTyL51uQb8xckmL";
- protected-headers="v1"
-From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
-To: distributions@lists.linux.dev
-Message-ID: <2a182576-0382-45ce-a5b4-b469f154a6de@suse.de>
-Subject: 64-bit time_t
+On Tue, Jan 2, 2024 at 7:45=E2=80=AFAM Bernhard M. Wiedemann <bwiedemann@su=
+se.de> wrote:
+>
+> In https://lore.kernel.org/distributions/6614772.670kD7asE2@nimes/
+> Bruno Haible wrote:
+>
+> > Regarding the distro people:
+> >
+> >   The outcome of a discussion, about a month or two ago, was AFAIU that
+> >   Linux/x86 and Linux/arm distros have a choice between
+> >     (a) enabling 64-bit time_t for all packages, thus breaking ABI
+> >         compatibility once and becoming year 2038 saft, or
+> >     (b) staying with the 32-bit time_t, and announcing that their
+> >         distro will stop working in 2038.
+> >   An incremental or partial move to 64-bit time_t would be too expensiv=
+e,
+> >   did the distro people say.
+>
+> or option c)
+> One less troublesome solution could be to patch glibc to redefine the
+> 32-bit time_t as unsigned so that ABIs could remain compatible and at
+> the same time it would support timestamps until 2106.
+> Though that would break any application that uses time_t for dates
+> between 1901 and 1970 (are there any?).
+> Do I miss any other downsides?
+> This seems to be the only option that allows legacy-binaries to keep
+> working after 2038.
+>
+>
+> option d) would be to adapt all libraries that have time_t in their API
+> to have both 32-bit and 64-bit time_t variants. The former for
+> compatibility with old binaries and the latter for new future-proof
+> binaries. This could provide a smooth transition because not all
+> 3rd-party binaries can be rebuilt.
+> The trouble here would be the effort for the libraries to provide 2
+> variants and for callers to select the right variant.
+>
 
---------------8y0bZgMY1sTyL51uQb8xckmL
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+In my view, Option D would be ideal, but otherwise we should probably
+just break everything and do option A unless glibc has already
+switched unsigned numbers for time_t in 64-bit time, so then using
+32-bit time_t unsigned would be "okay" and thus Option C would work.
 
-SW4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvZGlzdHJpYnV0aW9ucy82NjE0NzcyLjY3MGtE
-N2FzRTJAbmltZXMvDQpCcnVubyBIYWlibGUgd3JvdGU6DQoNCj4gUmVnYXJkaW5nIHRoZSBk
-aXN0cm8gcGVvcGxlOg0KPiANCj4gICBUaGUgb3V0Y29tZSBvZiBhIGRpc2N1c3Npb24sIGFi
-b3V0IGEgbW9udGggb3IgdHdvIGFnbywgd2FzIEFGQUlVIHRoYXQNCj4gICBMaW51eC94ODYg
-YW5kIExpbnV4L2FybSBkaXN0cm9zIGhhdmUgYSBjaG9pY2UgYmV0d2Vlbg0KPiAgICAgKGEp
-IGVuYWJsaW5nIDY0LWJpdCB0aW1lX3QgZm9yIGFsbCBwYWNrYWdlcywgdGh1cyBicmVha2lu
-ZyBBQkkNCj4gICAgICAgICBjb21wYXRpYmlsaXR5IG9uY2UgYW5kIGJlY29taW5nIHllYXIg
-MjAzOCBzYWZ0LCBvcg0KPiAgICAgKGIpIHN0YXlpbmcgd2l0aCB0aGUgMzItYml0IHRpbWVf
-dCwgYW5kIGFubm91bmNpbmcgdGhhdCB0aGVpcg0KPiAgICAgICAgIGRpc3RybyB3aWxsIHN0
-b3Agd29ya2luZyBpbiAyMDM4Lg0KPiAgIEFuIGluY3JlbWVudGFsIG9yIHBhcnRpYWwgbW92
-ZSB0byA2NC1iaXQgdGltZV90IHdvdWxkIGJlIHRvbyBleHBlbnNpdmUsDQo+ICAgZGlkIHRo
-ZSBkaXN0cm8gcGVvcGxlIHNheS4NCg0Kb3Igb3B0aW9uIGMpDQpPbmUgbGVzcyB0cm91Ymxl
-c29tZSBzb2x1dGlvbiBjb3VsZCBiZSB0byBwYXRjaCBnbGliYyB0byByZWRlZmluZSB0aGUg
-DQozMi1iaXQgdGltZV90IGFzIHVuc2lnbmVkIHNvIHRoYXQgQUJJcyBjb3VsZCByZW1haW4g
-Y29tcGF0aWJsZSBhbmQgYXQgDQp0aGUgc2FtZSB0aW1lIGl0IHdvdWxkIHN1cHBvcnQgdGlt
-ZXN0YW1wcyB1bnRpbCAyMTA2Lg0KVGhvdWdoIHRoYXQgd291bGQgYnJlYWsgYW55IGFwcGxp
-Y2F0aW9uIHRoYXQgdXNlcyB0aW1lX3QgZm9yIGRhdGVzIA0KYmV0d2VlbiAxOTAxIGFuZCAx
-OTcwIChhcmUgdGhlcmUgYW55PykuDQpEbyBJIG1pc3MgYW55IG90aGVyIGRvd25zaWRlcz8N
-ClRoaXMgc2VlbXMgdG8gYmUgdGhlIG9ubHkgb3B0aW9uIHRoYXQgYWxsb3dzIGxlZ2FjeS1i
-aW5hcmllcyB0byBrZWVwIA0Kd29ya2luZyBhZnRlciAyMDM4Lg0KDQoNCm9wdGlvbiBkKSB3
-b3VsZCBiZSB0byBhZGFwdCBhbGwgbGlicmFyaWVzIHRoYXQgaGF2ZSB0aW1lX3QgaW4gdGhl
-aXIgQVBJIA0KdG8gaGF2ZSBib3RoIDMyLWJpdCBhbmQgNjQtYml0IHRpbWVfdCB2YXJpYW50
-cy4gVGhlIGZvcm1lciBmb3IgDQpjb21wYXRpYmlsaXR5IHdpdGggb2xkIGJpbmFyaWVzIGFu
-ZCB0aGUgbGF0dGVyIGZvciBuZXcgZnV0dXJlLXByb29mIA0KYmluYXJpZXMuIFRoaXMgY291
-bGQgcHJvdmlkZSBhIHNtb290aCB0cmFuc2l0aW9uIGJlY2F1c2Ugbm90IGFsbCANCjNyZC1w
-YXJ0eSBiaW5hcmllcyBjYW4gYmUgcmVidWlsdC4NClRoZSB0cm91YmxlIGhlcmUgd291bGQg
-YmUgdGhlIGVmZm9ydCBmb3IgdGhlIGxpYnJhcmllcyB0byBwcm92aWRlIDIgDQp2YXJpYW50
-cyBhbmQgZm9yIGNhbGxlcnMgdG8gc2VsZWN0IHRoZSByaWdodCB2YXJpYW50Lg0KDQoNCkNp
-YW8NCkJlcm5oYXJkIE0uDQo=
 
---------------8y0bZgMY1sTyL51uQb8xckmL--
 
---------------VZgTCBZjPGjTIwpxbxValdhl
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQTykslvYmKwlIQesLNdovN53d8CLgUCZZQFFgUDAAAAAAAKCRBdovN53d8CLsMd
-APoCec4sfZvxYNbKD+0MHH5ksW+4GnFTnrKHKRst+iTwqgEAjtoaimyd1rhJwLZO+0DFeZh1YjNg
-HFLXfOtvxxu0Lw0=
-=KJHX
------END PGP SIGNATURE-----
-
---------------VZgTCBZjPGjTIwpxbxValdhl--
+--
+=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
+=BC=81/ Always, there's only one truth!
