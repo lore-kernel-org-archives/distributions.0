@@ -1,25 +1,25 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9EB3D6D
-	for <distributions@lists.linux.dev>; Sun, 28 Apr 2024 02:20:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FBBEC3
+	for <distributions@lists.linux.dev>; Sun, 28 Apr 2024 02:22:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714270816; cv=none; b=lCWMH1RG09DT1NjjrXfzk7MyE8oEgsGIaYfm7dGcgXNqGB2mxk7oWJqC7+EPisScJibXXlREawy9qtVetOydKKjo7PdGOwL7txm7gCRFDm5nse8o68cKx1EzP5xycP5p0ignwLj36bGb5P1M60hF5q0/o+bSOsrdvSuH+8VDzso=
+	t=1714270955; cv=none; b=MXXKsNwkWip0LGWVFn1tzy/+qxfwewyGGcTH8DdX5/a+C7PsYguZC3F8Kxa/krPIi48Z8efnt9HyTLVM/Yt9M/r+nPWl/Fnb8LfHZfWXDb4tFYkUgayGDJn9W+IMAbPIDvYdT2SrNoDpNFCtGLYSHXEvA/t0SomLU69WLixJVEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714270816; c=relaxed/simple;
-	bh=awlaBduFIiKon/AmT5qnC1oi1nTiDqBTp01V3NhFGKw=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i+IEDuc5hl3I8/VyHsrobzEI4Wewsu24IWd0x38DOMjx4/VbuqUD4nlfbanoH7FFtS7KkhW3yckYUgSynMaBfCLD13YpyCzLZMknduxuxvM8muD5pq1UFdDtG+K4lwbEInT/RfuxImmxf7gmxsv2Bz1PlSREk7+hlIJvZRrhNpg=
+	s=arc-20240116; t=1714270955; c=relaxed/simple;
+	bh=P0H/oPNXcRbHgNCT+aXYF0YoNcTeYDWSWwspeqSmzTg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=E0xO5NJSLR6PQQrOjCfuv0d2QCskcI2z7iz+MLC1uCVA9Si3khM9caJd3/BDPYDVURaReqKcOC2/pWWdki3zgDHwaOey1HwvuPq4b+bFRto2qKro/kZ0JfdFFKkT1YuEvq9YQ2jIo05uaMrR/SKkEmG5LS7avX9bhwvlVM4jXn4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
 From: Sam James <sam@gentoo.org>
 To: distributions@lists.linux.dev
-Subject: ABI break for tree-sitter
+Subject: gnutls-3.8.5 regression (causing e.g. wireshark test failure)
 Organization: Gentoo
 User-Agent: mu4e 1.12.4; emacs 30.0.50
-Date: Sun, 28 Apr 2024 03:20:10 +0100
-Message-ID: <87il028bz9.fsf@gentoo.org>
+Date: Sun, 28 Apr 2024 03:22:29 +0100
+Message-ID: <87cyqa8bve.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
@@ -34,18 +34,21 @@ Content-Type: text/plain
 
 Hi,
 
-I'm writing about this a bit late, but hopefully it's still worth doing.
+gnutls-3.8.5 has a regression which breaks e.g. Wireshark's testsuite [0]
+and also broke nullmailer [1].
 
-tree-sitter broke ABI between 0.22.2 and 0.22.4:
-https://github.com/tree-sitter/tree-sitter/issues/3296.
+The upstream bug is https://gitlab.com/gnutls/gnutls/-/issues/1540 and
+the fix is https://gitlab.com/gnutls/gnutls/-/merge_requests/1830.
 
-There are discussions ongoing about fixing their SONAME, but the
-recommendation from upstream is that distributions rebuild all consumers
-on each new release:
-https://github.com/tree-sitter/tree-sitter/pull/3302#issuecomment-2061838409.
+As noted on one of the Gentoo bugs [2], a workaround appears to be
+creating an empty GnuTLS config file.
 
-This manifested for us in our main QA tool crashing (pkgcheck) but
-others have seen it with tree-sitter integration in Emacs.
+I suggest just applying the fix though [3].
+
+[0] https://bugs.gentoo.org/930529
+[1] https://bugs.gentoo.org/930752
+[2] https://bugs.gentoo.org/930752#c1
+[3] https://gitlab.com/gnutls/gnutls/-/commit/2d73d945c4b1dfcf8d2328c4d23187d62ffaab2d
 
 thanks,
 sam
@@ -55,11 +58,11 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZi2yW18UgAAAAAAuAChp
+iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZi2y5V8UgAAAAAAuAChp
 c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
 NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
-by5vcmcACgkQc4QJ9SDfkZCntgD/bdatWOAoeRrKdUyN4db2dDGyAlN3zLSz3lal
-UvXamh0A/0t5BCvMnJm40FCRmvQCXuK/0CXNxFQAGv+gVqhLzn8H
-=Cy59
+by5vcmcACgkQc4QJ9SDfkZCQewEAzYJu6det92ZVG2wVxqm4x2CtUTA28JEg41Z3
+b7YXVlUA/i6HeKco1rvLOv8YDUOYjUDkpSfcjfQaFgqaFIwS+fAO
+=uWyY
 -----END PGP SIGNATURE-----
 --=-=-=--
