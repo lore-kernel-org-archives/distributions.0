@@ -1,68 +1,50 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FBBEC3
-	for <distributions@lists.linux.dev>; Sun, 28 Apr 2024 02:22:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D363210A3B
+	for <distributions@lists.linux.dev>; Sun, 28 Apr 2024 23:08:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1714270955; cv=none; b=MXXKsNwkWip0LGWVFn1tzy/+qxfwewyGGcTH8DdX5/a+C7PsYguZC3F8Kxa/krPIi48Z8efnt9HyTLVM/Yt9M/r+nPWl/Fnb8LfHZfWXDb4tFYkUgayGDJn9W+IMAbPIDvYdT2SrNoDpNFCtGLYSHXEvA/t0SomLU69WLixJVEs=
+	t=1714345687; cv=none; b=f6SI7Gi1bGrjoyGCf5UqpTO+PpKqYpgaQMxn2uTzUD6foppgOzjsh2cuZsUEYNJnDUEAHx/Iay+xqEemhkUHEOMca9w9C58c9N6P0LoBO3/hvqNf90kaYy9oPl5V8z45EFjnISFXmlO7Nj6eY8pMZIeoylfLN+1gCzcLflhLI1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1714270955; c=relaxed/simple;
-	bh=P0H/oPNXcRbHgNCT+aXYF0YoNcTeYDWSWwspeqSmzTg=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=E0xO5NJSLR6PQQrOjCfuv0d2QCskcI2z7iz+MLC1uCVA9Si3khM9caJd3/BDPYDVURaReqKcOC2/pWWdki3zgDHwaOey1HwvuPq4b+bFRto2qKro/kZ0JfdFFKkT1YuEvq9YQ2jIo05uaMrR/SKkEmG5LS7avX9bhwvlVM4jXn4=
+	s=arc-20240116; t=1714345687; c=relaxed/simple;
+	bh=8a3hC0rsWXFOU/hOPvZh6iavhQhtH7Z2/cRGE3mPGa8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sKysMLmbPhO2fX0UJ/nqyvOXiz1Oa49drn45D2PU2olbRh2qXKIx696Re2j7wURpVmJrX0AIhIaOD1n6thsDHOg5qCxTnLBb+NONpthST+Xl2rPcyBGZkeAbdDsi90GGJppM1xyMxj5B5Gy73xLdE2Wo72r3NmRKp9wTQ7AKfsE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
 From: Sam James <sam@gentoo.org>
 To: distributions@lists.linux.dev
-Subject: gnutls-3.8.5 regression (causing e.g. wireshark test failure)
+Cc: Hanno =?utf-8?Q?B=C3=B6ck?= <hanno@gentoo.org>
+Subject: grep-3.11 regression on large directories
 Organization: Gentoo
 User-Agent: mu4e 1.12.4; emacs 30.0.50
-Date: Sun, 28 Apr 2024 03:22:29 +0100
-Message-ID: <87cyqa8bve.fsf@gentoo.org>
+Date: Mon, 29 Apr 2024 00:08:02 +0100
+Message-ID: <87v8416q7h.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
---=-=-=
-Content-Type: text/plain
+Hi!
 
-Hi,
+Hanno B=C3=B6ck brought to my attention that grep-3.11 has a regression
+on large directories.
 
-gnutls-3.8.5 has a regression which breaks e.g. Wireshark's testsuite [0]
-and also broke nullmailer [1].
+This was fixed a year ago but hasn't yet propagated into a release.
 
-The upstream bug is https://gitlab.com/gnutls/gnutls/-/issues/1540 and
-the fix is https://gitlab.com/gnutls/gnutls/-/merge_requests/1830.
+(Maybe everyone else had already found out about this, but I didn't know
+until now, so hopefully this helps someone else too.)
 
-As noted on one of the Gentoo bugs [2], a workaround appears to be
-creating an empty GnuTLS config file.
-
-I suggest just applying the fix though [3].
-
-[0] https://bugs.gentoo.org/930529
-[1] https://bugs.gentoo.org/930752
-[2] https://bugs.gentoo.org/930752#c1
-[3] https://gitlab.com/gnutls/gnutls/-/commit/2d73d945c4b1dfcf8d2328c4d23187d62ffaab2d
+Bug: https://bugs.debian.org/1041588
+Bug: https://debbugs.gnu.org/64773
+Bug: https://bugs.gentoo.org/930825
+Patch: https://git.savannah.gnu.org/cgit/gnulib.git/commit/?id=3Dd4d8abb39e=
+b02c555f062b1f83ffcfac999c582f
 
 thanks,
 sam
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZi2y5V8UgAAAAAAuAChp
-c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
-NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
-by5vcmcACgkQc4QJ9SDfkZCQewEAzYJu6det92ZVG2wVxqm4x2CtUTA28JEg41Z3
-b7YXVlUA/i6HeKco1rvLOv8YDUOYjUDkpSfcjfQaFgqaFIwS+fAO
-=uWyY
------END PGP SIGNATURE-----
---=-=-=--
