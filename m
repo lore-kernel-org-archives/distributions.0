@@ -1,83 +1,97 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de [81.169.146.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB0D1DDD4
-	for <distributions@lists.linux.dev>; Sun, 16 Jun 2024 14:27:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1718548059; cv=none; b=OfZxQ6I/6OHdDd2PBPJ8AyF8OZriC3xiCExEoOT8tU/cZImtbLBx57Q1hiy9bZ0VYdhK1CVQ9ap/lyZZplu/3//xijPlfS12QajwoaPXPGAniTjJIndLnHEfkqm31hGKDVxmCtPW33rRkyZWn4oxX++XrykvoSMOgsK6CFHULO8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1718548059; c=relaxed/simple;
-	bh=3cLdro0QnLmeb5aYALj5WVTjq44bG8b17ThghV4yXlE=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YsNFowez9forwQPO9+k5OHkLK6we+66G7QmZxhdpbynTyIbAW6H6YXUAqoPAAStrIUehYxMCbfBBMT0kqhlh+7AtjlOUvruyojcnGWr1OZ23OujzKdfo9FMMUtzkVeTg+n2aW7YJ/unOo6hax6qN81IeYVngFn8RB26WxACkwWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-From: "Andreas K. Huettel" <dilfridge@gentoo.org>
-To: distributions@lists.linux.dev
-Subject: packages released with libtool-2.5.0 likely fail to build on mips64
-Date: Sun, 16 Jun 2024 16:27:26 +0200
-Message-ID: <3299713.44csPzL39Z@pinacolada>
-Organization: Gentoo Linux
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1660D610D
+	for <distributions@lists.linux.dev>; Sun, 16 Jun 2024 14:49:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=81.169.146.216
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1718549359; cv=pass; b=eN3RZ7XDis0Qu9TRWtYfuGFmV3oeQ6VZba7XeOLSFa7y7rNBYQHCjw9KIeKgxkNaG5x4HeO/E3Dqza76LDUWwUU++gj02ijf54c7GWxj0Ci7hbvNM8Rj1dPw4r45cGc3CliwnbKLV8ZSbHQJkwZ6YpeDVbxZ5ySh5mm6jBElTQk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1718549359; c=relaxed/simple;
+	bh=410oC8I4ziyX3BumMHp1yVJ/zqRTSanJ/0d4kwPQits=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ibyDLwTTR5wM8eiS8gkzTlzYI/fiIGPZg4U+ItJbk7nmnCGBmptkLUohjd5fwLp3oR/bdACTsCtXRCewwhZbD5x4t16hk6nrY8rrASNMvA7Hngtp1hp5uwPwSBF73FQPKnh7EHaq3N3fjxqZXENDrOOcuWgZkCsI4QCT/wUZSuM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=clisp.org; spf=none smtp.mailfrom=clisp.org; dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b=navqxUEG; dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b=LHCaUZCQ; arc=pass smtp.client-ip=81.169.146.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=clisp.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=clisp.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b="navqxUEG";
+	dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b="LHCaUZCQ"
+ARC-Seal: i=1; a=rsa-sha256; t=1718549338; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=MIT7PVM5ih2KIjFygj8jOvfXU/mUmX63bCnDRCWrlzzwLTVp+IfHpnY8yxjQxNHnGc
+    MGa79pJO8xJMVupyPK0BVmV9VFoKLInMxyMbXzHvzOaGRgHzauI0KDR7J00gyYANrsAf
+    1RFrqxDqr1VPw6XaRR5tpecN/xvdcXqbN0u5YYsPJv4Ke8ajg/xuPKTu93TdthdPpSSd
+    znaR6GdckgioAYQQKorY6XkOoG/jeDtnf+LE/kFU71PxKhBVQv1h1s09b5sxG3DXHJx7
+    eytBmfNXqm1/TttEQ9ImDe13ZytNGhGwjqaEVEFulx5SkGu28fbSCVI2kZwCr+mjELCK
+    gb7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1718549338;
+    s=strato-dkim-0002; d=strato.com;
+    h=References:In-Reply-To:Message-ID:Date:Subject:To:From:Cc:Date:From:
+    Subject:Sender;
+    bh=410oC8I4ziyX3BumMHp1yVJ/zqRTSanJ/0d4kwPQits=;
+    b=ktOKI9JIXv36A2zBOzJJOx70X3t6rtGtf4tKrRYuMUiCDN4ZnXUlMWvKHYtwDVcoWQ
+    vSSloqtFC9WkB3BWXkLokl/BfjG01UcHDm81xQpejEfG9tG0OW0wpUja8PDH9taLeKtC
+    j6v1tyLh9WgYm9Ilupq+YObs/FZRzA53itNyr9u4iEHI1PLhf7sTwxy7FiCXuHsw5tp8
+    4mQ0dw2669ZgmjscKTRsDkBaDI94Z5pJA1jJMqzp4RH5qN6+ZRNf1AkCUkkT3Hun4jmg
+    WqZUsE6yRqcxC9FSAH+ch1EwBQzE+8YLgHl5sNG+DBWg1jdAh5r4SNYuSYIUpc0GAY3x
+    X3tg==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo00
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1718549338;
+    s=strato-dkim-0002; d=clisp.org;
+    h=References:In-Reply-To:Message-ID:Date:Subject:To:From:Cc:Date:From:
+    Subject:Sender;
+    bh=410oC8I4ziyX3BumMHp1yVJ/zqRTSanJ/0d4kwPQits=;
+    b=navqxUEGFpIiF3FGqrcB9rZCYP1AAr4rl5nSjGa6ZKH7SXfK/bd7/KUQBWai7NTE3Z
+    34BrsSWxPI4aKbGItsm5afxJeJx9njYInyR2uZSw3nftWi7vcjs65UIMLAygyJ0mLFF2
+    NPu1YR0leYD88nNjEWFohBDOtoO3dvhHaQ2fkkoWsgUxsm60jyn2UhefWlk8IPZiiky5
+    ZzNerGJu5zGsRLDZDVai9ZfM+mD01esBjEtoOngjeNpwlBU7YtPqkS/ejFMQsrMWHWN6
+    ZLg3QhYReFbhBkzFyQiZVrhB60zrzbjq4ScrQMclYA8Uwgz6tFdnFukQ2jGq6hbFvq7W
+    5nuw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1718549338;
+    s=strato-dkim-0003; d=clisp.org;
+    h=References:In-Reply-To:Message-ID:Date:Subject:To:From:Cc:Date:From:
+    Subject:Sender;
+    bh=410oC8I4ziyX3BumMHp1yVJ/zqRTSanJ/0d4kwPQits=;
+    b=LHCaUZCQE8hVjLeExMrI2C/+RGlIjjbfOfDYs4FXTQnjW6WSL4wFT476+B7slrh1sN
+    wUGTDa/qDHmZfAK04DDw==
+X-RZG-AUTH: ":Ln4Re0+Ic/6oZXR1YgKryK8brlshOcZlIWs+iCP5vnk6shH0WWb0LN8XZoH94zq68+3cfpPF2vEbQWeo9XCXXKo6QaGy+FFm"
+Received: from nimes.localnet
+    by smtp.strato.de (RZmta 50.5.0 AUTH)
+    with ESMTPSA id N0957e05GEmwUX3
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Sun, 16 Jun 2024 16:48:58 +0200 (CEST)
+From: Bruno Haible <bruno@clisp.org>
+To: distributions@lists.linux.dev, "Andreas K. Huettel" <dilfridge@gentoo.org>
+Subject: Re: packages released with libtool-2.5.0 likely fail to build on mips64
+Date: Sun, 16 Jun 2024 16:48:58 +0200
+Message-ID: <4353915.VTH2PmbeCk@nimes>
+In-Reply-To: <3299713.44csPzL39Z@pinacolada>
+References: <3299713.44csPzL39Z@pinacolada>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart8384318.T7Z3S40VBb";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-
---nextPart8384318.T7Z3S40VBb
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
-From: "Andreas K. Huettel" <dilfridge@gentoo.org>
-To: distributions@lists.linux.dev
-Date: Sun, 16 Jun 2024 16:27:26 +0200
-Message-ID: <3299713.44csPzL39Z@pinacolada>
-Organization: Gentoo Linux
-MIME-Version: 1.0
-
-When a tarball has been generated with libtool-2.5.0, the check for=20
-dynamic library capability will fail on mips64.
-
-(find is not found and the linker emulation is constructed incorrectly.)
-
-https://git.savannah.gnu.org/cgit/libtool.git/commit/?h=3Ddevelopment&id=3D=
-9a4a02615c9e7cbcfd690ed31874822a7d6aaea2
-
-
-=2D-=20
-Andreas K. H=FCttel
-dilfridge@gentoo.org
-Gentoo Linux developer
-(council, toolchain, base-system, perl, libreoffice)
---nextPart8384318.T7Z3S40VBb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
 Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Andreas K. Huettel wrote:
+> When a tarball has been generated with libtool-2.5.0, ...
 
-iQKTBAABCgB9FiEE/Rnm0xsZLuTcY+rT3CsWIV7VQSoFAmZu9k5fFIAAAAAALgAo
-aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldEZE
-MTlFNkQzMUIxOTJFRTREQzYzRUFEM0RDMkIxNjIxNUVENTQxMkEACgkQ3CsWIV7V
-QSrJdA//Zqrb2OMMW49fre4s3ycLmKp8OJMnKq044rdrB9R11g18kAjOOaa++u+u
-64ElakWoQRSQW4aSGeT7ShO3Zm0c54hWmgdNRr9QDWoSWp1W0wopqTKMYDN4Y17V
-YyIkvOtRlXUvB9sj568NBvDXO5t4DQUYgxSWO8gXDbL93aN61xF3q+4YcBklmmVH
-9nprIokNah3NG65LR6Uc3fYU6mBBwe4cNVQeHcOJg/PzCgy9cWghS3V1Ajl/RydB
-pspY2qRL+PHkpj/NhkfrMe/zSCFCOFFuRA66fZt+8rjAU6KK6A+Y+IWpvAzf/4vp
-SdJYCt0oS/+or+YhpubwXEfdYSaRfkyF5S+pOBdXOe6mjWcVz8AkptUi6RI3BQDw
-5DE2AMCEOulHouM1KMYxfTnUIWDW4DQshSSo4MUwvElPOoqKxW1LPp+4tK7tZWnE
-+I6wex5ZjWSgaNOIj+4UMGLsUAxct0mCuhBa6G6MRwPspRkqdiPs/iVeHF+9TnOW
-BPmBNxZdSKl5c/OFUy9QL77MWZJbBTYpnk0h+vLBLUoiMyWln9boXLcmrGn8/FZ8
-CH0/ezBPjP3qhwzn0BoDLe573F5uPA6E8DTSnVRvXrE8Eb3GHtV2T1+sM33y/xQY
-W8RvOZB44LehkxH0QeftsEO9XWv1SI5ff1xjI2lRdNo6vxeXPWI=
-=ubtg
------END PGP SIGNATURE-----
+Why would anyone do that? libtool-2.5.x are unstable (testing)
+releases, distributed through alpha.gnu.org, not ftp.gnu.org.
+Explicitly classified as an "alpha" release in the announcement [1].
 
---nextPart8384318.T7Z3S40VBb--
+Bruno
+
+[1] https://lists.gnu.org/archive/html/libtool/2024-05/msg00006.html
+
 
 
 
