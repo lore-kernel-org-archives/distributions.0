@@ -1,24 +1,24 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BF023746
-	for <distributions@lists.linux.dev>; Thu,  4 Jul 2024 17:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F68E9441
+	for <distributions@lists.linux.dev>; Sat, 20 Jul 2024 03:20:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1720113630; cv=none; b=vDJ0/xbmf3kTTVIHfIG79HUwQjeY2MHSKEytx1gzHx5ogsC2V5qBdvoitiBwaYXXWnmmRwJlDAifh9pxzrS8p1OPNyn8g2b9YCztCebwxIujRxtQWMUaTazkhBfgomVxyErwucm3Sp3cShHajUvSlAr32FGYqWAcvoZcQmcoG4k=
+	t=1721445613; cv=none; b=QJkSAthKZYoF9mYkreRZpoi8HZCM13hNObL0VgilLhBtB3Pma6FgoeLhy4QCJ+WlBLfE3M8T9iEGjVAuUveqoONhHWJiUR8ZlgKzwSVgA5g22rxY2wAgeNbPLlmjojgNl3KyBByl3qMT43QWPtszM+p1Lvc2welM0IfhLUQBXRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1720113630; c=relaxed/simple;
-	bh=MHAbpAeRzssUTEWOa1qfRR8nvOg3+MGoHIiE7kyl+vI=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Cv0CjhWnkJHaq2dQq2bQqwEt2DduA562Zq37gQvU59NdACU7nGzit4x23BQDBkUE+JeAdalg49XH6A02D9mocnMAKvfXC7nWIamUxWLjbb6+2oIMMWCK5QCRo7Q3AChgd2LIDFU61lJqW4/4MEsMVMTh78f+/1XEwspLcP4ysV4=
+	s=arc-20240116; t=1721445613; c=relaxed/simple;
+	bh=bJrr5tLOWaBhijrIA554xuAGV6/V0GssU7dwfe5DvZE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bJ37xSgVGZNfPDQGUhSGBr0by1y9aRQcA4Ya1JI83e4ipjHB7mP7H28e48b9EhhcgVYvt8Awu64tQMu8R2tuT5s/WpCUtAb4oe53T9mw+s/e5y4rzIlfkjj5DYiV+y/wK3zSxeE4tfmWWC9odW+DFWrhYkTEcLEyFJ1rNjYpbo4=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
 From: Sam James <sam@gentoo.org>
 To: distributions@lists.linux.dev
-Subject: Aliasing violation in boost-1.85 (container)
+Subject: fail2ban compatibility with openssh-9.8
 Organization: Gentoo
-Date: Thu, 04 Jul 2024 18:20:24 +0100
-Message-ID: <87cyntm5uv.fsf@gentoo.org>
+Date: Sat, 20 Jul 2024 04:20:07 +0100
+Message-ID: <87h6ckyck8.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
@@ -31,23 +31,17 @@ Content-Type: multipart/signed; boundary="=-=-=";
 --=-=-=
 Content-Type: text/plain
 
-Hi,
+Hi!
 
-boost-1.85's container module has an aliasing violation so it may well
-be miscompiled and give bad results.
+Those of you shipping fail2ban with >=openssh-9.8_p1 may wish to
+backport https://github.com/fail2ban/fail2ban/pull/3782 to fix filter
+compatibility.
 
-See the following:
-* https://bugs.gentoo.org/932780
-* https://bugs.gentoo.org/933289
-* https://github.com/boostorg/container/issues/252
-* https://github.com/boostorg/container/issues/281
+See also:
+* https://github.com/fail2ban/fail2ban/issues/3747
+* https://github.com/fail2ban/fail2ban/pull/3782
 
-The upstream fix is https://github.com/boostorg/container/commit/20ad12f20e661978e90dc7f36d8ab8ac05e5a5a9.
-
-The backport we applied in Gentoo (mirror) is
-https://github.com/gentoo/gentoo/commit/4bbea521152678132cf0b02e3a152481523b3078.
-
-best,
+thanks,
 sam
 
 --=-=-=
@@ -55,11 +49,11 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZobZ2V8UgAAAAAAuAChp
+iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZpss518UgAAAAAAuAChp
 c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
 NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
-by5vcmcACgkQc4QJ9SDfkZA7GwD/U0oCd0cBA8v7KtvISUfJ5xMR31BgYr7sLVXE
-cdCOI7gBAJlyG9tt8AL9OVgTlWsplz1GuBBO82LLqr1KQMrmVbMD
-=rA68
+by5vcmcACgkQc4QJ9SDfkZAxlAD+NYLEvceqgXW/vgv+NDoEAuIIWfoO2f8J86nb
+83e7OlEBALGZ7g8f+Dwj50MlDaH6RhA/9DJQRXZ028HyA+qE7tQE
+=RfIV
 -----END PGP SIGNATURE-----
 --=-=-=--
