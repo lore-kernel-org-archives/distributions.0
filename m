@@ -1,100 +1,95 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CDD11C3D
-	for <distributions@lists.linux.dev>; Sat, 20 Jul 2024 03:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349B916B397
+	for <distributions@lists.linux.dev>; Mon, 22 Jul 2024 13:32:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1721447990; cv=none; b=Xj6mMBfWWjxCfRHBTzzwNOhu+MYT6IuUfuawPIvg7lET9T7yA6uY513kWruxFO40kDPyZIRXCFGKkoHZyNdTtAfy70AQi84wIi/lW0fFagRFPeFCVovdAcLeJ789TxN6mBTpZJN8oEKaUIgACeT+grCfUDJIk9PSZDMO/WUakDU=
+	t=1721655151; cv=none; b=bml8BBeuXmy2vK80UAabDegcaV0TZA4tPD262WaL91S9eOsUYmMas5HpjX9qBzEomaF1rIiaZnkoJDxoSgCVEBb7TV+1VPBtRCF/MKCo2MKI4iSxjP/EFY4h+zeaukrqrlcm7gzxiBQAO6Mw5VX6VTJcHZ/f9RT4NpGhFyTcjH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1721447990; c=relaxed/simple;
-	bh=KEvC5TwwPoVQuWHM33sH6ec+WVZz9ZEqv44r5iQjOEc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GXp74PBXKKmeVq4qtlAr8/+JBhu/owULkmcBBBVw9aUDCjv6YFcSvewWVtq6hv9Ty/GmFucatd+2yBFJvxFyDHZ3BIGKOY3j+VsLlZYcLWmJpSlKgk24ZD1a17regMpIuJsAYvCzHochbBrMlObn54Klk9JbpKyUYtbzzYU+GEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gompa.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2eeb1ba040aso38103281fa.1
-        for <distributions@lists.linux.dev>; Fri, 19 Jul 2024 20:59:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1721447986; x=1722052786;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KEvC5TwwPoVQuWHM33sH6ec+WVZz9ZEqv44r5iQjOEc=;
-        b=b5L9AfMexkqbBVTe2j+gurqpf74blXJlOBnYOvmgXRUOlsyJDMxa1FiVwWyjyLIUmd
-         A870VfUZgYJzf32h/hkqbrssXhrreRQ8wJeOUVnH5+dyT+TWqIXGDiiCelM3IDmE/ggh
-         0vUeEM/uEg7GXfIYTLN6YOSv2LXBOJ3ZodEvWUThwm1uGGNGshyagt2qMA4fPDH9a9SM
-         XPqUhHdhJT5oQj304FTSc29ulVgPAAxpoJQHoDPPIYJMJEwVe3OYA4nNhpbYxtQjtmUN
-         2dEeNykcJPc5boAu5PrCrhVIM3E8MJrp2T799mBkuekHqUvxSVrhqkiR8hChRfVGNlsf
-         NCHw==
-X-Gm-Message-State: AOJu0YwkN1yyaz4yk3QI9EDtnuCUk7gwDhGDlRXCgT548q8sSSR6RYPn
-	yxlvmq9faK9H+IDX1fPZPjCZzbQ8tONa8G8kajkU8uTlJLeFjhO+hrsvLcd/
-X-Google-Smtp-Source: AGHT+IFrnBfSSXUi4gAixW3+B/LaclP/FAfVtu4FB//ekz9BeOTufUR/SByUOPtLbfEta2S9zfMRTw==
-X-Received: by 2002:a05:6512:3d1a:b0:52c:e012:efad with SMTP id 2adb3069b0e04-52efb64c884mr212787e87.12.1721447986101;
-        Fri, 19 Jul 2024 20:59:46 -0700 (PDT)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52ef99ea4a1sm115725e87.157.2024.07.19.20.59.45
-        for <distributions@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jul 2024 20:59:45 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2ef1c12ae23so2584511fa.0
-        for <distributions@lists.linux.dev>; Fri, 19 Jul 2024 20:59:45 -0700 (PDT)
-X-Received: by 2002:a2e:9cd2:0:b0:2ee:8573:eb51 with SMTP id
- 38308e7fff4ca-2ef1684cfd6mr9426271fa.34.1721447985135; Fri, 19 Jul 2024
- 20:59:45 -0700 (PDT)
+	s=arc-20240116; t=1721655151; c=relaxed/simple;
+	bh=XXLGwvoIpm1JOdZWfh7Sl7OB2L55H1pgv7BfCED5Dkc=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=YWT5zukn3189QPR89hbyck88eDWwHYyDthbGFZsBMcXTk0G5UDRCGGPfJjy9Sne0jnsPZBAfINLaWLLlxj/dYRTPbF+iRjrTmkc30SMdscVFFvCxpgv2bKX0bOZhfNJTIEB+chUSMwGzjNmANUbAFcmPApammA5m1yuv+MgIwTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Message-ID: <3efaeed6-3277-4355-ba21-4389b26d35cb@gentoo.org>
+Date: Mon, 22 Jul 2024 16:32:25 +0300
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <87bk2syc9r.fsf@gentoo.org>
-In-Reply-To: <87bk2syc9r.fsf@gentoo.org>
-From: Neal Gompa <neal@gompa.dev>
-Date: Fri, 19 Jul 2024 23:59:08 -0400
-X-Gmail-Original-Message-ID: <CAEg-Je8mVC90uROeYXOG8BXnP2tnF+pRDwensYXsdve9aNuthw@mail.gmail.com>
-Message-ID: <CAEg-Je8mVC90uROeYXOG8BXnP2tnF+pRDwensYXsdve9aNuthw@mail.gmail.com>
-Subject: Re: mesa-24.1.4 incompatibility with unpatched ffmpeg
-To: Sam James <sam@gentoo.org>
-Cc: distributions@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: distributions@lists.linux.dev
+From: Joonas Niilola <juippis@gentoo.org>
+Subject: Firefox-128 "Privacy-Preserving Attribution" and distribution
+ defaults
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Bk8IqpMgqPLUrdj10vjsvDdV"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Bk8IqpMgqPLUrdj10vjsvDdV
+Content-Type: multipart/mixed; boundary="------------hvgxnQrzcLG1JNMdvm9FQLIG";
+ protected-headers="v1"
+From: Joonas Niilola <juippis@gentoo.org>
+To: distributions@lists.linux.dev
+Message-ID: <3efaeed6-3277-4355-ba21-4389b26d35cb@gentoo.org>
+Subject: Firefox-128 "Privacy-Preserving Attribution" and distribution
+ defaults
+
+--------------hvgxnQrzcLG1JNMdvm9FQLIG
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 19, 2024 at 11:26=E2=80=AFPM Sam James <sam@gentoo.org> wrote:
->
-> Hi!
->
-> For those shipping mesa-24.1.4, please check whether your copy of ffmpeg
-> has the patches at https://gitlab.freedesktop.org/mesa/mesa/-/merge_reque=
-sts/29400#note_2432971
-> applied, i.e.:
->
-> * lavc/vaapi_decode: Make it possible to send multiple slice params buffe=
-rs
-> ** https://github.com/FFmpeg/FFmpeg/commit/fe9d889dcd79ea18d4dfaa39df4ddb=
-d4c8c3b15c
-> * lavc/vaapi_av1: Avoid sending the same slice buffer multiple times
-> ** https://github.com/FFmpeg/FFmpeg/commit/d2d911eb9a2fc6eb8d86b3ae025a56=
-c1a2692fba
->
-> At a glance, I don't _think_ those patches are shipped in any release or
-> backported on any of the ffmpeg branches yet, but please don't take my
-> word for it as I only looked briefly and will check properly
-> later. Apologies to ffmpeg if I'm wrong.
->
-> Firefox's bundled ffmpeg is also affected, see below.
->
-> Other references:
-> * https://bugs.gentoo.org/936310
-> * https://gitlab.freedesktop.org/mesa/mesa/-/issues/11533
-> * https://phabricator.services.mozilla.com/D216919
->
+Hey,
 
-Note, this also affects distributions shipping 24.0.6 or newer, too.
+so probably everyone has heard about Mozilla's "PPA", or
+"Privacy-Preserving Attribution" addition to Firefox-128.0 release.
+Quite rightfully the Internet has been furious about it, but Mozilla did
+communicate afterwards with their intentions.
+  https://andrewmoore.ca/blog/post/mozilla-ppa/
 
+https://www.reddit.com/r/firefox/comments/1e43w7v/a_word_about_private_at=
+tribution_in_firefox/
+  https://support.mozilla.org/en-US/kb/privacy-preserving-attribution
 
+So far I've only seen Alpine toggling this option off with their Firefox
+package. Most likely other distro maintainers out there have received
+inquiries about toggling it off from your users, and most likely you
+distro maintainers have pondered what to do with it even without
+requests from your users. Therefore I'm asking: How are you feeling
+about the option overall? Should "all" distributions turn it off by
+default for our users? That'd send a message to Mozilla, but the result
+could be that next time the option isn't toggleable...
 
---=20
-=E7=9C=9F=E5=AE=9F=E3=81=AF=E3=81=84=E3=81=A4=E3=82=82=E4=B8=80=E3=81=A4=EF=
-=BC=81/ Always, there's only one truth!
+Here's an upstream tracker about PPA:
+https://bugzilla.mozilla.org/show_bug.cgi?id=3D1900929
+
+-- juippis
+
+--------------hvgxnQrzcLG1JNMdvm9FQLIG--
+
+--------------Bk8IqpMgqPLUrdj10vjsvDdV
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGTBAEBCgB9FiEEltRJ9L6XRmDQCngHc4OUK43AaWIFAmaeX2pfFIAAAAAALgAo
+aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldDk2
+RDQ0OUY0QkU5NzQ2NjBEMDBBNzgwNzczODM5NDJCOERDMDY5NjIACgkQc4OUK43A
+aWK5cAgAuCeVoj5VePagvp9jKIphiWHCMVeIBvSiHpBiREr1V4qxEvfjJed8ZzlW
+N8t7qvgLlpppoANLL3rFrIDiHXEi8IcGZxp48wfaZjaMhkEVe6HMshS+oW8fhNJa
+1pSZwiVTRON43px9aodqgUeQ7pISoLLu7+LevOWpVWlGF1AvLRxMFFlHDRjcOYBH
+dMlP47STZHUV3O3GM3y6ww5FZOG69HvP9Mj/bx4GnFhmMw4XMrIyVymQgyJho+Ph
+AP76MM349m4M0m7vlQY+TYmbXuTlcd4dXG1zH2b5Sxh70zvbBDM8UnhFjuMo6+pn
+WZOzFtZeieW/O3RmgoIzrY59S8Dayg==
+=LL9k
+-----END PGP SIGNATURE-----
+
+--------------Bk8IqpMgqPLUrdj10vjsvDdV--
