@@ -1,59 +1,36 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cheddar.halon.org.uk (cheddar.halon.org.uk [93.93.131.118])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F8A4A1A
-	for <distributions@lists.linux.dev>; Thu,  5 Sep 2024 00:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8681FDA
+	for <distributions@lists.linux.dev>; Thu,  5 Sep 2024 02:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.93.131.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725496364; cv=none; b=RUAcf0PUN5ZVZC6emk0u9oGweRmO8rKMY7WCQ00RvQhqvoU8ImrquqYOS/311yD9SgPd/qumqgYntQYCX8kkGmj/psxHczkobGQ6AYbFBCOJrfUXcPQijWOAQvNSa1TTVCJpdFjNS6r/pDR46PW9xIYqmAuyC6WxY26yfdj9yZ0=
+	t=1725504533; cv=none; b=QA9YaXZjZIk4y90FXKyt7dNxKVl2hYeWa6HoULRsZfJFjimpwE4E2l4LEYT+j4zSR0V2+etjvKj/FrWT63x17VW7dPdI3XPw0sRFFeFWqxuLCkPta/oVKMNK33tPFRO4ptoK7xFGmZkzYe222kX8HCr8qVg42/sHaH/EsggjBdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725496364; c=relaxed/simple;
-	bh=NmwY81eA5jeD3m57KBfglIRFkhPZOEUjZJDVGfORWAU=;
+	s=arc-20240116; t=1725504533; c=relaxed/simple;
+	bh=DUQUMBwiriQaS+l0iRCgPSDEoS2jDUrTnvoejeHX+YI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jKT+KZEefmT5rB143hO5FmEQOM/7/FE9++PNisUZAQeJ/UpwwjKdzUau7WDU/jWnKwEiO6z9IjcgYOKht9ZzyAoSql22e12hhPC+8gT0I5HOHFArou2INPiqwyt2YYlX7Iicns0w6+Yp7apbyIANsYj7+1U5NU1FpqxFyqyFTQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fAQYW6Dx; arc=none smtp.client-ip=209.85.210.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZiWUGvHlhW64oNDOHNlHp+G8tPBr+L1wdQS05zLBC56J2NuG6v8TlWOQVacRrnlxOVd3Y3OsZFdUEouOaDviQaMDq90M2+VopEGSEAuGbok4teDjaoqtBH5fkJKVbn/wklp1NRYi9nMN4slVv3S1KuXggvQh/pspIQf7SeMTzeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wookware.org; spf=pass smtp.mailfrom=wookware.org; dkim=pass (2048-bit key) header.d=wookware.org header.i=@wookware.org header.b=b71i0k03; arc=none smtp.client-ip=93.93.131.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wookware.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wookware.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fAQYW6Dx"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7092dd03223so86358a34.1
-        for <distributions@lists.linux.dev>; Wed, 04 Sep 2024 17:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1725496362; x=1726101162; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mUZhFLa+f2LyA5F2VdNmJi0OsQqwg+iXgf0CF2Q0KZM=;
-        b=fAQYW6DxbxGbpE/nWaE7toiKqHpIo690oT9RANq/oGRnLKXBANs7acgqIiXgvYj7MR
-         PHbWd4/sAw4Gt36TbKf/zcE2anum4mPMTNzCZbDDDACvApSVELO6HcmEc2Ajj054UiWX
-         fVTq+0XKDEpbrHN63uzNmgJsbPyE4HJVNIhAEUtzrvBTOVRf1aBjYykODFCzMIwUdibV
-         REWd5sA3ayuit0NZsRbDai4cmZyaDdQb+OZTuJCAYHTzzI2N0HXFsAtUlQz5X8Pw5+0y
-         TDsJ3JcEr7VQ+7Oo0hKvDD0ZNleJKI5ZpG4mbaEZHNHPVYOZlrCedHFQPp2GoIr+ZxhT
-         OCyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725496362; x=1726101162;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mUZhFLa+f2LyA5F2VdNmJi0OsQqwg+iXgf0CF2Q0KZM=;
-        b=LmrOhikBlCKsE0doc0hYcbERJ6s1SHJuCzHsgM11guTdAXqbxpboX0zNlCOGxODwQr
-         2mo++rN+T/Aenu90RsgSs3Wv+R6P0kGp4bphvZETrOQ4Wi3wjh/P0YuL6laCSFKCStXu
-         tLA3MXrjjXshFr0vg/Rws1wPixQGW5U3RSgv85xqRtMRwugDyXKDBha3oavvH8JoeCff
-         hHhhx5t6TMNyfk1a4v30P4o5+AFIpnKlzTKSy2isHwBvxsGxR/kUov1s9fbDohncaDtC
-         KMtHN1PQy72xcZcCiQZ8NsEdiXYGMxW75fZmvq5cOcqiEQ17w8obOFpZLFm81dUGfr2p
-         /9ug==
-X-Forwarded-Encrypted: i=1; AJvYcCXHyWQ39FKeHZrFXLmHrqT25kzscrCfPWdqjY6ozkplygrxfI/SCQx6m7BEZIwskXWooz0AQF2YsddwZN7b@lists.linux.dev
-X-Gm-Message-State: AOJu0YyhflSOyuzfkCSnxk+578msmDG00ijrQ9/U8F6BG9CrlWX1Taf9
-	VteJReF7lVfjMphd4ovmDhm5VHyizXU52XAe2nZnh8RnqkF92AEH
-X-Google-Smtp-Source: AGHT+IF4fVIPOsWqETpJ7hyJIABIcl+6AlCDgeQw2HDpyGBmrhuBz1IOatPSKDhTsc4J+b1PL+VmfQ==
-X-Received: by 2002:a05:6830:620e:b0:709:33ee:f578 with SMTP id 46e09a7af769-70f706fdf90mr20232802a34.14.1725496361623;
-        Wed, 04 Sep 2024 17:32:41 -0700 (PDT)
-Received: from dj3ntoo ([2607:fb90:8a0d:69fb:5bbd:882a:2101:3f1])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70f671c4278sm3082677a34.76.2024.09.04.17.32.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Sep 2024 17:32:41 -0700 (PDT)
-Date: Wed, 4 Sep 2024 19:32:38 -0500
-From: Oskari Pirhonen <xxc3ncoredxx@gmail.com>
+	dkim=pass (2048-bit key) header.d=wookware.org header.i=@wookware.org header.b="b71i0k03"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=wookware.org; s=cheddar; h=In-Reply-To:Content-Type:MIME-Version:References
+	:Message-ID:Subject:Cc:To:From:Date:From:Reply-To:Subject:
+	Content-Transfer-Encoding:Content-ID:Content-Description:X-Debbugs-Cc;
+	bh=0500nuRmYeemHSavz2BhEd+SJf6vVwdkhN+WmTHYDp0=; b=b71i0k03FcFg2HxTY0M0BWQsMq
+	VDvddjpTmw3HulvI/sRT7RueSwqwqRa1BY1ApKO3yqGEzrYq/e/HH8H4nk2OQmBej+8zTwl2gm9gy
+	yybNDw35mW1lGyOeqQNRIxevBc1JeinUQn05udaamTtF2F9v9+Ci7942FWDyfQ/dlNSBMG+ZdvHo5
+	ShHLv+IFxcq44EygzerDZyJ9rp5lwStOIwRC6mfVMM0qOz2BJ7JoST/a8fOzlap3SkNX0y5Eo0apX
+	fCqim0SdAlplCLfzRLcCU3A3yunIwaZVIBQige2aXR1tqnisP49eodWEWV+WvsrIXErCJa+Cb9Rr8
+	9+tgWMYQ==;
+Received: from wookey by cheddar.halon.org.uk with local (Exim 4.92)
+	(envelope-from <wookey@wookware.org>)
+	id 1sm1t3-0002VC-VG; Thu, 05 Sep 2024 03:06:17 +0100
+Date: Thu, 5 Sep 2024 03:06:17 +0100
+From: Wookey <wookey@wookware.org>
 To: "Andreas K. Huettel" <dilfridge@gentoo.org>
 Cc: libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org,
 	config-patches@gnu.org, distributions@lists.linux.dev,
@@ -61,13 +38,7 @@ Cc: libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org,
 	maskray@google.com, dickey@invisible-island.net,
 	toolchain@gentoo.org
 Subject: Re: Proposed CHOST change for the 64bit time_t transition
-Message-ID: <Ztj8JtJ638FHPW_3@dj3ntoo>
-Mail-Followup-To: "Andreas K. Huettel" <dilfridge@gentoo.org>,
-	libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org,
-	config-patches@gnu.org, distributions@lists.linux.dev,
-	devel@lists.fedoraproject.org, glaubitz@debian.org,
-	maskray@google.com, dickey@invisible-island.net,
-	toolchain@gentoo.org
+Message-ID: <20240905020617.GZ23787@mail.wookware.org>
 References: <4996568.GXAFRqVoOG@noumea>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
@@ -76,66 +47,142 @@ List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="0l//PxkQOa9boaIv"
+	protocol="application/pgp-signature"; boundary="7v2SkOxZkOkgWk1E"
 Content-Disposition: inline
 In-Reply-To: <4996568.GXAFRqVoOG@noumea>
+Organization: Wookware          
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
 
---0l//PxkQOa9boaIv
-Content-Type: text/plain; charset=us-ascii
+--7v2SkOxZkOkgWk1E
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 04, 2024 at 17:48:04 +0200, Andreas K. Huettel wrote:
+On 2024-09-04 17:48 +0200, Andreas K. Huettel wrote:
 > Dear all,=20
 >=20
 > in Gentoo Linux we want to change our CHOST triplets for 32-bit glibc sys=
 tems that use 64-bit time_t, since
 > this is technically an ABI change which breaks binary compatibility [1].
->=20
-> We are thinking of adding a "t64" suffix to the ABI field, resulting in f=
-or example i686-pc-linux-gnut64,
-> armv7a-unknown-linux-gnueabihft64, ... [2]
->=20
-> * So far my research indicates that in the GNU toolchain (gcc, glibc, bin=
-utils) anything behind -gnu is=20
->   ignored (as ABI version, which this effectively is too). Is this correc=
-t or do you foresee problems here?
->   I've had a small chroot rebuild itself (the Gentoo @system set) with i6=
-86-pc-linux-gnut64 and only had to
->   add a minor patch to ncurses [3]; everything else worked fine.
->=20
 
-=2E..
+> * In an ideal world this change would be synchronized across distribution=
+s. Opinions? [5]
 
+Debian considered this issue over the last 18 months/2 years, and
+found very little enthusiasm for making new triplets. Every distro
+that is using 64-bit time (on 32-bit arches) just enabled the flags
+and changed the ABI without setting a new arch/triplet (or they have
+dropped 32-bit stuff entirely so sidestepped the issue).
+
+Given this, and because users would like to just be upgraded to 64-bit
+time, not have to install a new architecture, Debian and Ubuntu
+decided not to try and push a new triplet and do a library-name ABI
+update within the architecture(s). That went ahead between March and
+June this year and is now pretty-much done, modulo a few outstanding
+bugs
+(https://bugs.debian.org/cgi-bin/pkgreport.cgi?users=3Ddebian-arm@lists.deb=
+ian.org;tag=3Dtime-t).
+
+Debian's thinking and status is summarised here: https://wiki.debian.org/Re=
+leaseGoals/64bit-time
+
+So it's interesting that in fact Gentoo _does_ want to do this, but it
+seems to me that this is now a done deal, and 'everyone' has already
+switched within the existing triplets, even Debian, which is the
+hardest place to do this because it involved 1100 library transitions,
+with another 3500-odd rebuilds.
+
+> [1] The ABI of glibc does technically NOT change, however, the type defin=
+ition of, e.g., time_t does.
+>     And as soon as any other library includes that in its public interfac=
+es and data structures, that library
+>     changes its ABI.
+>     An example for an affected library (found real-world during testing) =
+is gnutls, see=20
+>     https://bugs.gentoo.org/828001
+
+Yes. We did a big ABI analysis to find out how many libraries were
+affected (including LFS which glibc ties into this transition) and it
+was about 700. (there were quite a few more where the automated ABI
+tools failed and it was easier to do a transition than work out why,
+so we ended up transitioning 1093 source packages
+(https://people.canonical.com/~vorlon/armhf-time_t/source-packages).
+
+So yes it's an ABI change, but we don't always change the triplet for
+this, sometimes we just move the baseline along. This happened in the
+last for glibc 5->6 and libstdc++ v4 to v5 and the long-double
+redefinition in s390,alpha, sparc, powerpc. In fact, considering the
+whole-distro collective ABI, this happens every time there is an ABI
+change in a library. The arch/triplet remains the same, but the new
+release has a different ABI in some number of libraries and
+dependencies.
+
+So it's always a choice whether the triplet should change or it is
+just treated as an update, and usually the latter is chosen. This was
+a borderline case that could have gone either way, but people decided
+to do it as a transition, not a new triplet.
+
+Are you sure gentoo will gain enough value from going it alone here
+and defining a new triplet? Because every other distro will have (has
+already got in fact) the t64 ABI with the old triplet.
+
+
+> [2] We've brought up this issue previously, just somehow it never caught =
+momentum. See, e.g.,
+>     * https://sourceware.org/pipermail/libc-alpha/2022-November/143386.ht=
+ml
+>     * https://sourceware.org/pipermail/libc-alpha/2023-January/144963.html
+>     A more detailed discussion of different possible approaches in Gentoo=
+ can be found on a wiki page=20
+>     maintained by Sam,
+>     https://wiki.gentoo.org/wiki/Project:Toolchain/time64_migration
+>     Discussions within Gentoo have led to the conclusion that a new CHOST=
+ makes most sense, with
+>     the old one staying at 32bit time_t for legacy binary support as depr=
+ecated option.
+>=20
 > [3] https://bpa.st/HV6BS
+>=20
+> [4] https://sourceware.org/pipermail/libc-alpha/2022-November/143386.html
+>=20
+> [5] Note that this entire issue / proposal only affects 32bit architectur=
+es and distributions.=20
+>     For Gentoo this would be ix86, arm(32), hppa, mips(32), m68k, ppc(32).
+>     riscv32 is special since from beginning it only has the 64bit time_t =
+interface.
+>=20
+> --=20
+> Andreas K. H=FCttel
+> dilfridge@gentoo.org
+> Gentoo Linux developer=20
+> (council, comrel, toolchain, base-system, perl, libreoffice)
+> https://wiki.gentoo.org/wiki/User:Dilfridge
 
-FYI, this paste expires in 1 week. Here's the contents:
 
-diff '--color=3Dauto' -ruN ncurses-6.4.orig/aclocal.m4 ncurses-6.4/aclocal.=
-m4
---- ncurses-6.4.orig/aclocal.m4	2024-08-29 20:47:34.978057133 +0000
-+++ ncurses-6.4/aclocal.m4	2024-08-29 20:48:57.809473044 +0000
-@@ -10139,7 +10139,7 @@
- 	cf_xopen_source=3D"-D_SGI_SOURCE"
- 	cf_XOPEN_SOURCE=3D
- 	;;
--(linux*gnu|linux*gnuabi64|linux*gnuabin32|linux*gnueabi|linux*gnueabihf|li=
-nux*gnux32|uclinux*|gnu*|mint*|k*bsd*-gnu|cygwin|msys|mingw*|linux*uclibc)
-+(linux*gnu*|uclinux*|gnu*|mint*|k*bsd*-gnu|cygwin|msys|mingw*|linux*uclibc)
- 	CF_GNU_SOURCE($cf_XOPEN_SOURCE)
- 	;;
- (minix*)
+Wookey
+--=20
+Principal hats:  Debian, Wookware, ARM
+http://wookware.org/
 
---0l//PxkQOa9boaIv
+--7v2SkOxZkOkgWk1E
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQQfOU+JeXjo4uxN6vCp8he9GGIfEQUCZtj8IgAKCRCp8he9GGIf
-Ef64AQDRWB3iutTanlfsHGLAbzDqCRo0QhDIAYHXyhtajll7YQEA07Ox/xR/RILT
-mphlh5QIfnqRrE95HnV0tqSB97k0Fw0=
-=Zh2M
+iQIzBAABCgAdFiEER4nvI8Pe/wVWh5yq+4YyUahvnkcFAmbZEhMACgkQ+4YyUahv
+nkeEWA//aFQSabQJcwsKBo7cdm3uB3ruyXkPEFtW0ky85hzYlE1HhDxm9gghasCN
+OrtC20KnXZlPk8f0LSXRVCYenfG8w7mJMI0sfVYaBP6mk+0BlQm8nxe9Gtn99s44
+RLwaUa7FspWcwFbOxujDCJgedpxqMNU6lXoamQePlqeXGd4Pjkz8W+0+SlYStj/9
+OYfThuPBOCUV3ODSSRX27nd33D+FxJa6AVJTlRNqlMM8szUJ5aIcf61gjf+je2p7
+uQAe06ApBtx5MNKYbKSWTKvrvbNFwUkSXL4RqKpPb4fdMz4fWWKqqHtayzzT9XKV
+ZE4hq8q33fpM2cIJWEnAkfuu/F2R+byYMe7GwZS38VO4QX5t4T3vyyAzqlUp2twW
+nsAKe1r/5WqAUjTl5/A1pOTB80CK9KM6JB/n4z+58+aDjT4TrzymQCN5zkWzW0yf
+EWHUOx2MVdn1t2pn5odmnbaBu7vqLysCrwtE2bqpFe07vj9po7DIPeWvbo39yy+N
+rq/qSt/FUQ3hLWGCAmYHAenOwhtDfXz8AZfwUIvs88rrf+Z1NfeabpeygPg/zyH9
+EXWemxV6qw/Sfk/+/kJJ1It804V6Qzh7rYIvGoDBcygMntVMYwYnXRDERtuoj0hZ
+9WujFpjQ6/yvpDUyl28LqVZ5drumgRuOj1jmfXhunS9gHTU9BNI=
+=0JEa
 -----END PGP SIGNATURE-----
 
---0l//PxkQOa9boaIv--
+--7v2SkOxZkOkgWk1E--
