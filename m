@@ -1,95 +1,95 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.cs.ucla.edu (mail.cs.ucla.edu [131.179.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA951EA85
-	for <distributions@lists.linux.dev>; Thu,  5 Sep 2024 13:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00B846542
+	for <distributions@lists.linux.dev>; Thu,  5 Sep 2024 15:47:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=131.179.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725544297; cv=none; b=LfXn5FNcPwvrGlnwuSUg6zLlf6oBZQnRc/m1ObVvUlVIIUx/rUwtB6tHABW7siMVcrQfa26ykOnpIvXWgyGQ9LpqFrDvZyoxR0kMvYaVbr3QmlimjXe4kivhtejxAPwX0F/9DHylvN4twzQm0fA+HaeNd2ZDb7Ufv9D4qtUiVq0=
+	t=1725551263; cv=none; b=FVPDb9nnoKYHReyHj47R5bWY5MqJGa4oydypKfXIf3z4cmn+qxvtFrCd9PKQcS8P/yPzCYgXzcbsijJceURz/KqosX9zcD7KxBqkmwFIGpm3oIqSfNr25i/c4Qt0JM8NDTzQpsMDQX1bbVGgImQoSGkDQ1HzdRbmhQ0Fpi4gu30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725544297; c=relaxed/simple;
-	bh=AIyhIj81PLAVv2DxHugGNPy/euu34ij/iU1Wnq8AgH0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sw31+2/1ZYLEpaFrUUO7BJPDW7aNihbAeLXENm6nSGLQEE/Pss2XZwEXRXJXh/7Ei0MjlbpZ0PMmGU+Am8wg+0YMq8F9Uud2TkXUL6OqmJEb0NUgcJHpdLCIWuCFkQ3Qniww6epm0x7vikgli9SzdDwcVQkzaJm5llIOWD29Sq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-From: "Andreas K. Huettel" <dilfridge@gentoo.org>
-To: Wookey <wookey@wookware.org>, Khem Raj <raj.khem@gmail.com>
-Cc: libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org,
- config-patches@gnu.org, distributions@lists.linux.dev,
- devel@lists.fedoraproject.org, glaubitz@debian.org, maskray@google.com,
- dickey@invisible-island.net, toolchain@gentoo.org
-Subject: Re: Proposed CHOST change for the 64bit time_t transition
-Date: Thu, 05 Sep 2024 15:50:56 +0200
-Message-ID: <3848277.MHq7AAxBmi@noumea>
-Organization: Gentoo Linux
-In-Reply-To:
- <CAMKF1spAZzNH3jYOnwo720nM4zQ_5JCv=ZGq4SC=TWC+WXWVPQ@mail.gmail.com>
-References:
- <4996568.GXAFRqVoOG@noumea> <20240905020617.GZ23787@mail.wookware.org>
- <CAMKF1spAZzNH3jYOnwo720nM4zQ_5JCv=ZGq4SC=TWC+WXWVPQ@mail.gmail.com>
+	s=arc-20240116; t=1725551263; c=relaxed/simple;
+	bh=DQRVdL8HC/3IWL4Oo4I8BYFRh7BsXGfpyigns/5/NBc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=la57X18/fV5SGAqDBD9HtAzpBRMWqE1ucmUW7ni79wAsi6RK8wjg8gN05hiafeSCo7SNMG4GFZv3Y17ZabeDwtnFHy/Pqpn+Ba74RtZe4ekHHcwdZDA/mKTFN+iSHavjMBocOW/hAB2OgZl4OMNrGbkKoXdci/5XciSnPOmMt0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu; spf=pass smtp.mailfrom=cs.ucla.edu; dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b=VUUGcKgw; arc=none smtp.client-ip=131.179.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.ucla.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.ucla.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cs.ucla.edu header.i=@cs.ucla.edu header.b="VUUGcKgw"
+Received: from localhost (localhost [127.0.0.1])
+	by mail.cs.ucla.edu (Postfix) with ESMTP id 8DAD13C011BDE;
+	Thu,  5 Sep 2024 08:39:29 -0700 (PDT)
+Received: from mail.cs.ucla.edu ([127.0.0.1])
+ by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10032) with ESMTP
+ id 76JHmw798sqv; Thu,  5 Sep 2024 08:39:29 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.cs.ucla.edu (Postfix) with ESMTP id 286AF3C021911;
+	Thu,  5 Sep 2024 08:39:29 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.cs.ucla.edu 286AF3C021911
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cs.ucla.edu;
+	s=9D0B346E-2AEB-11ED-9476-E14B719DCE6C; t=1725550769;
+	bh=pl5If79YamSWrTPzS8p+QGhL6k8c7BRd51sItbH8pPA=;
+	h=Message-ID:Date:MIME-Version:To:From;
+	b=VUUGcKgwiZ0vM6IEe+UZIj7WWKrMqhKU8LTWIiiYTo0wlemNiAzAwT2gfUMSnY4Ny
+	 iXsb6bqyjbuyDMhtkwCoN8YyYBMskVVz27W6sME0QVsWrP6gYAFUauIicZ1QOJobBp
+	 o0RdCjHVZj/tcibklDdN1W3WMWyGzyCCaVX8ZwK8KZcpopxRxmLex/d0jG6HMtOGQ3
+	 MyCt/tRfLMzEysbZCm9fgZ959svwTy0R37aKwEyaXAzNDrPE6ixc4RVPp0xn6ucwLX
+	 WRQHYHvSrLrmJJKFGJkM9+p8s1K83CQq/yUX2DAtuodg3A4jWnplB1jVe0uT0buiIv
+	 FQCWfWrEPk27Q==
+X-Virus-Scanned: amavis at mail.cs.ucla.edu
+Received: from mail.cs.ucla.edu ([127.0.0.1])
+ by localhost (mail.cs.ucla.edu [127.0.0.1]) (amavis, port 10026) with ESMTP
+ id fzirkIl8sZGA; Thu,  5 Sep 2024 08:39:29 -0700 (PDT)
+Received: from [192.168.254.12] (unknown [47.150.137.250])
+	by mail.cs.ucla.edu (Postfix) with ESMTPSA id E2F493C011BDE;
+	Thu,  5 Sep 2024 08:39:28 -0700 (PDT)
+Message-ID: <6e8dadbc-7ae2-465f-b8f6-d0d62507a191@cs.ucla.edu>
+Date: Thu, 5 Sep 2024 08:39:28 -0700
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2021708.taCxCBeP46";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
-
---nextPart2021708.taCxCBeP46
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
-From: "Andreas K. Huettel" <dilfridge@gentoo.org>
-To: Wookey <wookey@wookware.org>, Khem Raj <raj.khem@gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: Proposed CHOST change for the 64bit time_t transition
-Date: Thu, 05 Sep 2024 15:50:56 +0200
-Message-ID: <3848277.MHq7AAxBmi@noumea>
-Organization: Gentoo Linux
-MIME-Version: 1.0
+To: "Andreas K. Huettel" <dilfridge@gentoo.org>, Wookey
+ <wookey@wookware.org>, Khem Raj <raj.khem@gmail.com>
+Cc: libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org,
+ config-patches@gnu.org, distributions@lists.linux.dev,
+ devel@lists.fedoraproject.org, glaubitz@debian.org, maskray@google.com,
+ dickey@invisible-island.net, toolchain@gentoo.org
+References: <4996568.GXAFRqVoOG@noumea>
+ <20240905020617.GZ23787@mail.wookware.org>
+ <CAMKF1spAZzNH3jYOnwo720nM4zQ_5JCv=ZGq4SC=TWC+WXWVPQ@mail.gmail.com>
+ <3848277.MHq7AAxBmi@noumea>
+Content-Language: en-US
+From: Paul Eggert <eggert@cs.ucla.edu>
+Organization: UCLA Computer Science Department
+In-Reply-To: <3848277.MHq7AAxBmi@noumea>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
->=20
-> FWIW, yocto/openembedded have also done the same and offered a distro
-> setting to the users
-> to select 32bit time_t if they wished to but defaulted to 64bit time_t.
+One possible improvement would be to append "t32" if you want 32-bit 
+time_t, instead of appending "t64" for 64-bit time_t. That way, people 
+wouldn't be stuck with appending that confusing "t64" for the 
+foreseeable future, and only specialists concerned with 32-bit time_t 
+would need to know about the issue.
 
-In case of Openembedded, which (as far as I understand) mostly offers
-complete system images for download or build, I might have done that
-similarly at the start - this is a different situation.
+Personally, I hope backward-compatibility concerns don't require this 
+sort of thing. I'd rather just switch, as Debian has.
 
-That said, nothing would keep you from trivially still switching the CHOST
-in case of enabled 64bit time_t, to be able to keep the two variants apart.
+I felt the same way about the 64-bit off_t back in the 1990s. It was 
+obvious to me even at the time that we would have been significantly 
+better off making off_t 64-bit, while keeping 32-bit off_t in the ABI 
+for backward compatibility; this is what NetBSD did with time_t in 2012. 
+Although I realize others felt differently, I never fully understood 
+their concerns.
 
-=2D-=20
-Andreas K. H=FCttel
-dilfridge@gentoo.org
-Gentoo Linux developer=20
-(council, comrel, toolchain, base-system, perl, libreoffice)
-https://wiki.gentoo.org/wiki/User:Dilfridge
---nextPart2021708.taCxCBeP46
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+And here I am, three decades later, still having to make changes[1] to 
+Autoconf's AC_SYS_LARGEFILE macro to continue to support that 
+30-year-old off_t mistake, and now with 64-bit time_t interacting with 
+64-off_t in non-orthogonal ways.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEE/Rnm0xsZLuTcY+rT3CsWIV7VQSoFAmbZt0AACgkQ3CsWIV7V
-QSrnig//eQXBWVsVZSQfYwvK1ujbqMMRAQhYL8wFKAxoc7cSpCFz00oAZw3xWOtT
-DjtBB/8As1L7fXW3wGwTmXrNamm+YAZBAz9ktw/xpDgpp95UaZop1ly3ZeXTbyzY
-aqBmiaLkxlduEofBPgo1bcUNsOus2cXBj2SGaMRdfyuGLToP6upgHHNTib0gz+Iq
-R9KCvbupQX513BUlqSoVg0Q6VdAc7qNjWYFx8asgM5+DVrIeowpIU9exCxEwz6o7
-YCLz0E53gJqPEQPz6Lc9kv+Yg5gJG06SseUY6HH57wV9xBYPjnRYOsqQVdQzNPj5
-UFmAuLg2Jo71FX3BpPHHsnI3DfIGNEtEDTTkx0ghaOAieeDEAjwyQZoIGYaeDdef
-CCyE+NSQSznHttJ3lVhsh/IzztN2aAPQv5xL6yQXjCqu+kyMO2hf+MoFr8kj6A/2
-6TQCBGIOQXbPmIO1zZoNKlqLPXUe6ruOdtmp/rhTG+gN6V317thU/9ZvQiBfSoNB
-xp1EN7NeWLf4LkBPyYFdpvGPa8xK1DuDGy/8vNTo3HFCUmeYAkFh2rxWRWxF0/BM
-TollBzHr9zmMwK3GbjwQXOYfNgagGCgG2BRxBSVRXZ3MM/JgjZkhB+z/t8vhjmh0
-jUZ5VhvCjMStHz/QMNt/HSgTHGZsX3hBDo5HK0SmD0pKlQvMuTY=
-=XZ5O
------END PGP SIGNATURE-----
-
---nextPart2021708.taCxCBeP46--
-
-
-
+[1]: 
+https://git.savannah.gnu.org/cgit/autoconf.git/commit/?id=b71143738516017f0e0d347a4025301c06c40254
