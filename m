@@ -1,153 +1,141 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6BF3CF65
-	for <distributions@lists.linux.dev>; Wed,  4 Sep 2024 15:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F8A4A1A
+	for <distributions@lists.linux.dev>; Thu,  5 Sep 2024 00:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725464899; cv=none; b=gWOrF3MCHqyw1aG3+q0oQNESczcBMYKiTktJgqmJEGAGbqMiI3kNwQZ/vzPmz/Mn6+YxhEiBYCLR3NiDE7DS4MlAhG4wQse8lNX5FdN3A8+HPq/INGfKk/qmyRUOvPBKLlh+hlhCtsK8HAY4mRgwDucAodSdFP/WbqzNN8ujvRk=
+	t=1725496364; cv=none; b=RUAcf0PUN5ZVZC6emk0u9oGweRmO8rKMY7WCQ00RvQhqvoU8ImrquqYOS/311yD9SgPd/qumqgYntQYCX8kkGmj/psxHczkobGQ6AYbFBCOJrfUXcPQijWOAQvNSa1TTVCJpdFjNS6r/pDR46PW9xIYqmAuyC6WxY26yfdj9yZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725464899; c=relaxed/simple;
-	bh=ohqYp48VNk2KScfNYVXExlvMLFsJkn5rCWLuXff67KE=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=h4F4AXpPn8xDSziSRj8+Uti5aAc213X6Fto/8XuZx2irZ4XtPxmhB3F2hqiTyryJIrGOXJihZ1woa6yeh9IUPb2jnZpxWb67yhPnROMGxisFa+lfxXiLE7KaavxGyl1RCZpa1lBlufgwXvLb6Z6ZgDu+a2IB/yQKrPGcSscb50c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-From: "Andreas K. Huettel" <dilfridge@gentoo.org>
-To: libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org,
- config-patches@gnu.org, distributions@lists.linux.dev,
- devel@lists.fedoraproject.org, glaubitz@debian.org, maskray@google.com,
- dickey@invisible-island.net, toolchain@gentoo.org
-Subject: Proposed CHOST change for the 64bit time_t transition
-Date: Wed, 04 Sep 2024 17:48:04 +0200
-Message-ID: <4996568.GXAFRqVoOG@noumea>
-Organization: Gentoo Linux
+	s=arc-20240116; t=1725496364; c=relaxed/simple;
+	bh=NmwY81eA5jeD3m57KBfglIRFkhPZOEUjZJDVGfORWAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jKT+KZEefmT5rB143hO5FmEQOM/7/FE9++PNisUZAQeJ/UpwwjKdzUau7WDU/jWnKwEiO6z9IjcgYOKht9ZzyAoSql22e12hhPC+8gT0I5HOHFArou2INPiqwyt2YYlX7Iicns0w6+Yp7apbyIANsYj7+1U5NU1FpqxFyqyFTQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fAQYW6Dx; arc=none smtp.client-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fAQYW6Dx"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7092dd03223so86358a34.1
+        for <distributions@lists.linux.dev>; Wed, 04 Sep 2024 17:32:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725496362; x=1726101162; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mUZhFLa+f2LyA5F2VdNmJi0OsQqwg+iXgf0CF2Q0KZM=;
+        b=fAQYW6DxbxGbpE/nWaE7toiKqHpIo690oT9RANq/oGRnLKXBANs7acgqIiXgvYj7MR
+         PHbWd4/sAw4Gt36TbKf/zcE2anum4mPMTNzCZbDDDACvApSVELO6HcmEc2Ajj054UiWX
+         fVTq+0XKDEpbrHN63uzNmgJsbPyE4HJVNIhAEUtzrvBTOVRf1aBjYykODFCzMIwUdibV
+         REWd5sA3ayuit0NZsRbDai4cmZyaDdQb+OZTuJCAYHTzzI2N0HXFsAtUlQz5X8Pw5+0y
+         TDsJ3JcEr7VQ+7Oo0hKvDD0ZNleJKI5ZpG4mbaEZHNHPVYOZlrCedHFQPp2GoIr+ZxhT
+         OCyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1725496362; x=1726101162;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mUZhFLa+f2LyA5F2VdNmJi0OsQqwg+iXgf0CF2Q0KZM=;
+        b=LmrOhikBlCKsE0doc0hYcbERJ6s1SHJuCzHsgM11guTdAXqbxpboX0zNlCOGxODwQr
+         2mo++rN+T/Aenu90RsgSs3Wv+R6P0kGp4bphvZETrOQ4Wi3wjh/P0YuL6laCSFKCStXu
+         tLA3MXrjjXshFr0vg/Rws1wPixQGW5U3RSgv85xqRtMRwugDyXKDBha3oavvH8JoeCff
+         hHhhx5t6TMNyfk1a4v30P4o5+AFIpnKlzTKSy2isHwBvxsGxR/kUov1s9fbDohncaDtC
+         KMtHN1PQy72xcZcCiQZ8NsEdiXYGMxW75fZmvq5cOcqiEQ17w8obOFpZLFm81dUGfr2p
+         /9ug==
+X-Forwarded-Encrypted: i=1; AJvYcCXHyWQ39FKeHZrFXLmHrqT25kzscrCfPWdqjY6ozkplygrxfI/SCQx6m7BEZIwskXWooz0AQF2YsddwZN7b@lists.linux.dev
+X-Gm-Message-State: AOJu0YyhflSOyuzfkCSnxk+578msmDG00ijrQ9/U8F6BG9CrlWX1Taf9
+	VteJReF7lVfjMphd4ovmDhm5VHyizXU52XAe2nZnh8RnqkF92AEH
+X-Google-Smtp-Source: AGHT+IF4fVIPOsWqETpJ7hyJIABIcl+6AlCDgeQw2HDpyGBmrhuBz1IOatPSKDhTsc4J+b1PL+VmfQ==
+X-Received: by 2002:a05:6830:620e:b0:709:33ee:f578 with SMTP id 46e09a7af769-70f706fdf90mr20232802a34.14.1725496361623;
+        Wed, 04 Sep 2024 17:32:41 -0700 (PDT)
+Received: from dj3ntoo ([2607:fb90:8a0d:69fb:5bbd:882a:2101:3f1])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-70f671c4278sm3082677a34.76.2024.09.04.17.32.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 17:32:41 -0700 (PDT)
+Date: Wed, 4 Sep 2024 19:32:38 -0500
+From: Oskari Pirhonen <xxc3ncoredxx@gmail.com>
+To: "Andreas K. Huettel" <dilfridge@gentoo.org>
+Cc: libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org,
+	config-patches@gnu.org, distributions@lists.linux.dev,
+	devel@lists.fedoraproject.org, glaubitz@debian.org,
+	maskray@google.com, dickey@invisible-island.net,
+	toolchain@gentoo.org
+Subject: Re: Proposed CHOST change for the 64bit time_t transition
+Message-ID: <Ztj8JtJ638FHPW_3@dj3ntoo>
+Mail-Followup-To: "Andreas K. Huettel" <dilfridge@gentoo.org>,
+	libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org,
+	config-patches@gnu.org, distributions@lists.linux.dev,
+	devel@lists.fedoraproject.org, glaubitz@debian.org,
+	maskray@google.com, dickey@invisible-island.net,
+	toolchain@gentoo.org
+References: <4996568.GXAFRqVoOG@noumea>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart1974747.tdWV9SEqCh";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="0l//PxkQOa9boaIv"
+Content-Disposition: inline
+In-Reply-To: <4996568.GXAFRqVoOG@noumea>
 
---nextPart1974747.tdWV9SEqCh
+
+--0l//PxkQOa9boaIv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
-From: "Andreas K. Huettel" <dilfridge@gentoo.org>
-Subject: Proposed CHOST change for the 64bit time_t transition
-Date: Wed, 04 Sep 2024 17:48:04 +0200
-Message-ID: <4996568.GXAFRqVoOG@noumea>
-Organization: Gentoo Linux
-MIME-Version: 1.0
 
-Dear all,=20
+On Wed, Sep 04, 2024 at 17:48:04 +0200, Andreas K. Huettel wrote:
+> Dear all,=20
+>=20
+> in Gentoo Linux we want to change our CHOST triplets for 32-bit glibc sys=
+tems that use 64-bit time_t, since
+> this is technically an ABI change which breaks binary compatibility [1].
+>=20
+> We are thinking of adding a "t64" suffix to the ABI field, resulting in f=
+or example i686-pc-linux-gnut64,
+> armv7a-unknown-linux-gnueabihft64, ... [2]
+>=20
+> * So far my research indicates that in the GNU toolchain (gcc, glibc, bin=
+utils) anything behind -gnu is=20
+>   ignored (as ABI version, which this effectively is too). Is this correc=
+t or do you foresee problems here?
+>   I've had a small chroot rebuild itself (the Gentoo @system set) with i6=
+86-pc-linux-gnut64 and only had to
+>   add a minor patch to ncurses [3]; everything else worked fine.
+>=20
 
-in Gentoo Linux we want to change our CHOST triplets for 32-bit glibc syste=
-ms that use 64-bit time_t, since
-this is technically an ABI change which breaks binary compatibility [1].
+=2E..
 
-We are thinking of adding a "t64" suffix to the ABI field, resulting in for=
- example i686-pc-linux-gnut64,
-armv7a-unknown-linux-gnueabihft64, ... [2]
+> [3] https://bpa.st/HV6BS
 
-* So far my research indicates that in the GNU toolchain (gcc, glibc, binut=
-ils) anything behind -gnu is=20
-  ignored (as ABI version, which this effectively is too). Is this correct =
-or do you foresee problems here?
-  I've had a small chroot rebuild itself (the Gentoo @system set) with i686=
-=2Dpc-linux-gnut64 and only had to
-  add a minor patch to ncurses [3]; everything else worked fine.
+FYI, this paste expires in 1 week. Here's the contents:
 
-* clang at the moment expects one of a list of known suffixes (e.g. *-gnu, =
-*-gnueabi, *-gnueabihf).=20
-  Could this be fixed to be similarly permissive?
+diff '--color=3Dauto' -ruN ncurses-6.4.orig/aclocal.m4 ncurses-6.4/aclocal.=
+m4
+--- ncurses-6.4.orig/aclocal.m4	2024-08-29 20:47:34.978057133 +0000
++++ ncurses-6.4/aclocal.m4	2024-08-29 20:48:57.809473044 +0000
+@@ -10139,7 +10139,7 @@
+ 	cf_xopen_source=3D"-D_SGI_SOURCE"
+ 	cf_XOPEN_SOURCE=3D
+ 	;;
+-(linux*gnu|linux*gnuabi64|linux*gnuabin32|linux*gnueabi|linux*gnueabihf|li=
+nux*gnux32|uclinux*|gnu*|mint*|k*bsd*-gnu|cygwin|msys|mingw*|linux*uclibc)
++(linux*gnu*|uclinux*|gnu*|mint*|k*bsd*-gnu|cygwin|msys|mingw*|linux*uclibc)
+ 	CF_GNU_SOURCE($cf_XOPEN_SOURCE)
+ 	;;
+ (minix*)
 
-* I could imagine glibc defaulting to the 64bit interface or hard-enabling =
-it if t64 is present=20
-  in the ABI field. That would certainly help to enforce binary consistency.
-  We would need then either an automated mechanism based on CHOST or a glib=
-c configure option to
-  hard-enable 64bit time_t support [4].
-  Not hard-required by Gentoo, we can just force the defines into everythin=
-g, but would-be-neat.
-
-* In an ideal world this change would be synchronized across distributions.=
- Opinions? [5]
-
-Deliberately pushing this e-mail out now so maybe it can be discussed at th=
-e cauldron. I won't be there,=20
-but Sam James and Arsen Arsenovic will be.
-If this proposal fails, the alternative for us is to add a _t64 suffix to t=
-he vendor field, resulting in
-e.g. i686-pc_t64-linux-gnu. The vendor field is pretty much ignored everywh=
-ere, so going alone is safe.
-Still, that's then a purely Gentoo ugly hack...
-
-Cheers, Andreas
-
-
-[1] The ABI of glibc does technically NOT change, however, the type definit=
-ion of, e.g., time_t does.
-    And as soon as any other library includes that in its public interfaces=
- and data structures, that library
-    changes its ABI.
-    An example for an affected library (found real-world during testing) is=
- gnutls, see=20
-    https://bugs.gentoo.org/828001
-
-[2] We've brought up this issue previously, just somehow it never caught mo=
-mentum. See, e.g.,
-    * https://sourceware.org/pipermail/libc-alpha/2022-November/143386.html
-    * https://sourceware.org/pipermail/libc-alpha/2023-January/144963.html
-    A more detailed discussion of different possible approaches in Gentoo c=
-an be found on a wiki page=20
-    maintained by Sam,
-    https://wiki.gentoo.org/wiki/Project:Toolchain/time64_migration
-    Discussions within Gentoo have led to the conclusion that a new CHOST m=
-akes most sense, with
-    the old one staying at 32bit time_t for legacy binary support as deprec=
-ated option.
-
-[3] https://bpa.st/HV6BS
-
-[4] https://sourceware.org/pipermail/libc-alpha/2022-November/143386.html
-
-[5] Note that this entire issue / proposal only affects 32bit architectures=
- and distributions.=20
-    For Gentoo this would be ix86, arm(32), hppa, mips(32), m68k, ppc(32).
-    riscv32 is special since from beginning it only has the 64bit time_t in=
-terface.
-
-=2D-=20
-Andreas K. H=FCttel
-dilfridge@gentoo.org
-Gentoo Linux developer=20
-(council, comrel, toolchain, base-system, perl, libreoffice)
-https://wiki.gentoo.org/wiki/User:Dilfridge
---nextPart1974747.tdWV9SEqCh
+--0l//PxkQOa9boaIv
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEE/Rnm0xsZLuTcY+rT3CsWIV7VQSoFAmbYgTQACgkQ3CsWIV7V
-QSrJFBAAgGR0hF63Zmg7T6InkY719dI/mn8mroykQDXl/pFc+5zNaZfyiunzAo+7
-Tsgr9tu3XOTytbORIQAc+4J/BWHkvGH4/pIkegjmIkdJcmSlqbort3KKxucKP0Bk
-V0L4vBfySEtCO4ew5Cp3jFuEdvMVpTAWxlS4Q4+qXWe3M0Yq2ogjd28ci69NakxE
-GHnx3P7KWNhK4yXAxx7V+fxVOoCJL12EWyVn+12IjhE7QsifZNpT5kTWOPfXjxqH
-zZgx7OUgwlXRTyH2wpVjB2nIzoFHUkn9MTcfQMXacF5e1WxQUEsZ6zHqggtC0AhR
-ABXU2kCVDNS5WapQPecBGEveNS6NyyV8EmUh7ZxtPGiZG2zCi00NHPG1e6umcv71
-miabzmW/3UwOGJxvMOs1EuUyoZwfaAaGeRwERf5P8yULe4QlgpQuImsW0/Z75Nfj
-ENU/Ue0EuFe/NV5qDVDLS5H++OaBQyEMl5tzY7kw1qJIPzdQ43rouCO0IqziaJAw
-qVWMXUgF/1JKeLt/xSHfdiBgQr0hJLMps4EVLHBQhEXFGdpf4G/zJCLLkGtWbYAW
-E8U02OI+2Jtg3KEuMllFQZ1DL38otJ+6shwwSojSm4afrAQUIxJvYYzeFPnljg0B
-9M3/B/5uCWL3tgl7GqK/o2NAMO6wSt/z7VMN38w6fvUEWt5wjvw=
-=ceDP
+iHUEABYKAB0WIQQfOU+JeXjo4uxN6vCp8he9GGIfEQUCZtj8IgAKCRCp8he9GGIf
+Ef64AQDRWB3iutTanlfsHGLAbzDqCRo0QhDIAYHXyhtajll7YQEA07Ox/xR/RILT
+mphlh5QIfnqRrE95HnV0tqSB97k0Fw0=
+=Zh2M
 -----END PGP SIGNATURE-----
 
---nextPart1974747.tdWV9SEqCh--
-
-
-
+--0l//PxkQOa9boaIv--
