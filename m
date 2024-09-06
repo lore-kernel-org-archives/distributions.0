@@ -1,132 +1,157 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9F81A01AD
-	for <distributions@lists.linux.dev>; Thu,  5 Sep 2024 21:54:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85559156880
+	for <distributions@lists.linux.dev>; Fri,  6 Sep 2024 16:06:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725573279; cv=none; b=hz24+i+SqlNde120oni8KzQvNM+7MdlLxVGJOiWMCmUiPzngO0UArFpYzUa/KNBi/z/uTAf5ed+8c3bOh+AaTAkE+VdSt0so/HM3bTYX2+3WYdGeZ9q9GL3A2iEvpATyzezoNOnMxnx2REKzbS3HDPc7AXvT2zMNaU6smAWrCtQ=
+	t=1725638772; cv=none; b=gEchkQBe0DKYe6EGUTBnlcMEz3tmQV2BUpU64fTD03/5EUgrau9DOUCOBiRJBVQxOZQ/5if0e/ljjMgL7lRmOzEguWkIX9QP3ryaGconzu6e02IOthJmrmzeOpVqvVT3ahdoQ9zD3UApmlBrJtE889eKDehhHxrsW605B5Caqho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725573279; c=relaxed/simple;
-	bh=JbNZ5ny6t0AFTafrUlXYbHF3ntcLBb/x/BTNARQ00cY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=t9G8YF9+JBxrdDpj8aRZMwD1pKc0enVkO1SdKxIv5QLnKr+PVLjPT7ON3qFxdqTde3vhByD3B+rYAMl0+kmCvAbIcI48Altf8AvDcuaeSkbFCFiVlk+TMLrTv7xCfCbMleGEqh4p/DsruPLL3p6EnRUO7I+03no0GvFQYwfHX84=
+	s=arc-20240116; t=1725638772; c=relaxed/simple;
+	bh=+bBFpHwNZm0XMt+Ce3daeXNebmzA+eMJZFl2amdk7Ds=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XCJV7qvl0ErLznbSg5XhbwDB4wC0gJ6TeMQxTcs2PHtwnU3++xCzwhwhafL1ZrpHoFf1tZydVk63B42ojhuOo1L5M590cimXWnwlSPsTcP+g4KuRHVlTb7Wq0x6goOLyoBxCdluRwt0LAziD0DFpVEnkLcjcvrN5yNRnGyNnpPs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-From: "Andreas K. Huettel" <dilfridge@gentoo.org>
-To: Wookey <wookey@wookware.org>, Khem Raj <raj.khem@gmail.com>,
- Paul Eggert <eggert@cs.ucla.edu>
-Cc: libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org,
- config-patches@gnu.org, distributions@lists.linux.dev,
- devel@lists.fedoraproject.org, glaubitz@debian.org, maskray@google.com,
- dickey@invisible-island.net, toolchain@gentoo.org
+From: =?utf-8?Q?Arsen_Arsenovi=C4=87?= <arsen@gentoo.org>
+To: Paul Eggert <eggert@cs.ucla.edu>
+Cc: "Andreas K. Huettel" <dilfridge@gentoo.org>,  Wookey
+ <wookey@wookware.org>,  Khem Raj <raj.khem@gmail.com>,
+  libc-alpha@sourceware.org,  binutils@sourceware.org,  gcc@gcc.gnu.org,
+  config-patches@gnu.org,  distributions@lists.linux.dev,
+  devel@lists.fedoraproject.org,  glaubitz@debian.org,  maskray@google.com,
+  dickey@invisible-island.net,  toolchain@gentoo.org
 Subject: Re: Proposed CHOST change for the 64bit time_t transition
-Date: Thu, 05 Sep 2024 23:54:22 +0200
-Message-ID: <2398337.iZASKD2KPV@noumea>
-Organization: Gentoo Linux
-In-Reply-To: <edbc4f0b-69bc-4c93-a46a-0e3cf2d82b3e@cs.ucla.edu>
-References:
- <4996568.GXAFRqVoOG@noumea> <2015989.tdWV9SEqCh@noumea>
- <edbc4f0b-69bc-4c93-a46a-0e3cf2d82b3e@cs.ucla.edu>
+In-Reply-To: <6e8dadbc-7ae2-465f-b8f6-d0d62507a191@cs.ucla.edu> (Paul Eggert's
+	message of "Thu, 5 Sep 2024 08:39:28 -0700")
+Organization: Gentoo
+References: <4996568.GXAFRqVoOG@noumea>
+	<20240905020617.GZ23787@mail.wookware.org>
+	<CAMKF1spAZzNH3jYOnwo720nM4zQ_5JCv=ZGq4SC=TWC+WXWVPQ@mail.gmail.com>
+	<3848277.MHq7AAxBmi@noumea>
+	<6e8dadbc-7ae2-465f-b8f6-d0d62507a191@cs.ucla.edu>
+Date: Fri, 06 Sep 2024 18:06:04 +0200
+Message-ID: <8634mckbrn.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2096196.PYKUYFuaPT";
- micalg="pgp-sha256"; protocol="application/pgp-signature"
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
---nextPart2096196.PYKUYFuaPT
+--=-=-=
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
-From: "Andreas K. Huettel" <dilfridge@gentoo.org>
-Subject: Re: Proposed CHOST change for the 64bit time_t transition
-Date: Thu, 05 Sep 2024 23:54:22 +0200
-Message-ID: <2398337.iZASKD2KPV@noumea>
-Organization: Gentoo Linux
-In-Reply-To: <edbc4f0b-69bc-4c93-a46a-0e3cf2d82b3e@cs.ucla.edu>
-MIME-Version: 1.0
 
-Am Donnerstag, 5. September 2024, 20:20:32 CEST schrieb Paul Eggert:
-> On 2024-09-05 10:03, Andreas K. Huettel wrote:
-> > at least time64 implies largefile, so that will get sorted as side
-> > effect.
->=20
-> Right, but this means the "t" in "t64" is somewhat misleading, as it's=20
-> not just about time: it also affects off_t, ino_t, etc., effects that=20
-> are in some cases more important than the time_t effects. It may well be=
-=20
-> a good idea to use a different suffix, to remind non-experts about these=
-=20
-> other issues. How about "wsi" for "wider system integers"? E.g.,=20
-> i686-pc-linux-gnuwsi.
+Paul Eggert <eggert@cs.ucla.edu> writes:
 
-=2E.. or -gnutf64 (for time and files)?
+> One possible improvement would be to append "t32" if you want 32-bit time=
+_t,
+> instead of appending "t64" for 64-bit time_t. That way, people wouldn't be
+> stuck with appending that confusing "t64" for the foreseeable future, and=
+ only
+> specialists concerned with 32-bit time_t would need to know about the iss=
+ue.
 
-No objections against such variations in principle, just we should keep it
-as simple and straightforward as possible then.
+But that'd change semantics in non-obvious ways.  The intention behind
+this suggestion is to have a mechanism to communicate to packages and
+the toolchain alike that "yes, this system is Y2038-proof".  There is
+currently no mechanism to do that.  There isn't even a mechanism to
+guess based on your dependencies whether you should also enable LFS and
+T64 (and there can't be a general one - you'd need to detect what
+libraries are doing what if they have time_t or other system integers on
+ABI boundaries, which is not generally possible).  Not that the latter
+would suffice - even if we changed all packages we can to use such a
+mechanism, there would be plenty of packages that don't (think of all
+the hand-rolled makefiles..).
 
-> Is the plan to call these APIs XXXt64 or XXXwsi forever, even after the=20
-> year 2038? For example, will i686-pc-linux-gnu be withdrawn in a few year=
-s?
+An alternative that I pondered was to teach the linker about some notion
+of "compatibility strings" that it would compare and reject if
+different, plus teaching the compiler how to emit those, plus teaching
+glibc to tell the compiler to emit those..  We could have key-value
+pairs in some section.  For each key K, we could have the linker check
+that, for each (shared or otherwise) object either does not contain K or
+contains K with the same value as all the other ones, and produce an
+error otherwise.  On the resulting object, the KV pairs would be the
+union of all KV pairs of all constituent objects.
 
-I'd expect that all the 32bit linux variants will slowly sink into obscurit=
-y.
-(By 2038, we're probably more concerned with the 64bit to 128bit transition=
-=2E)
+... but this is for i?86, a CPU family I haven't used in ~15 years (and
+I suspect many also have not..), and there are other things eating my
+time.  And it'd still require a world rebuild.
 
-Apart from that, I see no real need for further change later on.
+> Personally, I hope backward-compatibility concerns don't require this sor=
+t of
+> thing. I'd rather just switch, as Debian has.
 
-> How would you deal with the problem that i686-pc-linux-gnu would mean=20
-> one thing in Gentoo and something else in Debian? (This was what I was=20
-> hinting at when I suggested adding a suffix for 32-bit time_t instead of=
-=20
-> for 64-bit.)
+The "status quo" of some packages enabling it of their own volition, and
+some not, leads to various subtle breakages (example:
+https://bugs.gentoo.org/828001).  I think switching like that would not
+be much different.
 
-Well, of course I would hope that I can still convince them that tacking on=
- t64
-makes sense. After all, it's easy for them now. ;) Otherwise...
+I do not know what approach Debian took, but if it is one of altering
+the toolchain, then this is a sure way to introduce subtle divergences
+between distros (this is why I've suggested we CC the GCC and binutils
+MLs); if it is one of teaching debhelper (is that the right tool?  not
+sure) about it, then this will break user-compiled packages (so,
+./configure && make && make install, or moral equivalent).  If it is to
+alter libc, then, can we do libc.so.7?  ;)
 
-=46ollowing the logic of riscv versus riscv64 versus riscv32, one could com=
-e up
-with a "global" definition of
-* t64 suffix =3D 64bit time and lfs
-* no suffix =3D can be either, your fault for not being informative, distro=
- default
-* t32 suffix =3D 32bit time (and ...?)
+The only actually solid approach I see today is to /somehow/ communicate
+to the system to not use 32-bit time, ever (and consequently, to enable
+LFS).  I think that the "least effort" path to do that is through the
+tuple.
 
+There's precedent for this also, AFAIK, in the 32-bit ARM world
+(gnueabi/gnueabihf, whatever that means).
 
+config.guess would need to be altered a little bit.  My preference is
+for [[ $os =3D *-*-gnu*t64* ]] informing glibc to completely ignore
+_FILE_OFFSET_BITS, _LARGEFILE_SOURCE, _LARGEFILE64_SOURCE, and
+_TIME_BITS and just presume 64 for all of those system integers.  This
+means that config.guess could undef those (in case a toolchain sets
+those) and include some libc file, then check for sizeof (time_t), or
+just have glibc define something if on a gnut64 target.
+
+> I felt the same way about the 64-bit off_t back in the 1990s. It was obvi=
+ous to
+> me even at the time that we would have been significantly better off maki=
+ng
+> off_t 64-bit, while keeping 32-bit off_t in the ABI for backward compatib=
+ility;
+> this is what NetBSD did with time_t in 2012. Although I realize others fe=
+lt
+> differently, I never fully understood their concerns.
+
+That is history now I fear; I also wish that time_t was made
+64-bit a long ago ;)
+
+> And here I am, three decades later, still having to make changes[1] to
+> Autoconf's AC_SYS_LARGEFILE macro to continue to support that 30-year-old=
+ off_t3
+> mistake, and now with 64-bit time_t interacting with 64-off_t in non-orth=
+ogonal
+> ways.
+
+Indeed, and the "best" part is that, whatever you do in autoconf, unless
+a program exists in isolation only interfacing with libc, it will break
+some consumer (or will be broken by some dependency) because there's no
+mechanism to signal the time_t size across ABI boundaries.
 =2D-=20
-Andreas K. H=FCttel
-dilfridge@gentoo.org
-Gentoo Linux developer=20
-(council, comrel, toolchain, base-system, perl, libreoffice)
-https://wiki.gentoo.org/wiki/User:Dilfridge
---nextPart2096196.PYKUYFuaPT
+Arsen Arsenovi=C4=87
+
+--=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEE/Rnm0xsZLuTcY+rT3CsWIV7VQSoFAmbaKI4ACgkQ3CsWIV7V
-QSonDw//cG3Ro1cKyjdlPdT2Lp5Wo0yDks/0xCx/yVBy88jMRY5nzDEpYcHr5Qqm
-4TktV2hVu0qQhQuUkQ+EdSEGYNe4/kknfKRk3D4MThPR/4Zl0q00M3f6xMo07pT/
-Aa/lvW6nmYgd7b2FTIqNJ1mpA2Zs0mAlWinwJTIb/yv39KkJe7+Map5XVu0gq9vk
-zv3ECsD8HofCCw7ZPpzWYnhxGjqNhe+6CtHNYAEPy1i807bm6G9kKR3ieBgvAGxm
-DYD+MZjIhWThKYdTeYlgxCVKq3D+iUSxAGZdhjF+PrY0czglapFy1AKaFHc7H7Su
-UG5r5Xlz1vySBA+SF+8vSmyQxgqJgQfb6j/fq92tfWlPIC6NCtggYsm6JkU42z9m
-7JILYvgZTrJ67CFJh+NZpYHa132ExIqHw1vmKLs3YX3M9Fqz73PVaI/DuYfCXwgp
-+/ZmlMS95Wc7qxizvE13Hx8rDks3hOWLxFXgpW1JotKbu2QXjRU27kMmlA/7mSIN
-zLaFymB403di8ki0+MH1ZJ9EQ+hegqutqx0Q48S/WEeKNpTsP8TbD3gSo8at6Egr
-r/P4G9UL/6KvQ50vDS2l4oa9GhwcNAgjY/ZCLFbQrxT4uHZT9SSHYzm0Q1kTWaJg
-rC94ywJY87HCeVF8MGxoGuy/XD/tCqte20ibaQ8vx1Be7NSiIcE=
-=WnC/
+iOcEARYKAI8WIQT+4rPRE/wAoxYtYGFSwpQwHqLEkwUCZtsobF8UgAAAAAAuAChp
+c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0RkVF
+MkIzRDExM0ZDMDBBMzE2MkQ2MDYxNTJDMjk0MzAxRUEyQzQ5MxEcYXJzZW5AZ2Vu
+dG9vLm9yZwAKCRBSwpQwHqLEk99AAQDwfulphggJgOoD6iD2ciJhCsz+htms0RlM
+Woo7itip2AD+IKE0tc6t+xsBS5lH4v6nwUiI2dIMp+wxvhlQjFkzDQo=
+=f6iR
 -----END PGP SIGNATURE-----
-
---nextPart2096196.PYKUYFuaPT--
-
-
-
+--=-=-=--
