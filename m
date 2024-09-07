@@ -1,103 +1,116 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6589014A0B3
-	for <distributions@lists.linux.dev>; Sat,  7 Sep 2024 11:53:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38871B85F2
+	for <distributions@lists.linux.dev>; Sat,  7 Sep 2024 12:32:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725709984; cv=none; b=Ln0cXWCVBeTHvrA417Ze0TtwiSzIlxeVKtkT/z5odzBic7JSkpopgbAGkWMeTFESgcBpRuvfkPnrqFVxOIg52SELrsepVhI8xz+wtq9aXrZBskSYdwvD4bofTLCwMUmS4ifc2G94G7BdDuUoFjf2JJ6kG6vpuObh4fzRGehzRz4=
+	t=1725712353; cv=none; b=hIwiFXqA7yExRRrKKAk9PoMu/tI7UciLpYmkzcChWSAILuea+g1HjQnGdesp36ZMAWL/pAExFCGgVQbDtVwjrUL4XIzGgzB7QX7ef3wEQ09ZKtghcLaUKrYV1ryQUDKdGhNqnQpIlUQ3hV1oDZ3DUWF+g7zfXtKidc3B2dQla6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725709984; c=relaxed/simple;
-	bh=mDo/GdC6gGrlhXe9hVorObug3broULnXj+L7a4ecNXk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=P4X8lKKZS2C6+8/PQVw83ni5G0QeehyhFbjOojCBNLswnsRfqWS4xQoaEWdvtsz7O6CI93k/a7SAhs1ve3+QrxkigYNJJT67vJq8vAQNN+xbs9dc0Jxc0AkUuUr9UBnJv8HLac7tJ37OJFgB0PlxziY1xFonaR2S+i4h5NAYbGM=
+	s=arc-20240116; t=1725712353; c=relaxed/simple;
+	bh=+HtRqxaTYrF7zHM6v74Xxnnwn9/2I8PF+9kdc/XLcJo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gm8C5YSwalRryN9Vxj2rZFoRp5dyIWCMTEter3iajzX6ipzI1pIy7my2Wjo6g1tvdZInKS+JQvZkSlBjzeaAgHc290PW5gRdX9LCxvALJ6Spvqn5Ue9joCqZ5e6K9mnwx4S/FSM6q95CeTDKEkaz8h0puaZr8n9ygj6jN3YLZgg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-From: =?utf-8?Q?Arsen_Arsenovi=C4=87?= <arsen@gentoo.org>
-To: Bruno Haible <bruno@clisp.org>
-Cc: Paul Eggert <eggert@cs.ucla.edu>,  "Andreas K. Huettel"
- <dilfridge@gentoo.org>,  Wookey <wookey@wookware.org>,  Khem Raj
- <raj.khem@gmail.com>,  libc-alpha@sourceware.org,
-  binutils@sourceware.org,  gcc@gcc.gnu.org,  config-patches@gnu.org,
-  distributions@lists.linux.dev,  devel@lists.fedoraproject.org,
-  glaubitz@debian.org,  maskray@google.com,  dickey@invisible-island.net,
-  toolchain@gentoo.org
+Message-ID: <42bc983414b3231b7bfecc209e56f348217b6aaa.camel@gentoo.org>
 Subject: Re: Proposed CHOST change for the 64bit time_t transition
-In-Reply-To: <2203672.bO1fEbeGnv@nimes> (Bruno Haible's message of "Sat, 07
-	Sep 2024 02:24:06 +0200")
-Organization: Gentoo
+From: =?UTF-8?Q?Micha=C5=82_G=C3=B3rny?= <mgorny@gentoo.org>
+To: Wookey <wookey@wookware.org>, "Andreas K. Huettel" <dilfridge@gentoo.org>
+Cc: libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org, 
+	config-patches@gnu.org, distributions@lists.linux.dev, 
+	devel@lists.fedoraproject.org, glaubitz@debian.org, maskray@google.com, 
+	dickey@invisible-island.net, toolchain@gentoo.org
+Date: Sat, 07 Sep 2024 14:32:24 +0200
+In-Reply-To: <20240905020617.GZ23787@mail.wookware.org>
 References: <4996568.GXAFRqVoOG@noumea>
-	<6e8dadbc-7ae2-465f-b8f6-d0d62507a191@cs.ucla.edu>
-	<8634mckbrn.fsf@gentoo.org> <2203672.bO1fEbeGnv@nimes>
-Date: Sat, 07 Sep 2024 13:52:49 +0200
-Message-ID: <8634mbhe9a.fsf@gentoo.org>
+	 <20240905020617.GZ23787@mail.wookware.org>
+Organization: Gentoo
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-oCwY/NglvM6LNxdmZ5dQ"
+User-Agent: Evolution 3.52.4 
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
+
+--=-oCwY/NglvM6LNxdmZ5dQ
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Bruno Haible <bruno@clisp.org> writes:
+Hello,
 
-> Arsen Arsenovi=C4=87 wrote:
->> An alternative that I pondered was to teach the linker about some notion
->> of "compatibility strings" that it would compare and reject if
->> different, plus teaching the compiler how to emit those, plus teaching
->> glibc to tell the compiler to emit those..  We could have key-value
->> pairs in some section.  For each key K, we could have the linker check
->> that, for each (shared or otherwise) object either does not contain K or
->> contains K with the same value as all the other ones, and produce an
->> error otherwise.  On the resulting object, the KV pairs would be the
->> union of all KV pairs of all constituent objects.
->
-> This sounds much like the arm eabi attributes: If a .s file does not
-> start with
->         .eabi_attribute 20, 1
->         .eabi_attribute 21, 1
->         .eabi_attribute 23, 3
->         .eabi_attribute 24, 1
->         .eabi_attribute 25, 1
->         .eabi_attribute 26, 2
->         .eabi_attribute 30, 2
->         .eabi_attribute 34, 0
->         .eabi_attribute 18, 4
-> the resulting .o file cannot be linked with other .o files on the system.
->
-> Is it a hassle even for packages that don't use time_t of off_t (such as
-> GNU libffcall or libffi).
->
-> Yes, it would be useful to have a way to have the linker warn if a binary
-> that depends on 32-bit time_t and a binary that depends on 64-bit time_t
-> get linked together. But PLEASE implement this in a way that is a no-op
-> when time_t is not used by either of the two binaries.
+On Thu, 2024-09-05 at 03:06 +0100, Wookey wrote:
+> So it's interesting that in fact Gentoo _does_ want to do this, but it
+> seems to me that this is now a done deal, and 'everyone' has already
+> switched within the existing triplets, even Debian, which is the
+> hardest place to do this because it involved 1100 library transitions,
+> with another 3500-odd rebuilds.
 
-I mentioned that a missing pair should not preclude linking.  This is
-because what I imagined is somehow attaching this tag to the typedef for
-time_t, or such, so if the typedef is not used, no such tag is emitted.
+I disagree with this claim, and I really feel like in this whole thread
+people are underestimating the gravity of this situation.
 
-I'm not sure how feasible that is, I, of course, don't have a full
-implementation.
-=2D-=20
-Arsen Arsenovi=C4=87
+In the case of Gentoo, being a source distribution implies that
+the vast majority of users are building everything from source.  While
+binary packages are supported to some degree, this is not something we
+can rely on.  As such, we need to assume that the transition will
+involve rebuilding everything from source.
 
---=-=-=
+This in turn implies rebuilding whole production systems, bottom up.=20
+This means that there will be significant periods of time during which
+production systems will be running with ABI incompatibilities between
+programs and their dependent libraries, and these periods will be much
+longer than if binary packages were used.  In other words, production
+systems will be quasi-broken for extended period of time.
+
+What's even more dangerous is that any particular rebuild can actually
+fail -- and then the user may suddenly be left with a quasi-broken
+system, pending urgent recovery.  I mean, just imagine that one of your
+dependent libraries failed to rebuild, and you end up having a 32-bit
+time_t program with some of its dependencies using 32-bit time_t,
+and others 64-bit time_t already -- and you suddenly have to figure out
+how to make the problematic package build again, or revert everything
+back.
+
+Now, I'm not an expert on ABI but I do believe that the potential for
+breakage is pretty serious.  After all, we are talking about doubling
+the type size.  So we're talking about function parameters being
+shifted, struct offset mismatches, stack corruption, heap corruption...
+
+I think it does make sense to clearly indicate that this is a serious
+change of ABI.  Furthermore, I personally would even go as far as to
+change libdir, as to ensure that we can rebuild everything without
+immediately breaking production systems in place.
+
+On top of that, we need to account for the fact that users may have some
+executables that they've compiled and linked to the system libraries
+themselves, and these also may start suddenly misbehaving.  So perhaps
+the right thing is to ensure that you can't even run an executable
+unless all its linked libraries use the same time_t variant.
+
+--=20
+Best regards,
+Micha=C5=82 G=C3=B3rny
+
+
+--=-oCwY/NglvM6LNxdmZ5dQ
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iOcEARYKAI8WIQT+4rPRE/wAoxYtYGFSwpQwHqLEkwUCZtw+kV8UgAAAAAAuAChp
-c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0RkVF
-MkIzRDExM0ZDMDBBMzE2MkQ2MDYxNTJDMjk0MzAxRUEyQzQ5MxEcYXJzZW5AZ2Vu
-dG9vLm9yZwAKCRBSwpQwHqLEk99pAQCKLodLpIQF5XrOTrvxS6zMlsJGZH14UEMK
-Ebm4xjitowEA+B3jHbb77fkhKT81ra3nUNzLlZ5nWWO5Ss+fFz90gAU=
-=3RYl
+iQFGBAABCgAwFiEEx2qEUJQJjSjMiybFY5ra4jKeJA4FAmbcR9gSHG1nb3JueUBn
+ZW50b28ub3JnAAoJEGOa2uIyniQOX1QIALi+vR85BaKoBFFVDth6Dzz/+9Xpl6mL
+L/1dOWK/cQu5B1QTNl7cNRXTaW56RUxO++JZC6EaYxNo3MzjVNQM1i+Zo7Glil4J
+fV6PzEuKQIPkr8cAZzPloxMkbirGF9MOTReyIHesp88jjwViKYHJE/6w8JNEz7lB
+oMi9RFKi7yoIk1nYxlKMp1vuCeMpBXKn+vUu4nNfAMqoeDbyC5tc7KCtDzp6vODo
+zCB7E7vz+ZGCQy6hFxwZ6T2NIW3d4BrpauqD06/PybsmsJ/TfAk1sewfLsdXmYT/
+vc+fH9+Uz7SZYDauoZ0L1Z2WzRaJYq3YO+uYnq89WuYxM7t/UNqTNEA=
+=BbGT
 -----END PGP SIGNATURE-----
---=-=-=--
+
+--=-oCwY/NglvM6LNxdmZ5dQ--
