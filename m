@@ -1,157 +1,130 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de [85.215.255.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85559156880
-	for <distributions@lists.linux.dev>; Fri,  6 Sep 2024 16:06:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725638772; cv=none; b=gEchkQBe0DKYe6EGUTBnlcMEz3tmQV2BUpU64fTD03/5EUgrau9DOUCOBiRJBVQxOZQ/5if0e/ljjMgL7lRmOzEguWkIX9QP3ryaGconzu6e02IOthJmrmzeOpVqvVT3ahdoQ9zD3UApmlBrJtE889eKDehhHxrsW605B5Caqho=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725638772; c=relaxed/simple;
-	bh=+bBFpHwNZm0XMt+Ce3daeXNebmzA+eMJZFl2amdk7Ds=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XCJV7qvl0ErLznbSg5XhbwDB4wC0gJ6TeMQxTcs2PHtwnU3++xCzwhwhafL1ZrpHoFf1tZydVk63B42ojhuOo1L5M590cimXWnwlSPsTcP+g4KuRHVlTb7Wq0x6goOLyoBxCdluRwt0LAziD0DFpVEnkLcjcvrN5yNRnGyNnpPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-From: =?utf-8?Q?Arsen_Arsenovi=C4=87?= <arsen@gentoo.org>
-To: Paul Eggert <eggert@cs.ucla.edu>
-Cc: "Andreas K. Huettel" <dilfridge@gentoo.org>,  Wookey
- <wookey@wookware.org>,  Khem Raj <raj.khem@gmail.com>,
-  libc-alpha@sourceware.org,  binutils@sourceware.org,  gcc@gcc.gnu.org,
-  config-patches@gnu.org,  distributions@lists.linux.dev,
-  devel@lists.fedoraproject.org,  glaubitz@debian.org,  maskray@google.com,
-  dickey@invisible-island.net,  toolchain@gentoo.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308181870
+	for <distributions@lists.linux.dev>; Sat,  7 Sep 2024 00:22:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=85.215.255.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1725668575; cv=pass; b=MJg7EugTKlPc8UU5vDhqTuqSJ9zmCS2Y3WbMQGYAg3J1Rgvdmdn5nmmBaq1kWXJ+axRkAJb/KdakNlazyCC7JYC/mF43sFw0isOjgmRIga1W6ft/HqE/2hqQY37q43vuMYyYKfPVJYGkcAKXmn8YFHpeEyjLNP2lxtFuWJ0OL1k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1725668575; c=relaxed/simple;
+	bh=bJQsFEsDXKexk8uk+DEpCR/Wyi31Nnsz9PHT5ZEvl5Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=npnGe9Z2aJV3HizO5XuFzHqaAZFVC4zyUMhk+O6Bcf9JYprtoJbR2mBF9x759ynC7UfI55yTTM9glH11/xEbU6umdTmPrsY7Ql2Muu83N16MHNyGsiXfUVuP1nWXrI+8Qnl476WbuWQT5QoHZNvBbntxDB6T+J7WP4gB2ShyXxQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=clisp.org; spf=none smtp.mailfrom=clisp.org; dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b=mDGWm9pq; dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b=JWsPgr9y; arc=pass smtp.client-ip=85.215.255.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=clisp.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=clisp.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=clisp.org header.i=@clisp.org header.b="mDGWm9pq";
+	dkim=permerror (0-bit key) header.d=clisp.org header.i=@clisp.org header.b="JWsPgr9y"
+ARC-Seal: i=1; a=rsa-sha256; t=1725668211; cv=none;
+    d=strato.com; s=strato-dkim-0002;
+    b=tHpnywW1QoUX1iOQTG8n4FCAYv7l12KdiivN13MNv2uh7o88wALE9A+rQh/E7dJfjH
+    wXZSYps6tb+ZEqUQuEN09YMuCv4zCDcJCRz6FlqVbPACEent6SjQXmveQ0j+c+CUKFxl
+    zZRMZExoJny+4oYnf6O7mkRl5FO9J15OKu6IFRqp0PdVFO+85gYaBvsU8vb+qx8BM4vV
+    IWfg7KuEV4+wBzkb9P90IMQIY8FrtvqCnDeB3nfP7lfnJsgCX7COQOzZCrtYhcHLysLT
+    XbvHGmq6te71gVGD/FqQF+Z4lA5UC8uWvwGjrIekl+B0bzxRzSKGV93jmuTSltHzbbiQ
+    NIbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1725668211;
+    s=strato-dkim-0002; d=strato.com;
+    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=Omp0S7+0wvCxAksGDzxbQLp9qE/7AMnvO8UoBn8Dlrc=;
+    b=dYBS1QQJsulVnjavBUoL8azalxPh4lmb9qcRmOZBa1KUU7yqUzkP+Hzk9KK8ObtCKe
+    268H2so0kHpCojpJCou7rGIdPMY6kwixzK1j5fqPfw+thESai/raoCuGXfycSUNKnB/J
+    GUSfuD1ndD4DxQE2aSG0rUjGFEYWYky3eER9t8dhHg+cjpGRI8UoLIK05MuXuUht+jR+
+    U945qUnCC9l96veuc/lq1QeiipelP2VwpsvEjYvV3X9/1wZ4WdNPc2U0pRKO/Kn5XCWS
+    i2KhRprn4sFmuO4i54gWuNebZWaEAl1XF2n24EPdz9Ndv+yZwpzMMxI3dqePrthkbTP7
+    pHwA==
+ARC-Authentication-Results: i=1; strato.com;
+    arc=none;
+    dkim=none
+X-RZG-CLASS-ID: mo01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1725668211;
+    s=strato-dkim-0002; d=clisp.org;
+    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=Omp0S7+0wvCxAksGDzxbQLp9qE/7AMnvO8UoBn8Dlrc=;
+    b=mDGWm9pqzEkoEAEp+/az0W5dHEJndyXzLFgEN7sdHuhk5WuFfryGYXnEFglkgsk0AE
+    xh4zCo3aYSWuYsmHTaY0CCpKK821QRM6FpmWR8nuXQe/GHFXgKIJbRCwGHwzUfXClSXk
+    CWzUYdUYq2Ru6/kT257ZtotCJSCCG++u2aNIfczFBD9D2iMU7r2srCfmCH7Nz9vS+SMS
+    K/Bgn71qMxl0JfUaDRF+DCAJS3c4VGTrCr2sCNIWrEy3qg3foFtXKxnSuN2uc0HyZvfq
+    Z2JV0MYlmgw7OQBth5pSOfpgMgzELzhd+Z/15cOlQDPCO9iU3OdglA8Ec+5iWg5AbXDh
+    Fwfw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1725668211;
+    s=strato-dkim-0003; d=clisp.org;
+    h=References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Cc:Date:
+    From:Subject:Sender;
+    bh=Omp0S7+0wvCxAksGDzxbQLp9qE/7AMnvO8UoBn8Dlrc=;
+    b=JWsPgr9y2DmNn9jGdtzaW4vsH2PmP1ZQs31R7iB/ir0XpDv0c19+nGfe4W/EvzJj7F
+    oAGgaTYxlbLz6VQY1JBA==
+X-RZG-AUTH: ":Ln4Re0+Ic/6oZXR1YgKryK8brlshOcZlLnY4jECd2hdUURIbZgL8PX2QiTuZ3cdB8X/nqj/KEW/SlFzObNjGFxEHZpNkKU7s"
+Received: from nimes.localnet
+    by smtp.strato.de (RZmta 51.2.3 AUTH)
+    with ESMTPSA id N17ea70870GnQ5g
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Sat, 7 Sep 2024 02:16:49 +0200 (CEST)
+From: Bruno Haible <bruno@clisp.org>
+To: "Andreas K. Huettel" <dilfridge@gentoo.org>, Wookey <wookey@wookware.org>, Khem Raj <raj.khem@gmail.com>, Paul Eggert <eggert@cs.ucla.edu>
+Cc: libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org, config-patches@gnu.org, distributions@lists.linux.dev, devel@lists.fedoraproject.org, glaubitz@debian.org, maskray@google.com, dickey@invisible-island.net, toolchain@gentoo.org
 Subject: Re: Proposed CHOST change for the 64bit time_t transition
-In-Reply-To: <6e8dadbc-7ae2-465f-b8f6-d0d62507a191@cs.ucla.edu> (Paul Eggert's
-	message of "Thu, 5 Sep 2024 08:39:28 -0700")
-Organization: Gentoo
-References: <4996568.GXAFRqVoOG@noumea>
-	<20240905020617.GZ23787@mail.wookware.org>
-	<CAMKF1spAZzNH3jYOnwo720nM4zQ_5JCv=ZGq4SC=TWC+WXWVPQ@mail.gmail.com>
-	<3848277.MHq7AAxBmi@noumea>
-	<6e8dadbc-7ae2-465f-b8f6-d0d62507a191@cs.ucla.edu>
-Date: Fri, 06 Sep 2024 18:06:04 +0200
-Message-ID: <8634mckbrn.fsf@gentoo.org>
+Date: Sat, 07 Sep 2024 02:16:49 +0200
+Message-ID: <1868152.c1hCyg87lr@nimes>
+In-Reply-To: <6e8dadbc-7ae2-465f-b8f6-d0d62507a191@cs.ucla.edu>
+References: <4996568.GXAFRqVoOG@noumea> <3848277.MHq7AAxBmi@noumea> <6e8dadbc-7ae2-465f-b8f6-d0d62507a191@cs.ucla.edu>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Paul Eggert wrote:
+> I'd rather just switch, as Debian has.
 
-Paul Eggert <eggert@cs.ucla.edu> writes:
+I'd go one step further, and not only
+  make the ABI transition without changing the canonical triplet,
+but also
+  make gcc and clang define -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64
+  among their predefines.
 
-> One possible improvement would be to append "t32" if you want 32-bit time=
-_t,
-> instead of appending "t64" for 64-bit time_t. That way, people wouldn't be
-> stuck with appending that confusing "t64" for the foreseeable future, and=
- only
-> specialists concerned with 32-bit time_t would need to know about the iss=
-ue.
+Rationale:
 
-But that'd change semantics in non-obvious ways.  The intention behind
-this suggestion is to have a mechanism to communicate to packages and
-the toolchain alike that "yes, this system is Y2038-proof".  There is
-currently no mechanism to do that.  There isn't even a mechanism to
-guess based on your dependencies whether you should also enable LFS and
-T64 (and there can't be a general one - you'd need to detect what
-libraries are doing what if they have time_t or other system integers on
-ABI boundaries, which is not generally possible).  Not that the latter
-would suffice - even if we changed all packages we can to use such a
-mechanism, there would be plenty of packages that don't (think of all
-the hand-rolled makefiles..).
+  * We want that a user of a distro with the new ABI can build
+    packages in the usual way:
+      - ./configure; make; make install (when using Autoconf), or
+      - make; make install  (when there is just a Makefile).
+    This *requires* that gcc and clang get patched, as indicated
+    above.
+    (Only changing Debian-specific files or variables won't do it.)
 
-An alternative that I pondered was to teach the linker about some notion
-of "compatibility strings" that it would compare and reject if
-different, plus teaching the compiler how to emit those, plus teaching
-glibc to tell the compiler to emit those..  We could have key-value
-pairs in some section.  For each key K, we could have the linker check
-that, for each (shared or otherwise) object either does not contain K or
-contains K with the same value as all the other ones, and produce an
-error otherwise.  On the resulting object, the KV pairs would be the
-union of all KV pairs of all constituent objects.
+  * Once this has been done, is there a need for a triplet change?
+    Not in the toolchain, and not in the packages either.
+    Needs that have been mentioned in [1][2]:
 
-... but this is for i?86, a CPU family I haven't used in ~15 years (and
-I suspect many also have not..), and there are other things eating my
-time.  And it'd still require a world rebuild.
+      - Users would like to know in which ABI they / their distro lives.
+        This can be done through a property in /etc/os-release.
 
-> Personally, I hope backward-compatibility concerns don't require this sor=
-t of
-> thing. I'd rather just switch, as Debian has.
+      - "risks incompatibility with other distributions" [2]
+        What is the problem? Do we expect users to build binaries
+        on 32-bit distro X and try to run them on 32-bit distro Y?
+        Or do we expect binary package distributors (like Mozilla,
+        videolan.org) to do so?
+        It was my impression that this approach is doomed anyway,
+        because so many shared libraries have different major version
+        in distro X than in distro Y.
+        And that such binary package distributors use flatpak, AppImage, etc.
+        precisely to get out of this dilemma.
 
-The "status quo" of some packages enabling it of their own volition, and
-some not, leads to various subtle breakages (example:
-https://bugs.gentoo.org/828001).  I think switching like that would not
-be much different.
+      - Building gcc and glibc might need some particular options.
+        Such options can be documented without requiring a new triplet.
 
-I do not know what approach Debian took, but if it is one of altering
-the toolchain, then this is a sure way to introduce subtle divergences
-between distros (this is why I've suggested we CC the GCC and binutils
-MLs); if it is one of teaching debhelper (is that the right tool?  not
-sure) about it, then this will break user-compiled packages (so,
-./configure && make && make install, or moral equivalent).  If it is to
-alter libc, then, can we do libc.so.7?  ;)
+References:
+[1] https://wiki.debian.org/ReleaseGoals/64bit-time
+[2] https://wiki.gentoo.org/wiki/Project:Toolchain/time64_migration
 
-The only actually solid approach I see today is to /somehow/ communicate
-to the system to not use 32-bit time, ever (and consequently, to enable
-LFS).  I think that the "least effort" path to do that is through the
-tuple.
 
-There's precedent for this also, AFAIK, in the 32-bit ARM world
-(gnueabi/gnueabihf, whatever that means).
 
-config.guess would need to be altered a little bit.  My preference is
-for [[ $os =3D *-*-gnu*t64* ]] informing glibc to completely ignore
-_FILE_OFFSET_BITS, _LARGEFILE_SOURCE, _LARGEFILE64_SOURCE, and
-_TIME_BITS and just presume 64 for all of those system integers.  This
-means that config.guess could undef those (in case a toolchain sets
-those) and include some libc file, then check for sizeof (time_t), or
-just have glibc define something if on a gnut64 target.
-
-> I felt the same way about the 64-bit off_t back in the 1990s. It was obvi=
-ous to
-> me even at the time that we would have been significantly better off maki=
-ng
-> off_t 64-bit, while keeping 32-bit off_t in the ABI for backward compatib=
-ility;
-> this is what NetBSD did with time_t in 2012. Although I realize others fe=
-lt
-> differently, I never fully understood their concerns.
-
-That is history now I fear; I also wish that time_t was made
-64-bit a long ago ;)
-
-> And here I am, three decades later, still having to make changes[1] to
-> Autoconf's AC_SYS_LARGEFILE macro to continue to support that 30-year-old=
- off_t3
-> mistake, and now with 64-bit time_t interacting with 64-off_t in non-orth=
-ogonal
-> ways.
-
-Indeed, and the "best" part is that, whatever you do in autoconf, unless
-a program exists in isolation only interfacing with libc, it will break
-some consumer (or will be broken by some dependency) because there's no
-mechanism to signal the time_t size across ABI boundaries.
-=2D-=20
-Arsen Arsenovi=C4=87
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iOcEARYKAI8WIQT+4rPRE/wAoxYtYGFSwpQwHqLEkwUCZtsobF8UgAAAAAAuAChp
-c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0RkVF
-MkIzRDExM0ZDMDBBMzE2MkQ2MDYxNTJDMjk0MzAxRUEyQzQ5MxEcYXJzZW5AZ2Vu
-dG9vLm9yZwAKCRBSwpQwHqLEk99AAQDwfulphggJgOoD6iD2ciJhCsz+htms0RlM
-Woo7itip2AD+IKE0tc6t+xsBS5lH4v6nwUiI2dIMp+wxvhlQjFkzDQo=
-=f6iR
------END PGP SIGNATURE-----
---=-=-=--
