@@ -1,116 +1,148 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38871B85F2
-	for <distributions@lists.linux.dev>; Sat,  7 Sep 2024 12:32:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6BC2158528
+	for <distributions@lists.linux.dev>; Sun,  8 Sep 2024 14:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725712353; cv=none; b=hIwiFXqA7yExRRrKKAk9PoMu/tI7UciLpYmkzcChWSAILuea+g1HjQnGdesp36ZMAWL/pAExFCGgVQbDtVwjrUL4XIzGgzB7QX7ef3wEQ09ZKtghcLaUKrYV1ryQUDKdGhNqnQpIlUQ3hV1oDZ3DUWF+g7zfXtKidc3B2dQla6c=
+	t=1725804500; cv=none; b=Vt6VDAamDJe9JkcrvVo2QR4d0kpUsXNv1uofmz4Mhbomt930iMXkmefdbg9pW9Qak7mRidwAary7URp0Yn0N3kJjaleEI76ElkZfoma48sDPsYanhhIT7oGcW2e3OlURlR0TYdUZ2Nl6FJ0TT/Bk/8ZerEV2uHq17bUP5jWLNzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725712353; c=relaxed/simple;
-	bh=+HtRqxaTYrF7zHM6v74Xxnnwn9/2I8PF+9kdc/XLcJo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gm8C5YSwalRryN9Vxj2rZFoRp5dyIWCMTEter3iajzX6ipzI1pIy7my2Wjo6g1tvdZInKS+JQvZkSlBjzeaAgHc290PW5gRdX9LCxvALJ6Spvqn5Ue9joCqZ5e6K9mnwx4S/FSM6q95CeTDKEkaz8h0puaZr8n9ygj6jN3YLZgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Message-ID: <42bc983414b3231b7bfecc209e56f348217b6aaa.camel@gentoo.org>
+	s=arc-20240116; t=1725804500; c=relaxed/simple;
+	bh=D+3opGe8jPfLOA1Jaq2pPU3gS2ZFvz63pqXXRliMqMY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=XM66BovrgFQAG7GqqZoMh2PIu8Q16ZjnVleLUy3K1eBSnfn8Mg0ZhujNBmoSjMHcggsFtDWN3Us0jq2/PWoPJXcGsc2yBLDY/dOfPvbvD7oS+22SHddXgehistt3UGmEvF4lEQLbeOeom+ytpk5TAedh2W/TO2zi6ujeifmkDAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aarsen.me; spf=pass smtp.mailfrom=aarsen.me; dkim=pass (2048-bit key) header.d=aarsen.me header.i=@aarsen.me header.b=pVH7cLRR; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aarsen.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aarsen.me
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=aarsen.me header.i=@aarsen.me header.b="pVH7cLRR"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4X1sHq5lpcz9sLy;
+	Sun,  8 Sep 2024 16:08:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aarsen.me; s=MBO0001;
+	t=1725804487;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LqrMEGFtOJ/sqAmd1St1JKUMKSb8bIrc86HgdAcw31Y=;
+	b=pVH7cLRR4LTeAeEJw9gvXnHj6ynxRA80OCZzAxK3qhUemq3Ne+7j0OqGN6JRlG8w70TRmS
+	AYQebSARsOX/L0ZIxIadg+A8U5UzlpgtPjKq6oLg5IrDP/g3r5fwc1Jx8NoPJ4uEHpNRY7
+	BveVrn/KyrIEvesptWdcG/m8ZxnP4R1d0jQKRpivHeHcHZ1F+dk7oYG3h2Dd7IpbP01lEU
+	aCrL8Jxz3TRSnRd/nOVzlSt3q9le0r//IRyxDJuX27MZj3SR6lfvFEZ+WH+5PcxIbhAty5
+	5yIsFvxo901lwtT1hduhUQBhv9Bjj7weTOH0Yqr5b4M2gSwqrYHaBKiQghDXRg==
+From: =?utf-8?Q?Arsen_Arsenovi=C4=87?= <arsen@aarsen.me>
+To: Bruno Haible <bruno@clisp.org>
+Cc: "Andreas K. Huettel" <dilfridge@gentoo.org>,  Wookey
+ <wookey@wookware.org>,  Khem Raj <raj.khem@gmail.com>,  Paul Eggert
+ <eggert@cs.ucla.edu>,  libc-alpha@sourceware.org,
+  binutils@sourceware.org,  gcc@gcc.gnu.org,  config-patches@gnu.org,
+  distributions@lists.linux.dev,  devel@lists.fedoraproject.org,
+  glaubitz@debian.org,  maskray@google.com,  dickey@invisible-island.net,
+  toolchain@gentoo.org
 Subject: Re: Proposed CHOST change for the 64bit time_t transition
-From: =?UTF-8?Q?Micha=C5=82_G=C3=B3rny?= <mgorny@gentoo.org>
-To: Wookey <wookey@wookware.org>, "Andreas K. Huettel" <dilfridge@gentoo.org>
-Cc: libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org, 
-	config-patches@gnu.org, distributions@lists.linux.dev, 
-	devel@lists.fedoraproject.org, glaubitz@debian.org, maskray@google.com, 
-	dickey@invisible-island.net, toolchain@gentoo.org
-Date: Sat, 07 Sep 2024 14:32:24 +0200
-In-Reply-To: <20240905020617.GZ23787@mail.wookware.org>
-References: <4996568.GXAFRqVoOG@noumea>
-	 <20240905020617.GZ23787@mail.wookware.org>
-Organization: Gentoo
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-oCwY/NglvM6LNxdmZ5dQ"
-User-Agent: Evolution 3.52.4 
+In-Reply-To: <1868152.c1hCyg87lr@nimes> (Bruno Haible's message of "Sat, 07
+	Sep 2024 02:16:49 +0200")
+References: <4996568.GXAFRqVoOG@noumea> <3848277.MHq7AAxBmi@noumea>
+	<6e8dadbc-7ae2-465f-b8f6-d0d62507a191@cs.ucla.edu>
+	<1868152.c1hCyg87lr@nimes>
+Date: Sun, 08 Sep 2024 16:08:02 +0200
+Message-ID: <86mskitf0d.fsf@aarsen.me>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+X-Rspamd-Queue-Id: 4X1sHq5lpcz9sLy
 
-
---=-oCwY/NglvM6LNxdmZ5dQ
-Content-Type: text/plain; charset="UTF-8"
+--=-=-=
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
+Bruno Haible <bruno@clisp.org> writes:
 
-On Thu, 2024-09-05 at 03:06 +0100, Wookey wrote:
-> So it's interesting that in fact Gentoo _does_ want to do this, but it
-> seems to me that this is now a done deal, and 'everyone' has already
-> switched within the existing triplets, even Debian, which is the
-> hardest place to do this because it involved 1100 library transitions,
-> with another 3500-odd rebuilds.
+> Paul Eggert wrote:
+>> I'd rather just switch, as Debian has.
+>
+> I'd go one step further, and not only
+>   make the ABI transition without changing the canonical triplet,
+> but also
+>   make gcc and clang define -D_FILE_OFFSET_BITS=3D64 -D_TIME_BITS=3D64
+>   among their predefines.
 
-I disagree with this claim, and I really feel like in this whole thread
-people are underestimating the gravity of this situation.
+At that point, we should bump SONAME of libc and simply remove 32-bit
+time support.  This would probably be okay generally.  Just doing the
+predefine doesn't really fix anything - all the problems of not being
+able to detect whether t64 support exists still persist, with no
+mechanism to prevent mixing.
 
-In the case of Gentoo, being a source distribution implies that
-the vast majority of users are building everything from source.  While
-binary packages are supported to some degree, this is not something we
-can rely on.  As such, we need to assume that the transition will
-involve rebuilding everything from source.
+But, in the case we don't do a bump, why not update the tuple?  This'd
+allow easy communication of whether we have 32 bit time to all
+components of the system, and, in lieu of a better detection mechanism,
+it'd allow anyone at a glance to look at a hosts tuple and see whether
+it is compatible with something based on the tuple it was built on.
 
-This in turn implies rebuilding whole production systems, bottom up.=20
-This means that there will be significant periods of time during which
-production systems will be running with ABI incompatibilities between
-programs and their dependent libraries, and these periods will be much
-longer than if binary packages were used.  In other words, production
-systems will be quasi-broken for extended period of time.
+AFAIK the only reason not to do that is cosmetic - and it is ugly, but
+this is for a dead platform, so I'm not too worried.
 
-What's even more dangerous is that any particular rebuild can actually
-fail -- and then the user may suddenly be left with a quasi-broken
-system, pending urgent recovery.  I mean, just imagine that one of your
-dependent libraries failed to rebuild, and you end up having a 32-bit
-time_t program with some of its dependencies using 32-bit time_t,
-and others 64-bit time_t already -- and you suddenly have to figure out
-how to make the problematic package build again, or revert everything
-back.
+> Rationale:
+>
+>   * We want that a user of a distro with the new ABI can build
+>     packages in the usual way:
+>       - ./configure; make; make install (when using Autoconf), or
+>       - make; make install  (when there is just a Makefile).
+>     This *requires* that gcc and clang get patched, as indicated
+>     above.
+>     (Only changing Debian-specific files or variables won't do it.)
+>
+>   * Once this has been done, is there a need for a triplet change?
+>     Not in the toolchain, and not in the packages either.
+>     Needs that have been mentioned in [1][2]:
+>
+>       - Users would like to know in which ABI they / their distro lives.
+>         This can be done through a property in /etc/os-release.
+>
+>       - "risks incompatibility with other distributions" [2]
+>         What is the problem? Do we expect users to build binaries
+>         on 32-bit distro X and try to run them on 32-bit distro Y?
+>         Or do we expect binary package distributors (like Mozilla,
+>         videolan.org) to do so?
+>         It was my impression that this approach is doomed anyway,
+>         because so many shared libraries have different major version
+>         in distro X than in distro Y.
 
-Now, I'm not an expert on ABI but I do believe that the potential for
-breakage is pretty serious.  After all, we are talking about doubling
-the type size.  So we're talking about function parameters being
-shifted, struct offset mismatches, stack corruption, heap corruption...
+It is, many do it anyway, and what's worse, many users misguidedly
+prefer it to better approaches (like the ones you mentioned).
 
-I think it does make sense to clearly indicate that this is a serious
-change of ABI.  Furthermore, I personally would even go as far as to
-change libdir, as to ensure that we can rebuild everything without
-immediately breaking production systems in place.
+>         And that such binary package distributors use flatpak, AppImage, =
+etc.
+>         precisely to get out of this dilemma.
+>
+>       - Building gcc and glibc might need some particular options.
+>         Such options can be documented without requiring a new triplet.
+>
+> References:
+> [1] https://wiki.debian.org/ReleaseGoals/64bit-time
+> [2] https://wiki.gentoo.org/wiki/Project:Toolchain/time64_migration
 
-On top of that, we need to account for the fact that users may have some
-executables that they've compiled and linked to the system libraries
-themselves, and these also may start suddenly misbehaving.  So perhaps
-the right thing is to ensure that you can't even run an executable
-unless all its linked libraries use the same time_t variant.
+=2D-=20
+Arsen Arsenovi=C4=87
 
---=20
-Best regards,
-Micha=C5=82 G=C3=B3rny
-
-
---=-oCwY/NglvM6LNxdmZ5dQ
+--=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFGBAABCgAwFiEEx2qEUJQJjSjMiybFY5ra4jKeJA4FAmbcR9gSHG1nb3JueUBn
-ZW50b28ub3JnAAoJEGOa2uIyniQOX1QIALi+vR85BaKoBFFVDth6Dzz/+9Xpl6mL
-L/1dOWK/cQu5B1QTNl7cNRXTaW56RUxO++JZC6EaYxNo3MzjVNQM1i+Zo7Glil4J
-fV6PzEuKQIPkr8cAZzPloxMkbirGF9MOTReyIHesp88jjwViKYHJE/6w8JNEz7lB
-oMi9RFKi7yoIk1nYxlKMp1vuCeMpBXKn+vUu4nNfAMqoeDbyC5tc7KCtDzp6vODo
-zCB7E7vz+ZGCQy6hFxwZ6T2NIW3d4BrpauqD06/PybsmsJ/TfAk1sewfLsdXmYT/
-vc+fH9+Uz7SZYDauoZ0L1Z2WzRaJYq3YO+uYnq89WuYxM7t/UNqTNEA=
-=BbGT
+iOYEARYKAI4WIQT+4rPRE/wAoxYtYGFSwpQwHqLEkwUCZt2vwl8UgAAAAAAuAChp
+c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0RkVF
+MkIzRDExM0ZDMDBBMzE2MkQ2MDYxNTJDMjk0MzAxRUEyQzQ5MxAcYXJzZW5AYWFy
+c2VuLm1lAAoJEFLClDAeosST7cABALNQrDvswcacwe9yh7H9AOVExQG6hf3VxZjt
+9cA78bdzAQD2D1V8KUhLFU+ZomWXkoNr58qlAdj+dk+IfOd7tyCcAQ==
+=Tr+U
 -----END PGP SIGNATURE-----
-
---=-oCwY/NglvM6LNxdmZ5dQ--
+--=-=-=--
