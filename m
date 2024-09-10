@@ -1,83 +1,114 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092FF1850A4
-	for <distributions@lists.linux.dev>; Tue, 10 Sep 2024 08:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E080192B8E
+	for <distributions@lists.linux.dev>; Tue, 10 Sep 2024 10:16:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725957327; cv=none; b=UVHW0878No1jAZCTVoB7k/CFWH7inP2c+0L6Cw2gtPRYvj6vB2BxXXae+GzmTsF16cQv7xn/FI0EbfYOFwks5l925XsSrMdhpkn/jY7X4nO3wnSBsoQMH78rj7UwdfvLBUnQ+D5c3TgM9zxz+T0q0/hmDAjWz/BiYi3VMfk1IoE=
+	t=1725963381; cv=none; b=VSh92d6VR6hJNDSV2n06Sg1n2P0CaNUGzWLRZ/6y63s7HiqikBDpwtuNtX8FKKFVmAxKtWuEXj45n4C6OvQsUE+UMnOWipwAzvW03ha7dn44uxYTkMxJH63OHK1o8GHISfft2nibtOctyzMsXmPfyapuLzXbxIE221BuZ143Mlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725957327; c=relaxed/simple;
-	bh=9zhJQ6HAh+M32WjXdlOHZ3qUEA5BpWX8NQ9MM4jR+hM=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Fv1tDOaknQ/5DRjPdtH/gQD8clk0yMYtyY/pF1p2GvvI0aeGJT2jCePsC6dcdVRc8M9UwN+eFlnJNrAAHDShHRdDsozvRq2eo26MAMqlM4kkeDv7TsJKGmhnEsdT3H9MrBO5NJOjmXgqHdd4/yQvgLF0czjklzHPWQKf88MxmJQ=
+	s=arc-20240116; t=1725963381; c=relaxed/simple;
+	bh=U8pclU5Dnz8SBn5NSxHdFbdH3R3LPFjN1OrFVFV6eUA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=R7e4fcAgoGNwfQuvUUAhkV16PULlsd21uOLqNySQjxSyWW2a70cHvxnAgOMDOF+xkkPG3rBFoY2sIz9Txmt00Kd3rNaiFRVEMtlYl1CQJxQ7RCE8ma9PTbkoAEZHAPd+GinaL4e7AYN2OPx0crW6897bSqUnyUpwXivcCP13O38=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Message-ID: <7b3b2810840aff63f7edc1dbf6ff11462c7c4a09.camel@gentoo.org>
-Subject: Re: tzdata-2024b chaos
-From: =?UTF-8?Q?Micha=C5=82_G=C3=B3rny?= <mgorny@gentoo.org>
-To: Yao Zi <ziyao@disroot.org>, Sam James <sam@gentoo.org>, 
-	distributions@lists.linux.dev
-Date: Tue, 10 Sep 2024 10:35:20 +0200
-In-Reply-To: <ZuABcMcHqR7VqTma@pineapple>
-References: <87jzfk1hwy.fsf@gentoo.org> <ZuABcMcHqR7VqTma@pineapple>
-Organization: Gentoo
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-lPCxt+HEXrSXoWGQIw3E"
-User-Agent: Evolution 3.52.4 
+From: "Andreas K. Huettel" <dilfridge@gentoo.org>
+To: Jacob Bachmeyer <jcb62281@gmail.com>,
+ Arsen =?utf-8?B?QXJzZW5vdmnEhw==?= <arsen@aarsen.me>
+Cc: Bruno Haible <bruno@clisp.org>, Wookey <wookey@wookware.org>,
+ Khem Raj <raj.khem@gmail.com>, Paul Eggert <eggert@cs.ucla.edu>,
+ libc-alpha@sourceware.org, binutils@sourceware.org, gcc@gcc.gnu.org,
+ config-patches@gnu.org, distributions@lists.linux.dev,
+ devel@lists.fedoraproject.org, glaubitz@debian.org, maskray@google.com,
+ dickey@invisible-island.net, toolchain@gentoo.org
+Subject: Re: Proposed CHOST change for the 64bit time_t transition
+Date: Tue, 10 Sep 2024 12:16:09 +0200
+Message-ID: <3650049.QJadu78ljV@noumea>
+Organization: Gentoo Linux
+In-Reply-To: <86y140qvbf.fsf@aarsen.me>
+References:
+ <4996568.GXAFRqVoOG@noumea> <66DE3648.3040904@gmail.com>
+ <86y140qvbf.fsf@aarsen.me>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="nextPart2047859.CQOukoFCf9";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
 
-
---=-lPCxt+HEXrSXoWGQIw3E
-Content-Type: text/plain; charset="UTF-8"
+--nextPart2047859.CQOukoFCf9
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"; protected-headers="v1"
+From: "Andreas K. Huettel" <dilfridge@gentoo.org>
+Subject: Re: Proposed CHOST change for the 64bit time_t transition
+Date: Tue, 10 Sep 2024 12:16:09 +0200
+Message-ID: <3650049.QJadu78ljV@noumea>
+Organization: Gentoo Linux
+In-Reply-To: <86y140qvbf.fsf@aarsen.me>
+MIME-Version: 1.0
 
-Hi,
-
-On Tue, 2024-09-10 at 08:21 +0000, Yao Zi wrote:
-> On Tue, Sep 10, 2024 at 01:17:17AM +0100, Sam James wrote:
-> > 2) Both libc++ and libstdc++ appear broken with a separate problem
-> > [1][2][3].
-> >=20
-> > This manifests in Waybar, for example [4].
-> >=20
-> > It's not clear to me if libc++ is broken or not, as people in the bug
-> > may have been testing a clang configured to use libstdc++ (the default)=
-,
-> > and I don't have a system to test it on to hand.
+Am Dienstag, 10. September 2024, 01:08:36 CEST schrieb Arsen Arsenovi=C4=87:
+> Jacob Bachmeyer <jcb62281@gmail.com> writes:
 >=20
-> libc++ 18, the latest stable release, seems not to support these
-> timezone related functions yet.
+> >> At that point, we should bump SONAME of libc and simply remove 32-bit
+> >> time support.  This would probably be okay generally.
+> >
+> > This is probably the best solution to this problem at hand, especially =
+since
+> > the old ABI has a definite expiration date about 14 years from now.  Bu=
+mp the
+> > libc SONAME major and hope that we can get rid of the last dependencies=
+ on the
+> > old SONAME before the deadline.  We will have 14 years to do it, if tha=
+t arch
+> > is even still used then.
+>=20
+> Indeed.  I believe the current thinking is that the existing software
+> for the old ABI could benefit from libc updates, hence not breaking it,
+> but.. it practically is somewhat broken already (hence the troubles that
+> lead to this thread).
+>=20
 
-Replying to correct both posts: it does support that (under -std=3Dc++20
--fexperimental-library) but it supports new tzdata correctly.  Only
-libstdc++ is affected.
+This is all nice and good, but I would actually like to focus on realistic
+targets (ie., ones which could be achieved significantly before 2038... :o)
 
---=20
-Best regards,
-Micha=C5=82 G=C3=B3rny
+That's also the beauty of only appending t64 to the last quadruplet field,=
+=20
+most software is not impacted by it and just accepts it.
 
-
---=-lPCxt+HEXrSXoWGQIw3E
+=2D-=20
+Andreas K. H=C3=BCttel
+dilfridge@gentoo.org
+Gentoo Linux developer=20
+(council, comrel, toolchain, base-system, perl, libreoffice)
+https://wiki.gentoo.org/wiki/User:Dilfridge
+--nextPart2047859.CQOukoFCf9
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFGBAABCgAwFiEEx2qEUJQJjSjMiybFY5ra4jKeJA4FAmbgBMgSHG1nb3JueUBn
-ZW50b28ub3JnAAoJEGOa2uIyniQOvSQH/11R6C0wJ+RJIoY0f0oExAe3AaVaGK47
-5E5BA4ulm7KzNv9FlpHh1IVBnxsIl6tBmsBhwHcFtlKGp5bBygIQ36pTKPi9wkwR
-+Bi28S7v+VKaDXJq20IO5YjqfBVeoZMqdz4KY1awJ9YKIsOzF86EbjaRc97hpyIT
-cUrJVJlEfum/VIFt7vPKqtItUx4I9Ita5sHgaNXCHkTr4B5+WehE61rtwDVNQLee
-s6oJ57RfE7rUD8h9Ovp93QPwOaJBrUuV6bylp2v6dHo06n4u43W9xLe3r97t1m7U
-MYdBe+h6MqGy6XTFMnw2qeGycZbeUb/0qZ7ZrsudcW/51c1C01Gvyfc=
-=Z19T
+iQIzBAABCAAdFiEE/Rnm0xsZLuTcY+rT3CsWIV7VQSoFAmbgHGkACgkQ3CsWIV7V
+QSqMeg/9EhuofarFm0+dk2xBY1i9vLIQyOWsVUM3Y8DF9B6fToACD/zzEkA9WdRz
+our9pNxDV0A4IGzsOaigYAhSM6Jr4Z6FEhDJZ61hEMUrVYq5N1Mi3fu3b3A7NM4G
+o5rIkYrMvTI3vIUF+h/Pln4IcOEDqHCniYDr2gA9b0d6o+tJ+5FtfGNbdqk5gbkr
+RZR8+WynZf2mSPX4t6jEmef2kdOYr7E8+dzqqqt6QGi2tmH0ti8F4qPxfti7kvBR
+UZgx1gKaO137aVmqPLyjZYWwlve8ZBRR0ZrMmWYk5Pcb0dZIxPNCNVxVCSJdhTV5
+IYPlZ97YNvOJ8ZWUXuddnAyx1sVvbH40T3QCIrbBGHQkE9LPdA5p6u9wESb3IHMw
+FsYw2aK8F0sBtaU54oS/pSFSY8OZPHYwVzbG789YtnOFgOJ71+ru6+HleXLjyid+
+AI7LuzH3Ud3mBk+eAoKQLOrsx0LRbJzNvCT0yhjeAfHO1ckpr8tJDT5YV8AIht56
+iZppScDxWC1nS3wQ8tldlawe9YvHHKQrVvdE3wh1qQBN52n5fzfyzDiQjcr484J0
+/aDpLCa80hPoQoypOFREjGtJBJnUBQnsIun+5Ofk5iBtGnq66uFRblJQi+3KPAHn
+nGh8Nv1cixaebHMboT3bX6UeLHkqnLB6fA4tjHk7wm7I6DK/Yck=
+=LCC0
 -----END PGP SIGNATURE-----
 
---=-lPCxt+HEXrSXoWGQIw3E--
+--nextPart2047859.CQOukoFCf9--
+
+
+
