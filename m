@@ -1,56 +1,24 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC3018DF73
-	for <distributions@lists.linux.dev>; Mon,  9 Sep 2024 23:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EB951EF1D
+	for <distributions@lists.linux.dev>; Tue, 10 Sep 2024 00:17:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725923329; cv=none; b=OAr6gzU2ac6JzSLscRkZrX7ppuK0yxuvN+RtFrid7AQzOpbqpG16l09fg78SwX93ZFm0r43k0P2uC3mzh6WGBM4z7LMHawyPosXHggfBidp60gqjhsgiqPPpp7wsQJOZjxLn3cr7b7DScaiWiwFoJ3t0oNIyo7jMhtSGBK+o1M4=
+	t=1725927444; cv=none; b=GBak8ik3pvGqZ7B3J7Nh8Q68VCJuTAOjqtFslBGmDYz1UxfIeZRwYO4yYU9ZV9FgF5J14aZkWjiP0kI4ALZMcIZgEGGDc6uZTPz5vjUCjOxrM7ekpEzS3sdRd14X5+gyOOU4TWc0Q6f7gNzktxZ0xXAnjETm/v9+WXcV5P/3CFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725923329; c=relaxed/simple;
-	bh=RcPuffvaGK77dwN28yBaY1coP4XRuXQN0qFtSWEmd34=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Zpec8yCp5Ykc1trAR+B1CzcSJaFNQojDgw3bnUVLkJcDim22Ta2IvdgyF9p9AGXRmbOntV4v8DP/v097Ng9ScBoo4PVgmb/+qwQF/pgwdUiFo0rQTHWNo+zb4AL2lyHIidiRPLCLPU2VmSL6sdifyJip9mKHp/fN0j+eCs9EHz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aarsen.me; spf=pass smtp.mailfrom=aarsen.me; dkim=pass (2048-bit key) header.d=aarsen.me header.i=@aarsen.me header.b=EOfrBtFG; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aarsen.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aarsen.me
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aarsen.me header.i=@aarsen.me header.b="EOfrBtFG"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4X2jF62zYTz9tDP;
-	Tue, 10 Sep 2024 01:08:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aarsen.me; s=MBO0001;
-	t=1725923322;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RCu4BE+QVLvyQPNyNSUYATqnXwt3hlXRjSPvjH/NMic=;
-	b=EOfrBtFG6FaXnucejMHUz6SWWdGAuHcWDyuUDeK4ZPt8aft3jlUMByDmdKRYk4zNqw5cMU
-	UELLelxbyRNY6KY9TNSX/PxOuORufgFaV4TPBRczI1KxfFXT8sc5AtWJ2Ygm/ocp/Bhsd2
-	dwdc/Uxc9IZNrsZ+9t0KsY+dHMgBPXpmbpai+Ca0W1TqjDFoGXAdPEt8Xw4NrmkeaCUYs6
-	ApBQrMpsDW/fq3EuEzQ4n1KMlYhxmhqsw5fsykgPnnDjTFj+chH03GGRc6VIYHPjf4xj0U
-	kilSrNSoAooswUvOcQD5EQHAiRiItT8LS3pUCI8g7trhEeSuAjyP3cS6a5nxzw==
-From: =?utf-8?Q?Arsen_Arsenovi=C4=87?= <arsen@aarsen.me>
-To: Jacob Bachmeyer <jcb62281@gmail.com>
-Cc: Bruno Haible <bruno@clisp.org>,  "Andreas K. Huettel"
- <dilfridge@gentoo.org>,  Wookey <wookey@wookware.org>,  Khem Raj
- <raj.khem@gmail.com>,  Paul Eggert <eggert@cs.ucla.edu>,
-  libc-alpha@sourceware.org,  binutils@sourceware.org,  gcc@gcc.gnu.org,
-  config-patches@gnu.org,  distributions@lists.linux.dev,
-  devel@lists.fedoraproject.org,  glaubitz@debian.org,  maskray@google.com,
-  dickey@invisible-island.net,  toolchain@gentoo.org
-Subject: Re: Proposed CHOST change for the 64bit time_t transition
-In-Reply-To: <66DE3648.3040904@gmail.com> (Jacob Bachmeyer's message of "Sun,
-	08 Sep 2024 18:42:00 -0500")
-References: <4996568.GXAFRqVoOG@noumea> <3848277.MHq7AAxBmi@noumea>
-	<6e8dadbc-7ae2-465f-b8f6-d0d62507a191@cs.ucla.edu>
-	<1868152.c1hCyg87lr@nimes> <86mskitf0d.fsf@aarsen.me>
-	<66DE3648.3040904@gmail.com>
-Date: Tue, 10 Sep 2024 01:08:36 +0200
-Message-ID: <86y140qvbf.fsf@aarsen.me>
+	s=arc-20240116; t=1725927444; c=relaxed/simple;
+	bh=ZnGSrQkEokN3bmld+5i6qL5y9vHGoAk+UKuHAtCHayo=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GU0vqNlBZep9PspDNWAxltWbAQ/ukzMbNepe9rarZ9FDzRyaDlec7j+aQzXEhBfDrd2sSIt5LW451tB+puVWmfgj5rbBLjS+r2mjuwkDK05m+hyz0pra19JsCKwbsoUIxcaXuvA+NtXLrn2LdymB0vFIho7q57jD2xVGl/cyN2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+From: Sam James <sam@gentoo.org>
+To: distributions@lists.linux.dev
+Subject: tzdata-2024b chaos
+Organization: Gentoo
+Date: Tue, 10 Sep 2024 01:17:17 +0100
+Message-ID: <87jzfk1hwy.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
@@ -59,64 +27,52 @@ List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
 	micalg=pgp-sha512; protocol="application/pgp-signature"
-X-Rspamd-Queue-Id: 4X2jF62zYTz9tDP
 
 --=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Jacob Bachmeyer <jcb62281@gmail.com> writes:
+Hi!
 
->> At that point, we should bump SONAME of libc and simply remove 32-bit
->> time support.  This would probably be okay generally.
->
-> This is probably the best solution to this problem at hand, especially si=
-nce
-> the old ABI has a definite expiration date about 14 years from now.  Bump=
- the
-> libc SONAME major and hope that we can get rid of the last dependencies o=
-n the
-> old SONAME before the deadline.  We will have 14 years to do it, if that =
-arch
-> is even still used then.
+There's two issues with the latest tzdata-2024b release.
 
-Indeed.  I believe the current thinking is that the existing software
-for the old ABI could benefit from libc updates, hence not breaking it,
-but.. it practically is somewhat broken already (hence the troubles that
-lead to this thread).
+1) "Apr" vs "April" which has confused some broken parsers;
+there's a patch for this post-release [0].
 
->> [...]
->> But, in the case we don't do a bump, why not update the tuple?  This'd
->> allow easy communication of whether we have 32 bit time to all
->> components of the system, and, in lieu of a better detection mechanism,
->> it'd allow anyone at a glance to look at a hosts tuple and see whether
->> it is compatible with something based on the tuple it was built on.
->>=20=20=20
->
-> This is closely related to the idea I floated a year ago of redefining
-> configuration tuples as lists of tags (with a canonical order) progressiv=
-ely
-> narrowing a broad architecture.  Start with CPU architecture and work
-> "narrower" from there.  In that system, adding "-t32" and "-t64" to indic=
-ate
-> time_t width would be the simple solution.  In context then, it was to ha=
-ndle
-> different libc choices on Windows.
+2) Both libc++ and libstdc++ appear broken with a separate problem
+[1][2][3].
 
-Yes, that's about what I imagined as the effect of the suffix.
-=2D-=20
-Arsen Arsenovi=C4=87
+This manifests in Waybar, for example [4].
+
+It's not clear to me if libc++ is broken or not, as people in the bug
+may have been testing a clang configured to use libstdc++ (the default),
+and I don't have a system to test it on to hand.
+
+--
+
+Paul Eggert, the tzdata maintainer, notes on the ML in one of the
+threads discussing this that rolling back to 2024a is a reasonable
+workaround for now, as there's no critical data changes in 2024b [5].
+
+[0] https://github.com/eggert/tz/commit/926b507fa5c3192b1b68fab5910cbd3ba9377c97
+[1] https://github.com/llvm/llvm-project/issues/107779
+[2] https://gcc.gnu.org/PR116657
+[3] https://lists.iana.org/hyperkitty/list/tz@iana.org/message/TECYKLZV3BBPYEJ73YWRQWFCKN62P67Z/
+[4] https://github.com/Alexays/Waybar/issues/3575
+[5] https://lists.iana.org/hyperkitty/list/tz@iana.org/message/HSKHZBRALUYDSSSQQ73E5VMJMEWEI4OO/
+
+thanks,
+sam
 
 --=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iOYEARYKAI4WIQT+4rPRE/wAoxYtYGFSwpQwHqLEkwUCZt9/9F8UgAAAAAAuAChp
-c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0RkVF
-MkIzRDExM0ZDMDBBMzE2MkQ2MDYxNTJDMjk0MzAxRUEyQzQ5MxAcYXJzZW5AYWFy
-c2VuLm1lAAoJEFLClDAeosSTzb4BAJiMlOFEYyM3DO6iTLvmf1EtV2EsyUbekECB
-TDyox7eJAQCtgY+PqJ1X1GPe1iDW5PvQWpDj4/vjERA6kPDiU1bpCA==
-=naHm
+iOUEARYKAI0WIQQlpruI3Zt2TGtVQcJzhAn1IN+RkAUCZt+QDl8UgAAAAAAuAChp
+c3N1ZXItZnByQG5vdGF0aW9ucy5vcGVucGdwLmZpZnRoaG9yc2VtYW4ubmV0MjVB
+NkJCODhERDlCNzY0QzZCNTU0MUMyNzM4NDA5RjUyMERGOTE5MA8cc2FtQGdlbnRv
+by5vcmcACgkQc4QJ9SDfkZAxHwD+OupkC0kTxhxfUFvDLoDp8e9yGvmzlrZC5ojI
++qYcJpkBAO95WJFdcISv3rGXwR1K8yNSLYZU8fg14GWn5oBC/k4I
+=Wlxj
 -----END PGP SIGNATURE-----
 --=-=-=--
