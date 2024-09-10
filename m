@@ -1,72 +1,83 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF84183CB8
-	for <distributions@lists.linux.dev>; Tue, 10 Sep 2024 08:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092FF1850A4
+	for <distributions@lists.linux.dev>; Tue, 10 Sep 2024 08:35:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725957005; cv=none; b=e0JIC483XM34AuQE/lBQ8rnR2CEQNCLI1OPzpcYtpgtRJRHG0ZCy2PAxTdUJ0gp10hEhz9FscQrO6FCaeX5C4dvdGGjCk+U+Y6VbHd75/EkPvaxGuZW9/lFBwfzQPvq8Q0grTkOKEMJ2STOfBaRt+Vk6GogXZOJfUmWTnKRpKqM=
+	t=1725957327; cv=none; b=UVHW0878No1jAZCTVoB7k/CFWH7inP2c+0L6Cw2gtPRYvj6vB2BxXXae+GzmTsF16cQv7xn/FI0EbfYOFwks5l925XsSrMdhpkn/jY7X4nO3wnSBsoQMH78rj7UwdfvLBUnQ+D5c3TgM9zxz+T0q0/hmDAjWz/BiYi3VMfk1IoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725957005; c=relaxed/simple;
-	bh=W2P8oECwLgY/Do0OWdvvFhYuOGd8l4w+oAZDbwIlr50=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cGAei030R0ePIC8Dujf+nUBpHufuXJAU5W3Y46F87nMNJpXBPI0V1XhLv87s741M6c4dPQHXL4j/ZauL5TG4pgfz2vDrPdjkW7zxPAxXEHTdcHbvLZD9n5ytnkVElG7ULayGWh5SGC0c5P1H0QcP2emkz1lw6UfFIrM6RWSCXgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=dWtoksm9; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="dWtoksm9"
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 75122415AA;
-	Tue, 10 Sep 2024 10:21:28 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
-	by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kmydMPGbqsco; Tue, 10 Sep 2024 10:21:27 +0200 (CEST)
-Date: Tue, 10 Sep 2024 08:21:04 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1725956487; bh=W2P8oECwLgY/Do0OWdvvFhYuOGd8l4w+oAZDbwIlr50=;
-	h=Date:From:To:Subject:References:In-Reply-To;
-	b=dWtoksm9Zw7VBDRCrhmqEiX0kMxsom7pS7yahnAgE+Boo0a90wLvb4JLJ2mfT0zlD
-	 f3YRcq5L7TOmBUg5UC2Ss9ePHSL8uKkyQG/GBfvaSyMnSFIEZIegKJVz6h5wU/XQnl
-	 2qMnL7AtNxP/m48wDuYyM988hrwD037dUpe7moXYt4ysZ3cO0/h1U8DF/2IBl2VKFQ
-	 vCJ+io/iUGjLHEOcZBfKL/pWG8ZMndjsL0yDYU25YaLSlH6Ke0VPcW2zLLbUHD2LXs
-	 hRe/QE2dGoInkrZpXVm6+qqyM/3CJZGZxBcQXXJzzBKsYN/00FYKh7aNWBdFTIqz35
-	 VTjN9PnDGOvwg==
-From: Yao Zi <ziyao@disroot.org>
-To: Sam James <sam@gentoo.org>, distributions@lists.linux.dev
+	s=arc-20240116; t=1725957327; c=relaxed/simple;
+	bh=9zhJQ6HAh+M32WjXdlOHZ3qUEA5BpWX8NQ9MM4jR+hM=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Fv1tDOaknQ/5DRjPdtH/gQD8clk0yMYtyY/pF1p2GvvI0aeGJT2jCePsC6dcdVRc8M9UwN+eFlnJNrAAHDShHRdDsozvRq2eo26MAMqlM4kkeDv7TsJKGmhnEsdT3H9MrBO5NJOjmXgqHdd4/yQvgLF0czjklzHPWQKf88MxmJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Message-ID: <7b3b2810840aff63f7edc1dbf6ff11462c7c4a09.camel@gentoo.org>
 Subject: Re: tzdata-2024b chaos
-Message-ID: <ZuABcMcHqR7VqTma@pineapple>
-References: <87jzfk1hwy.fsf@gentoo.org>
+From: =?UTF-8?Q?Micha=C5=82_G=C3=B3rny?= <mgorny@gentoo.org>
+To: Yao Zi <ziyao@disroot.org>, Sam James <sam@gentoo.org>, 
+	distributions@lists.linux.dev
+Date: Tue, 10 Sep 2024 10:35:20 +0200
+In-Reply-To: <ZuABcMcHqR7VqTma@pineapple>
+References: <87jzfk1hwy.fsf@gentoo.org> <ZuABcMcHqR7VqTma@pineapple>
+Organization: Gentoo
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-lPCxt+HEXrSXoWGQIw3E"
+User-Agent: Evolution 3.52.4 
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87jzfk1hwy.fsf@gentoo.org>
 
-On Tue, Sep 10, 2024 at 01:17:17AM +0100, Sam James wrote:
-> Hi!
-> 
-> There's two issues with the latest tzdata-2024b release.
-> 
-> 1) "Apr" vs "April" which has confused some broken parsers;
-> there's a patch for this post-release [0].
-> 
-> 2) Both libc++ and libstdc++ appear broken with a separate problem
-> [1][2][3].
-> 
-> This manifests in Waybar, for example [4].
-> 
-> It's not clear to me if libc++ is broken or not, as people in the bug
-> may have been testing a clang configured to use libstdc++ (the default),
-> and I don't have a system to test it on to hand.
 
-libc++ 18, the latest stable release, seems not to support these
-timezone related functions yet.
+--=-lPCxt+HEXrSXoWGQIw3E
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
+
+On Tue, 2024-09-10 at 08:21 +0000, Yao Zi wrote:
+> On Tue, Sep 10, 2024 at 01:17:17AM +0100, Sam James wrote:
+> > 2) Both libc++ and libstdc++ appear broken with a separate problem
+> > [1][2][3].
+> >=20
+> > This manifests in Waybar, for example [4].
+> >=20
+> > It's not clear to me if libc++ is broken or not, as people in the bug
+> > may have been testing a clang configured to use libstdc++ (the default)=
+,
+> > and I don't have a system to test it on to hand.
+>=20
+> libc++ 18, the latest stable release, seems not to support these
+> timezone related functions yet.
+
+Replying to correct both posts: it does support that (under -std=3Dc++20
+-fexperimental-library) but it supports new tzdata correctly.  Only
+libstdc++ is affected.
+
+--=20
 Best regards,
-Yao Zi
+Micha=C5=82 G=C3=B3rny
+
+
+--=-lPCxt+HEXrSXoWGQIw3E
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFGBAABCgAwFiEEx2qEUJQJjSjMiybFY5ra4jKeJA4FAmbgBMgSHG1nb3JueUBn
+ZW50b28ub3JnAAoJEGOa2uIyniQOvSQH/11R6C0wJ+RJIoY0f0oExAe3AaVaGK47
+5E5BA4ulm7KzNv9FlpHh1IVBnxsIl6tBmsBhwHcFtlKGp5bBygIQ36pTKPi9wkwR
++Bi28S7v+VKaDXJq20IO5YjqfBVeoZMqdz4KY1awJ9YKIsOzF86EbjaRc97hpyIT
+cUrJVJlEfum/VIFt7vPKqtItUx4I9Ita5sHgaNXCHkTr4B5+WehE61rtwDVNQLee
+s6oJ57RfE7rUD8h9Ovp93QPwOaJBrUuV6bylp2v6dHo06n4u43W9xLe3r97t1m7U
+MYdBe+h6MqGy6XTFMnw2qeGycZbeUb/0qZ7ZrsudcW/51c1C01Gvyfc=
+=Z19T
+-----END PGP SIGNATURE-----
+
+--=-lPCxt+HEXrSXoWGQIw3E--
