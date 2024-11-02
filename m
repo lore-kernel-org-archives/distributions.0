@@ -1,124 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDE1A945
-	for <distributions@lists.linux.dev>; Tue, 10 Sep 2024 16:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED5A249F9
+	for <distributions@lists.linux.dev>; Sat,  2 Nov 2024 02:20:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1725985420; cv=none; b=EqSxVLVjzqC5XU/NOzVdDHYuunZwBRStNf4hITM9qAfOpRVce0aPwh/pwDAECbSrZMZwW1DusYdN6WYbaW2cesqtNVErE9dmWFHSyWBJ5YYsGS3qej9ODu3TIQ3k5/Ny6+pi5X9IzR8oK2p7KS+1uvyTiehaSdjuPXKuP/tLym8=
+	t=1730514031; cv=none; b=jD0iSj7r0xI/gDjeIe24MbadxsWvXcRJ0mBzZYi6Fgrt0SpjdBvmrkuOW3hNrZ03H/mZVcljKi0We1K6wPbDGuQVh0MWiH7C3pI1KyTktgxIZMbbEEZy6Hnwu2XHdPkj0dKYxn3chKe5/0g99fwaCkdwzpVQZBR4kFaFginvZ8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1725985420; c=relaxed/simple;
-	bh=KEpGlZ2NYD1KrnguFedKR/4i1CUoleKImlBUunKGSYI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=CoSnOu78QzQOHqLhoJjf9904Vnz9srrIcr+TDk9tugyd7INX4ONujKn9Fr82wpOx6CHokp6BeVyXwwmMoovmEV262MZFh/sHHvOWWLP/gD/pwSIrhW+QPtuwnqEV9MQVfWf6pMakQ6oqaU10AgPWV9OImTkoUcsnAJ6u4JWWG0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fAfyQ6x7; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fAfyQ6x7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1725985418;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jvuVY+bm3Q6/gQyNXrtl+BuPr2aqHrjKJQQ5tGJvGJs=;
-	b=fAfyQ6x72KNMZC4sjzQ2azHRrOssF9eIAgnIDnYottjsvt9g8Ir7kZ77DFnjqPxHA/4wcI
-	4Umql1rdF60zlMJckYrlb5s5MPdPjT0j3MN9jS3C7zAv268+IfarbRE8AyTe8NoSO9GKMh
-	rYsmVlko9zKEIakGv7V6XeNkAOLlniM=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-88-PTGy5XF-N2itiCxif2r--A-1; Tue,
- 10 Sep 2024 12:23:34 -0400
-X-MC-Unique: PTGy5XF-N2itiCxif2r--A-1
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E91CC195608B;
-	Tue, 10 Sep 2024 16:23:30 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.4])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3A7481956048;
-	Tue, 10 Sep 2024 16:23:24 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Arsen =?utf-8?Q?Arsenovi=C4=87?= via Gcc <gcc@gcc.gnu.org>
-Cc: Bruno Haible <bruno@clisp.org>,  Arsen =?utf-8?Q?Arsenovi=C4=87?=
- <arsen@aarsen.me>,
-  "Andreas K. Huettel" <dilfridge@gentoo.org>,  Wookey
- <wookey@wookware.org>,  Khem Raj <raj.khem@gmail.com>,  Paul Eggert
- <eggert@cs.ucla.edu>,  libc-alpha@sourceware.org,
-  binutils@sourceware.org,  config-patches@gnu.org,
-  distributions@lists.linux.dev,  devel@lists.fedoraproject.org,
-  glaubitz@debian.org,  maskray@google.com,  dickey@invisible-island.net,
-  toolchain@gentoo.org
-Subject: Re: Proposed CHOST change for the 64bit time_t transition
-In-Reply-To: <86mskitf0d.fsf@aarsen.me> ("Arsen =?utf-8?Q?Arsenovi=C4=87?=
- via Gcc"'s message
-	of "Sun, 08 Sep 2024 16:08:02 +0200")
-References: <4996568.GXAFRqVoOG@noumea> <3848277.MHq7AAxBmi@noumea>
-	<6e8dadbc-7ae2-465f-b8f6-d0d62507a191@cs.ucla.edu>
-	<1868152.c1hCyg87lr@nimes> <86mskitf0d.fsf@aarsen.me>
-Date: Tue, 10 Sep 2024 18:23:22 +0200
-Message-ID: <87a5gfo4ud.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	s=arc-20240116; t=1730514031; c=relaxed/simple;
+	bh=4jhAPrhn/c9zwsU6HpfBZSdDVTggUZJfR+uBALF6a50=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=C3DIo0vjwS26xVRa/XGRyHHVau88EYxtyWP9NJT6+WA/2d86c/Mbci3tnHqUIlsJvlzVuMUruOXSkZ2/Mpu9yLgAUVZE1on6lYNyqOKW1T7IeNS+Wk9SNz9B3jeaESsOPEVFz65ppxV4So/jHOYB5HrzVWMFxjKkX+ZiRBsX/e0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Message-ID: <b3301585-dc2b-4a8b-aa0b-2d9cea3d9e05@gentoo.org>
+Date: Sat, 2 Nov 2024 12:20:25 +1000
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: distributions@lists.linux.dev
+From: Matt Jolly <kangie@gentoo.org>
+Subject: Chromium 130 and 131 Linux tarballs.
+Autocrypt: addr=kangie@gentoo.org; keydata=
+ xsFNBF6BjksBEAC1QaqF3zKOgdunRhkt9nXkdlsL1sriTBk3WSy4De6wYLjiSofGRJY5pAiH
+ EnlD/oW+sxDQ1DQQ3jNW/xlLUKFKYRnWhmkUv7iy0VDFrdj3mZic1pWr5a+sFX9DZNdYxLaa
+ RIVgkstsLbf0ks5EvIqk5d7Ty8B48CgZZL7RXpAP7xrOgmat+JXNovX4djPW7HyNfblcAbzj
+ tsLcQf7/4Q0LfK7wW3MVJmpmNK7dSKKaWgSXY7IICird0tNMF41vuMRJIta0NtIARq+AjCxV
+ 0iEb5odYIbrbamCpzhupJM8M5LPZkbQERIF+OTzGiXhlGVloxlB+vpTzv2oY+fQkLBSSL+NS
+ P2Pv01exA+ezA+5r+KUClA7qUnC8UriwixjJuWfoe03sYRPb91z4nlBKiCP6+jcJpS4+KsgT
+ +//r2PdHBQDC4kVimjWDfbfXoVUhtxbQ3t/Y1vro5WQvOsgNl53hWcuHd1O+zPS1d7x5xj7a
+ otyLJbDwtNDtApHxNYld/w/uj0QpIlz1hj9QX/NthYe6nHYgPVtEmAXjqtdIxrlS6Qx/Gaqf
+ xVhaxtLJVDWqba4GsVA1xlFuQKJ+RTT9OXGhpQNkLPo7rt5FP3C/SUVJa3YewE3x8vmHvfoK
+ PoKGA/wnBCVO68yQw5K3opb5DC4Z9tngrwGXyfhZzE9Uqk+wswARAQABzR5NYXR0IEpvbGx5
+ IDxrYW5naWVAZ2VudG9vLm9yZz7CwZQEEwEKAD4WIQTdt8K8F88DrbOPnBZQ7FSNUuBRwAUC
+ ZccI4wIbAwUJC5i9UAULCQgHAwUVCgkICwUWAwIBAAIeBQIXgAAKCRBQ7FSNUuBRwCNuEACi
+ 1C6XSSPWfFh/14Tn3TqseLvX0554tmsW7FoxEu1jGQIEA2f6rtmn6P2ZKCTmqxzUC0sb17TL
+ 8/8sP7ignGJ3nuPgEczv/VeNQziMOmfxjf2VLk8pQ0seQbAwNMvrgjgcRhCdqwIlQKHURlzj
+ qUbNvp7czV8FVd2qV3iLcf3i8VNbqfBffsTxeyhV88ks9FmbT8VcO2bV1Snl6LsG8u3QKme/
+ kCxg438w1IozYIGP/2M/rl7SUPhuat66mptm9009g8xnXgJBiwI39ZsDhJ8x8sSN2tF3prsG
+ 2SvInhROv8FBmN/DbjfCda2I3hSoSLp5Q/+FeYNJflcBcuWmEU77KhqSBFJrdPZg6+aleQsL
+ vI2WPvwKWZzveUMwbn1ahnwrfLIW2Ue0JMIR/nRXUy7d7ngx111P27si27n/XNrtzCqWQnj9
+ MpcZ+8GO670H5MR1iV0FEG4rz1iEcw/fNgFFrF0HRgHXrUzSx/aKQDjvDrnZBmslnLXQ8uJS
+ pYUCCluOE7xX6D4R2+K4u7KsEWFlCqhTGAeOMZLY5avjhiQF9ZKtsDcVY3fZwrih+uWvvpPF
+ zAKy3hiY+uC3HQqvJYQofogm1Ls/5WYZ9syBjKPdFnpsj33NTTmDDAz+yl+Y1Unp4iU/SnyR
+ JXB2usTR8b1rMywp4YI9B8OBd+RkBOVIGc7BTQRegY5LARAAs/Hifx+R6ItN95PhwcsGr8/V
+ q8dOqTbPd72/BppY8yeJZFRTl0n24ZVWXBJKBSnIfe8uFmNO/f58yY/MJ2ADF5Sqyn8V76Nb
+ t2JS+dqxlnKxkjsXiKJhZiJ0Mp2+oGO1mBbJpjqWGWiVDBp0P0O4DX+ELWI/MfGiavLO8BXl
+ vL2/qlT8we4obExgStAClKqjM9eIKFL93xPrgS8sFmAGSHC4e0wD9YjjxX4AkIdoJ1F2m47y
+ 2QgGKj9w16sqZswt0XOa+TLNIMEgXH24m66kQHUxE1JZfFDWX5HmC2BRFEfIjaQHsDLYBTYJ
+ 8vkIUR0uZm9I/TUnAQMrN20/y2cbFIUynsNKArg03ZpzCxegOxJSPIv6j97Hy4byDyu/Ybj4
+ Z8d9/buGHHjzwRLkszyKEYcSSRVvk7Z1kSsfya7OmO7RMJoRwLH/CSZUR23q4X/w8oUSUXl/
+ S8+avuji3eDGk1Fyr+UjRabXqRL63wghBS895JWYAQRGcDL0d2x/cJi+JACT5Mezchgj393n
+ 43yOvVeVotHvbk0ez+YOJ/pUDBFVzD0FPBeS2YTKrWJXRlxtRTei4B6LzbMFddMYclFDjVqq
+ WcW+1d9Ck0H3pIB9BkAOcyZ7OLMH4GFxwPmR0xILBTt8ZnBbKrKDHikVMJoP1f9oEJ2HuQHe
+ 51/w75JFpUkAEQEAAcLBfAQYAQoAJgIbDBYhBN23wrwXzwOts4+cFlDsVI1S4FHABQJld9e9
+ BQkLmM9yAAoJEFDsVI1S4FHApS8P/2Dovmb516e0PcmYvVoN835cEBgUEQc0lnQAYuNRIPgI
+ CMfNfeZTRdANzyPYYdp+VQCzj95mUt4qlY0PkEGOR1b+2bjeyqp/zAHQShft7FHpsgeRObaW
+ lKE6q9xwUGsOoOcBsWZiwd4xvalIaBG6uczlTrSGJycTF21c35pP6o/eiQs2d/qIVBUMdAtw
+ kefO+pYds1YoyNW2YxGLThWAqNYoThGFsfOqrvLR2HWOcFeneR+PXx2loGdrHE/D6QXpVXxk
+ qRNPig8E68gAVX7q8eRr5+bkJBrG2QvVsc0opiW6AljCJC0gJt5nuHKOObDAmoGx2PuRppT4
+ +wGd1yCElUZ602Opuf2gqS2nxSypf568EIcoSMEzbJFLrAoy3MReTMoltAJVJU8sA9OXYSOg
+ AjHg7aU/nmO8KFHIZMiW24XJ577iU48UV+u8Rpmv4y16uAhp8AI4wvkk6xa5tNcCWU1Ati6Y
+ yrdk2hf9dD29ePUkHKKSfbewr+qZ9dRL1dUXsaGa64oOXmUALxGNNzj7V828PbWa16x3JbYi
+ gwBNqcgATaAZgDrXMV9ynB4aU1eSNNs/1R0Ic6B7c9yWaI568V7XKldus1QclpELQ4Lu+r/F
+ H065qJMw4LqNs4gEDgd3JzNiNC0Jy+I8mD73YSeo87mE1KOCY0f9DNaBJ+v32E+Z
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* Arsen Arsenovi=C4=87 via Gcc:
+Hi all,
 
-> Bruno Haible <bruno@clisp.org> writes:
->
->> Paul Eggert wrote:
->>> I'd rather just switch, as Debian has.
->>
->> I'd go one step further, and not only
->>   make the ABI transition without changing the canonical triplet,
->> but also
->>   make gcc and clang define -D_FILE_OFFSET_BITS=3D64 -D_TIME_BITS=3D64
->>   among their predefines.
->
-> At that point, we should bump SONAME of libc and simply remove 32-bit
-> time support.  This would probably be okay generally.  Just doing the
-> predefine doesn't really fix anything - all the problems of not being
-> able to detect whether t64 support exists still persist, with no
-> mechanism to prevent mixing.
+The upstream Chromium project are currently having some issues with
+their CI resulting in tarballs for the Stable and Beta channels running
+quite late[1].
 
-Defaulting to 64-bit time_t would also make dlsym etc. work again.  For
-post-GLIBC_2.1 targets (where valid binaries are expected to use symbol
-versioning) it's not absolutely required to do a soname bump, just
-changing the symbol version baseline should be enough (set DEFAULT to
-e.g. GLIBC_2.40 in shlib-versions).  Old binaries will use
-__libc_start_main@GLIBC_2.4 or __libc_start_main@GLIBC_2.34, and fail to
-load.  This could be a more source-compatible change becaue I suspect
-not everyone uses LIBC_SO in <gnu/lib-names.h> to get the soname for
-libc.so.
+As the risks associated with having web-browsers with known Critical
+CVEs deployed to users being too high for my comfort I've elected
+to begin publishing tarballs for these releases until the CI catches up.
 
-I do not have a strong opinion whether this should be done for most
-32-bit targets.  Except for i386, where I think we should aim to
-preserve compatibility with legacy binaries for many years to come.
+These can be found in the following S3 bucket. I'm supplying the hosting
+for this; please be conscious of the bandwidth usage (i.e. please mirror
+if you're serving to users). The Gentoo CDN may be faster for users
+outside the region, please don't abuse it.
 
-All these changes have implications for LSB complinace, as people keep
-reminding us:
+* https://chromium-tarballs.syd1.digitaloceanspaces.com/
+* https://chromium-tarballs.distfiles.gentoo.org/
 
-  LoongArch glibc does not provide libutil shared object, against LSB 5.0=
-=20
-  <https://sourceware.org/bugzilla/show_bug.cgi?id=3D31136>
+I will continue publishing tarballs until upstream's CI has caught up,
+and I'll put some work into automating the process so that they're a
+bit more timely.
 
-But as I explained on the ticket, the way LSB is constructed, it's
-surprisingly architecture-specific even in its generic parts, and 32-bit
-Arm with its GLIBC_2.4 baseline won't have the required GLIBC_2.3.4
-symbols (such as __chk_fail@GLIBC_2.3.4) anyway.
+The Dev channel seems to have been fixed however that
+was after this week's release. If it's still not publishing next week 
+I'll put up a tarball for 132.
 
-Thanks,
-Florian
+If you'd prefer to make your own tarballs the process is relatively
+straightforward. I've done up some brief documentation on the Gentoo
+Wiki[2].
 
+Have a great weekend.
+
+Cheers,
+
+Matt
+
+1: 
+https://groups.google.com/a/chromium.org/g/chromium-packagers/c/wjv9UKg2u4w
+2: 
+https://wiki.gentoo.org/wiki/Project:Chromium/How_to_make_a_Chromium_tarball
