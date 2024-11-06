@@ -1,20 +1,73 @@
-Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED5A249F9
-	for <distributions@lists.linux.dev>; Sat,  2 Nov 2024 02:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65E313CFAD
+	for <distributions@lists.linux.dev>; Wed,  6 Nov 2024 08:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730514031; cv=none; b=jD0iSj7r0xI/gDjeIe24MbadxsWvXcRJ0mBzZYi6Fgrt0SpjdBvmrkuOW3hNrZ03H/mZVcljKi0We1K6wPbDGuQVh0MWiH7C3pI1KyTktgxIZMbbEEZy6Hnwu2XHdPkj0dKYxn3chKe5/0g99fwaCkdwzpVQZBR4kFaFginvZ8I=
+	t=1730880410; cv=none; b=I5wgbPeocM7tQpzd63vAtiXdysRVbehkyBvKE/f8Ns2g/6wIFzBZUv38gbtJVzjBpHLb1u26XQUyCSsvJidIL/op3CJ478NGDDOQQjcqea0hnj5Ykdq8mmFJNLwyrhaoqdsO6VBOo1TdjI19wt2XMIptQiKNykfFZmUeXpA356Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730514031; c=relaxed/simple;
-	bh=4jhAPrhn/c9zwsU6HpfBZSdDVTggUZJfR+uBALF6a50=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=C3DIo0vjwS26xVRa/XGRyHHVau88EYxtyWP9NJT6+WA/2d86c/Mbci3tnHqUIlsJvlzVuMUruOXSkZ2/Mpu9yLgAUVZE1on6lYNyqOKW1T7IeNS+Wk9SNz9B3jeaESsOPEVFz65ppxV4So/jHOYB5HrzVWMFxjKkX+ZiRBsX/e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Message-ID: <b3301585-dc2b-4a8b-aa0b-2d9cea3d9e05@gentoo.org>
-Date: Sat, 2 Nov 2024 12:20:25 +1000
+	s=arc-20240116; t=1730880410; c=relaxed/simple;
+	bh=ga4PGiEG3Stv0u473nT5jdY7jkh9V7nnMo6ii58GyYA=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=q7luf3JkLH1OoA0cN8PjVbrzXM+/x4RrbSy9DEQy4LtdJzxBC6U7513Fq3jKlTfod/sNzXZ+vRvSj9AatRjBXmEK8Uy70nL+o07HUvjNFWn3543V2l8WKO5+mqD+I0JXiTAqI6Qe5uxW9wr/puQvgosZgEFi8qq1T6qPHUe1UzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=V2xQLqO+; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=BWlZPk/d; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=PfcML3Z1; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=mv7IzBA4; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V2xQLqO+";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="BWlZPk/d";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PfcML3Z1";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="mv7IzBA4"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F26A821BA2
+	for <distributions@lists.linux.dev>; Wed,  6 Nov 2024 08:06:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730880396; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:autocrypt:autocrypt;
+	bh=ga4PGiEG3Stv0u473nT5jdY7jkh9V7nnMo6ii58GyYA=;
+	b=V2xQLqO+ZNy/gMgbVkp6BLwWkEZkeRO8ldfU597x4/eywLmdaomNstU8En0MMqpjUDMuYq
+	ieWySCjYleCLnAXEQS1V1FylBOG77jvlQ6yePPf3Z8Qqn1zLwbBKWh6XAO2/CI/uL42dsA
+	hr8LZjVyCD8PQrUYJOAAgFO1wHyaApQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730880396;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:autocrypt:autocrypt;
+	bh=ga4PGiEG3Stv0u473nT5jdY7jkh9V7nnMo6ii58GyYA=;
+	b=BWlZPk/dRcF7MXDHHs/uOjC4A+XkpzKbShGE+Teh3EKYj5Pmw8X9xt4GkAaLVoCvQSOHLI
+	LX8QOEvw/k+K7/Dg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=PfcML3Z1;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=mv7IzBA4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1730880395; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:autocrypt:autocrypt;
+	bh=ga4PGiEG3Stv0u473nT5jdY7jkh9V7nnMo6ii58GyYA=;
+	b=PfcML3Z19GhvmLHZI9eg8j3UBWpNXHkaGkoPLjTmCLRPhfi/gQzbMQSvSB2NYcirWpfd4N
+	otvE8tvbueYZR5VYpi+dIqM8QtUUp/puBi7XGTSYFgoJURpPIx60TkANxHiOUqxLs10C4O
+	d+yqVcFh5vKe6U6k9tSaoEyD80TewYc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1730880395;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:autocrypt:autocrypt;
+	bh=ga4PGiEG3Stv0u473nT5jdY7jkh9V7nnMo6ii58GyYA=;
+	b=mv7IzBA4TmLULdR6n42FQN+0NtBfaM8Ir0dz5XCWLjCrzJe0tDb4xcCKsxmIGHQFRFa3aV
+	emwnMvdq2fmnKmCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D913B137C4
+	for <distributions@lists.linux.dev>; Wed,  6 Nov 2024 08:06:35 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8faoMosjK2eYOAAAD6G6ig
+	(envelope-from <bwiedemann@suse.de>)
+	for <distributions@lists.linux.dev>; Wed, 06 Nov 2024 08:06:35 +0000
+Message-ID: <e1009d61-468f-40df-9ec1-4e1d274a7d6b@suse.de>
+Date: Wed, 6 Nov 2024 09:06:35 +0100
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
@@ -22,93 +75,119 @@ List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US
 To: distributions@lists.linux.dev
-From: Matt Jolly <kangie@gentoo.org>
-Subject: Chromium 130 and 131 Linux tarballs.
-Autocrypt: addr=kangie@gentoo.org; keydata=
- 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
+Content-Language: en-US
+From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+Subject: FHS 4.0
+Autocrypt: addr=bwiedemann@suse.de; keydata=
+ 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
+ 12bW2FfpiwAGOQ==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------Nt8mwTAJ0GqKODsW0O3Wk1ox"
+X-Rspamd-Queue-Id: F26A821BA2
+X-Spam-Score: -4.98
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-4.98 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SIGNED_PGP(-2.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MIME_BASE64_TEXT_BOGUS(1.00)[];
+	SUBJ_ALL_CAPS(0.53)[7];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_BASE64_TEXT(0.10)[];
+	MX_GOOD(-0.01)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_ONE(0.00)[1];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_NONE(0.00)[];
+	PREVIOUSLY_DELIVERED(0.00)[distributions@lists.linux.dev];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	HAS_ATTACHMENT(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DKIM_TRACE(0.00)[suse.de:+];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------Nt8mwTAJ0GqKODsW0O3Wk1ox
+Content-Type: multipart/mixed; boundary="------------GAtB0sRGuiaNliRUx8s6q4iV";
+ protected-headers="v1"
+From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+To: distributions@lists.linux.dev
+Message-ID: <e1009d61-468f-40df-9ec1-4e1d274a7d6b@suse.de>
+Subject: FHS 4.0
+
+--------------GAtB0sRGuiaNliRUx8s6q4iV
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hi all,
+SGksDQoNCnNvbWUgcGVvcGxlIGZyb20gZGlmZmVyZW50IGRpc3RyaWJ1dGlvbnMgd2FudCB0
+byB3b3JrIG9uIGFuIHVwZGF0ZWQgRkhTIA0Kc3BlY2lmaWNhdGlvbiwgYmVjYXVzZSBkaXN0
+cmlidXRpb25zIGFscmVhZHkgZG8gdGhpbmdzIGRpZmZlcmVudGx5IGZyb20gDQp0aGUgY3Vy
+cmVudCBvbmUsIGUuZy4gZm9yIGltbXV0YWJsZSBmaWxlc3lzdGVtcy4NCg0KSWYgeW91IGFy
+ZSBpbnRlcmVzdGVkIHRvIGpvaW4gdGhlIGVmZm9ydCwgc2VlDQpodHRwczovL2dpdGxhYi5m
+cmVlZGVza3RvcC5vcmcvRkhTL2Zocy1zcGVjLy0vaXNzdWVzLzENCg0KQ2lhbw0KQmVybmhh
+cmQgTS4gKG9wZW5TVVNFIGRldikNCg==
 
-The upstream Chromium project are currently having some issues with
-their CI resulting in tarballs for the Stable and Beta channels running
-quite late[1].
+--------------GAtB0sRGuiaNliRUx8s6q4iV--
 
-As the risks associated with having web-browsers with known Critical
-CVEs deployed to users being too high for my comfort I've elected
-to begin publishing tarballs for these releases until the CI catches up.
+--------------Nt8mwTAJ0GqKODsW0O3Wk1ox
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-These can be found in the following S3 bucket. I'm supplying the hosting
-for this; please be conscious of the bandwidth usage (i.e. please mirror
-if you're serving to users). The Gentoo CDN may be faster for users
-outside the region, please don't abuse it.
+-----BEGIN PGP SIGNATURE-----
 
-* https://chromium-tarballs.syd1.digitaloceanspaces.com/
-* https://chromium-tarballs.distfiles.gentoo.org/
+wnsEABYIACMWIQTykslvYmKwlIQesLNdovN53d8CLgUCZysjiwUDAAAAAAAKCRBdovN53d8CLr79
+AP9Ox9aGFcmQRq49JYrGGfFt6vErmgU2mTNEdSb84Cw9OQEApGnMos0ELa/UNDOL6m6tdP0Sfdw0
+aQQSicnW84lTeAI=
+=Fy6c
+-----END PGP SIGNATURE-----
 
-I will continue publishing tarballs until upstream's CI has caught up,
-and I'll put some work into automating the process so that they're a
-bit more timely.
-
-The Dev channel seems to have been fixed however that
-was after this week's release. If it's still not publishing next week 
-I'll put up a tarball for 132.
-
-If you'd prefer to make your own tarballs the process is relatively
-straightforward. I've done up some brief documentation on the Gentoo
-Wiki[2].
-
-Have a great weekend.
-
-Cheers,
-
-Matt
-
-1: 
-https://groups.google.com/a/chromium.org/g/chromium-packagers/c/wjv9UKg2u4w
-2: 
-https://wiki.gentoo.org/wiki/Project:Chromium/How_to_make_a_Chromium_tarball
+--------------Nt8mwTAJ0GqKODsW0O3Wk1ox--
