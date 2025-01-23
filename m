@@ -1,138 +1,117 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D4B1C5499
-	for <distributions@lists.linux.dev>; Thu, 23 Jan 2025 14:09:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA02213212A
+	for <distributions@lists.linux.dev>; Thu, 23 Jan 2025 14:26:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737641351; cv=none; b=bPI7FlsNwu/bQYiCGCt7pSaXoQZQNoLwFTTcWSh+pf940hEGtaDQMtw6oyKnDViPZbPAtVUHnLkmB0IWT+WNL9oihzmlQ8nWII9Izf1U8azNn51j5LnkeDU5dy0IYPeDVQUfx2vAMjAqwDvTRyuk16CQiVGT3uk5Mrdzkrsryr0=
+	t=1737642390; cv=none; b=d7Ffk0xAglriJ5TzSzLQ7yRtobeXNvTe3AtFOtYwsgzovDuS3M5zXCdGQqhnMaT6LeOkWnyq52dRquPSqM71dcLaqxDUd7llUm5vMdP/lA2rNWvGdt5XGJMUXOFw0O8XXrgbCuiZu/rIuCSApcdSIb9rRLwqqj1MtTaEc2lERqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737641351; c=relaxed/simple;
-	bh=n18TSwh5z0NhJQPH+fP6OfwOeXBjMOWD7WVo/mxUv3c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ltFCEuMVcLI3WVa+g/y7xvUGeKsvOrvmf4/2Xi+AgyCIzew3kU4Wol0fUjVs2qSxZadzMTsm7qu40Cb+ttpuRnFwzg5Lt9r9Ob/oMFSGfG8N+Grqa9/RvJ7zGAJZbP0Jyc10KdDV5vPwYaIfpBbIbJEiMw6+jQGH1ynba14xNhA=
+	s=arc-20240116; t=1737642390; c=relaxed/simple;
+	bh=kyT36t/9UL+c6dflAC2BWjF6A4w8vPjuTVKmIGDaMGc=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HJDkMHZ6pEnkrt+YRozrYZQOMujFi75Tfm2/jj0CF2GvGXRxMaU3xSdlIIKX0n5hn7QKEu+xxItPS3mVV/xQ34set/euETLSvPTQnq3cBPvR0zVcKijVBiGS2DFW+MirokOPncaG0jUdzxhpHAAJmfYX3IvOR38FMKU97/NUQvQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from [IPV6:2603:6011:3f0:6f00::12ac] (unknown [IPv6:2603:6011:3f0:6f00::12ac])
+Received: from [192.168.1.1] (c144-147.icpnet.pl [85.221.144.147])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: eschwartz)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id B591D343480;
-	Thu, 23 Jan 2025 14:09:08 +0000 (UTC)
-Message-ID: <69766349-be2c-45fb-a67a-bf0362f7b0d7@gentoo.org>
-Date: Thu, 23 Jan 2025 09:09:06 -0500
+	(Authenticated sender: mgorny)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 5693F343366;
+	Thu, 23 Jan 2025 14:26:27 +0000 (UTC)
+Message-ID: <8c59f9bb5145bd73b30014210397be318270ed5a.camel@gentoo.org>
+Subject: Re: Standardizing NO_NETWORK and USE_SYSTEM_DEPS environment
+ variables
+From: =?UTF-8?Q?Micha=C5=82_G=C3=B3rny?= <mgorny@gentoo.org>
+To: Bruno Haible <bruno@clisp.org>, distributions@lists.linux.dev
+Date: Thu, 23 Jan 2025 15:26:18 +0100
+In-Reply-To: <9658083.GK2ZErXSoo@nimes>
+References: <b0726076ea438d59d8b7b5d0f44a4ed6ca11d418.camel@gentoo.org>
+	 <9658083.GK2ZErXSoo@nimes>
+Organization: Gentoo
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-qi08h7Di8OkPeFvjUKy2"
+User-Agent: Evolution 3.52.4 
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Standardizing NO_NETWORK and USE_SYSTEM_DEPS environment
- variables
-To: Bruno Haible <bruno@clisp.org>, distributions@lists.linux.dev,
- =?UTF-8?B?TWljaGHFgiBHw7Nybnk=?= <mgorny@gentoo.org>
-References: <b0726076ea438d59d8b7b5d0f44a4ed6ca11d418.camel@gentoo.org>
- <9658083.GK2ZErXSoo@nimes>
-Content-Language: en-US
-From: Eli Schwartz <eschwartz@gentoo.org>
-Autocrypt: addr=eschwartz@gentoo.org; keydata=
- xjMEZmeRNBYJKwYBBAHaRw8BAQdAYNZ7pUDWhx1i2f3p6L2ZLu4FcY18UoeGC04Gq/khqwfN
- I0VsaSBTY2h3YXJ0eiA8ZXNjaHdhcnR6QGdlbnRvby5vcmc+wpYEExYKAD4WIQTvUdMIsc4j
- CIi+DYTqQj6ToWND8QUCZoRL+gIbAwUJBKKGAAULCQgHAwUVCgkICwUWAgMBAAIeBQIXgAAK
- CRDqQj6ToWND8aB5AP9r4kB691nNtNwKkdRiOdl7/k6WYzokvHvDamXxRJ0I+gEAjZqR5V8y
- mfR3fy2Z+r2Joeqdt3CIv5IwPs64spBvigLOOARmZ5E0EgorBgEEAZdVAQUBAQdATT46Z06b
- 1X9xjXFCYFxmq/Tj3tSEKZInDWTpoHQp4l8DAQgHwn4EGBYKACYWIQTvUdMIsc4jCIi+DYTq
- Qj6ToWND8QUCZmeRNAIbDAUJBKKGAAAKCRDqQj6ToWND8a2RAP40KPfbfoiZAJW5boFmFJ3G
- TUBDJRh9CWHyaPqq2PN+0wD/R07oLzfnJUN209mzi9TuTuHjeZybysyqXSw4MAxkMAY=
-In-Reply-To: <9658083.GK2ZErXSoo@nimes>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------qsVp8nkzLsCD5s0ZTFEZBK2i"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------qsVp8nkzLsCD5s0ZTFEZBK2i
-Content-Type: multipart/mixed; boundary="------------scpNYAF80P2k2BXytpy1r4XD";
- protected-headers="v1"
-From: Eli Schwartz <eschwartz@gentoo.org>
-To: Bruno Haible <bruno@clisp.org>, distributions@lists.linux.dev,
- =?UTF-8?B?TWljaGHFgiBHw7Nybnk=?= <mgorny@gentoo.org>
-Message-ID: <69766349-be2c-45fb-a67a-bf0362f7b0d7@gentoo.org>
-Subject: Re: Standardizing NO_NETWORK and USE_SYSTEM_DEPS environment
- variables
-References: <b0726076ea438d59d8b7b5d0f44a4ed6ca11d418.camel@gentoo.org>
- <9658083.GK2ZErXSoo@nimes>
-In-Reply-To: <9658083.GK2ZErXSoo@nimes>
 
---------------scpNYAF80P2k2BXytpy1r4XD
-Content-Type: text/plain; charset=UTF-8
+--=-qi08h7Di8OkPeFvjUKy2
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 1/23/25 8:50 AM, Bruno Haible wrote:
+On Thu, 2025-01-23 at 14:50 +0100, Bruno Haible wrote:
 > Micha=C5=82 G=C3=B3rny wrote:
->> 2) USE_SYSTEM_DEPS -- if it's set to a non-empty value, it requests th=
-at
->> the build system does not use any vendored dependency for which it
->> supports using a system version instead, and that it links to shared
->> libraries whenever possible.
+> > 2) USE_SYSTEM_DEPS -- if it's set to a non-empty value, it requests tha=
+t
+> > the build system does not use any vendored dependency for which it
+> > supports using a system version instead, and that it links to shared
+> > libraries whenever possible.
 >=20
 > This contradicts the GNU Coding Standards [1]. For GNU packages,
-> configuration of such things should be done through --with-* and --with=
-out-*
+> configuration of such things should be done through --with-* and --withou=
+t-*
 > options. NOT through environment variables.
 >=20
-> Proposing something that contradicts the GNU Coding Standards is a non-=
-starter.
+> Proposing something that contradicts the GNU Coding Standards is a non-st=
+arter.
 >=20
-> Bruno
->=20
-> [1] https://www.gnu.org/prep/standards/html_node/Configuration.html
 
+The problem with explicit options is that 1) they are different for
+every build system, 2) they require explicit support checks, and 3) they
+assume you have an explicit control over the build command-line.
 
-Meson will not implement this environment variable either, for the same
-reason.
+The first problem means that we simply can't standardize of anything
+like that.  Even if we agreed on a single name, you'd have --disable-
+network and --without-network for autoconf, -Dnetwork=3Dfalse for Meson,
+-DNETWORK=3DOFF for CMake and probably a dozen more.
 
-We won't implement either one, in fact (for us, network is relevant
-since meson has an automatic feature to download vendored dependencies
-on demand). We have a configuration option accepted on argv to control bo=
-th.
+The second problem is that we can't simply enable it unconditionally
+and be done with it.  In Gentoo, we already do the messy thing of
+checking --help output to determine if we can pass stuff like --disable-
+shared, and that has already backfired.
 
-=2E..
+The third problem goes much deeper.  I largely come from a Python
+background.  The most problematic packages I work with generally involve
+something like a PEP517 backend calling setup.py calling CMake, which
+in turn may involve some subprojects.  Having an explicit option means
+that I need to ask everyone to add an explicit option at every layer,
+and ensure that the option is passed down.  And that's assuming that we
+are dealing with layers that actually can accept options, which is not
+always true.  We aren't living in a perfect world.
 
-In general I think we are all quite aware of the reasons for avoiding
-the network and in general build systems shouldn't attempt to
-communicate via TCP/IP whether an environment variable is set or not...
-unless the success of the build system directly hinges on network, and
-failing to network directly means failing to build. That is the case for
-meson with vendored deps, so configuring to use system deps already
-means that no network connections will be made (but if you do use
-vendored deps, all network downloads are securely verified via secure
-hashes). So it suffices to simply design your build system to default to
-system deps (meson already does this).
-
-It's quite unclear to me why this should hinge on an environment
-variable of all things. If you need an environment variable to control
-this, you already failed somewhere else.
-
+Just to be clear, I do not mind at all having explicit options to do
+this.  I'm just saying that having these options default based
+on environment variables would be very helpful, and make things much
+easier.  They mean we can just unconditionally set NO_NETWORK=3D1
+and USE_SYSTEM_DEPS=3D1, and with some luck, it will just work and make
+our lives easier, and in the worst case it won't do any harm.
 
 --=20
-Eli Schwartz
+Best regards,
+Micha=C5=82 G=C3=B3rny
 
---------------scpNYAF80P2k2BXytpy1r4XD--
 
---------------qsVp8nkzLsCD5s0ZTFEZBK2i
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+--=-qi08h7Di8OkPeFvjUKy2
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
 -----BEGIN PGP SIGNATURE-----
 
-wnsEABYIACMWIQTnFNnmK0TPZHnXm3qEp9ErcA0vVwUCZ5JNggUDAAAAAAAKCRCEp9ErcA0vV9c2
-APsGRUSZEZ/neIaGTHH5zZmlSpNKrOzqJJ5eBGH2lFZ04AD/csB05ZZcNTTbvtcAeVkL8HSnF31h
-XsP38jeUwSNErAs=
-=yoin
+iQFGBAABCgAwFiEEx2qEUJQJjSjMiybFY5ra4jKeJA4FAmeSUYoSHG1nb3JueUBn
+ZW50b28ub3JnAAoJEGOa2uIyniQO5D0H/igDKjxUy5GAAgGcHCvopdAodF5yQCCU
+hXZlv/7Wiiw5NgDgSVKaFaXgUOgybQWp7UYR1Wl9YxKBYfb1SjakjCijhv3QUO0B
+zT6T+Mb0KqvCH7wBAJaHjrY2zE/IQzNEDH20XpUsOxvZBZIB//dqxoKu7RvMlITU
+0aogALeJQuekZ2QetGriNLMoAPmUFZuMLztMcO1jA1alRJGuLkHF4uHQ7uHUWeGj
+UdIaVOc8QoxJ3wiapO3LMICKexqKhaux0M3xloICwvo51ikG+C/92iq+U1wnN3EG
+93kJ8IvOgQ9nwPinqGlraFJ2LF0tMoCKA+0RHZRu3MJAxlDY2vDu0zE=
+=7FdW
 -----END PGP SIGNATURE-----
 
---------------qsVp8nkzLsCD5s0ZTFEZBK2i--
+--=-qi08h7Di8OkPeFvjUKy2--
