@@ -1,104 +1,83 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2EC34D3AA
-	for <distributions@lists.linux.dev>; Mon,  2 Feb 2026 10:52:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6737235B65F
+	for <distributions@lists.linux.dev>; Mon,  2 Feb 2026 11:43:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1770029531; cv=none; b=d6jHL+lgOVFeL30Ao2qXzUzNCVpK5R/4LKjMG06aad+M1YVzYQZyJtb5UbXPJA8piwNpADrXKo59MsezY7UFGQ5MyJvy8V8s4AR7075//H8vFqcfiVDhgr5+qwUKSAnYaEE6XHdur+r2yimF+PPpSrsVsfTTiG7ts81tzp8oH4Y=
+	t=1770032620; cv=none; b=XAIJpX8XDE7+lnpQQAGIYRhzNpkDq4if4ls4EllcEjBurHtN7IwopKBdpJGcJDToou+MjyCiRJTYL662BgQpO7IKUhJ5IzvXPJNurJ2OU7tDu0pulKQUJ7+EDjmoMw7CIcg+78NtE9x1u+THFadNattggRi4ZnapcJ2B11ZCAHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1770029531; c=relaxed/simple;
-	bh=eLb1MT+fA8A76VXhEctkJ13ecSc2nU7AfuC49mOAU9s=;
+	s=arc-20240116; t=1770032620; c=relaxed/simple;
+	bh=2xXl4OXZl3H39Lwwxd001jE6X49uLukB/6Ge5f8as8I=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g2ojKxxHTxFrPRjhMmqO3Syy29xYM4Zm2r23TzzEiKiWD8zmGYzPLTcH2nv8uqA5dWR55KrRjaMIP83mLAtRIhU/s2eTG2QVIhWTuVr7dqaKxuqDKm35fAAr8zud6u4j7mXrL+7Gtbj1n3k3+gVMMk/N1EMRANpsOqzO3CCOUag=
+	 MIME-Version:Content-Type; b=jSHSjfkLpngAbCyhztGTslivQDNkRC5BH5NoUmnhm3L1R897F/qpAQlWhOU5ODNNsV7AbXEU/NAGvaR+5T5a1iR6KwY3QHKx9xMGIJ79kYBYylNnCBfOBFGZm60Bx7L58fgiP6LstW3h/MzcQnxYQ2aTmFRq7BHFskco6vo1zlE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
-Received: from noumea.localnet (248.10-240-81.adsl-dyn.isp.belgacom.be [81.240.10.248])
+Received: from noumea.localnet (unknown [IPv6:2a02:a03f:697a:cb00:7bcd:44af:1751:8c7e])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: dilfridge)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id E3835341E80;
-	Mon, 02 Feb 2026 10:52:07 +0000 (UTC)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 054B0341EC0;
+	Mon, 02 Feb 2026 11:43:37 +0000 (UTC)
 From: "Andreas K. Huettel" <dilfridge@gentoo.org>
-To: distributions@lists.linux.dev,
- "Bernhard M. Wiedemann" <bernhardout@lsmod.de>
+To: "Bernhard M. Wiedemann" <bernhardout@lsmod.de>,
+ distributions@lists.linux.dev,
+ =?UTF-8?B?TWljaGHFgiBHw7Nybnk=?= <mgorny@gentoo.org>
 Subject: Re: year 2038 is only 12 years away
-Date: Mon, 02 Feb 2026 11:52:00 +0100
-Message-ID: <47880055.fMDQidcC6G@noumea>
+Date: Mon, 02 Feb 2026 12:43:19 +0100
+Message-ID: <2503217.NG923GbCHz@noumea>
 Organization: Gentoo Linux
-In-Reply-To: <39728878-8cca-48de-a091-4af3d6de7e4e@lsmod.de>
-References: <39728878-8cca-48de-a091-4af3d6de7e4e@lsmod.de>
+In-Reply-To: <957948e7cc92d61e41c883e1eca3def8ffc2cf19.camel@gentoo.org>
+References:
+ <39728878-8cca-48de-a091-4af3d6de7e4e@lsmod.de>
+ <957948e7cc92d61e41c883e1eca3def8ffc2cf19.camel@gentoo.org>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2301994.Icojqenx9y";
+Content-Type: multipart/signed; boundary="nextPart885057723.0ifERbkFSE";
  micalg="pgp-sha256"; protocol="application/pgp-signature"
 
---nextPart2301994.Icojqenx9y
+--nextPart885057723.0ifERbkFSE
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
 From: "Andreas K. Huettel" <dilfridge@gentoo.org>
 Subject: Re: year 2038 is only 12 years away
-Date: Mon, 02 Feb 2026 11:52:00 +0100
-Message-ID: <47880055.fMDQidcC6G@noumea>
+Date: Mon, 02 Feb 2026 12:43:19 +0100
+Message-ID: <2503217.NG923GbCHz@noumea>
 Organization: Gentoo Linux
-In-Reply-To: <39728878-8cca-48de-a091-4af3d6de7e4e@lsmod.de>
-References: <39728878-8cca-48de-a091-4af3d6de7e4e@lsmod.de>
 MIME-Version: 1.0
 
-
-Am Sonntag, 18. Januar 2026, 03:28:13 Mitteleurop=C3=A4ische Normalzeit sch=
-rieb Bernhard M. Wiedemann:
-> Today is Y2K38 commemoration day T-12
->=20
-> I have written before about it multiple times:
-> https://www.reddit.com/r/linux/comments/10fqx1t/today_is_y2k38_commemorat=
-ion_day/
-> https://www.reddit.com/r/linux/comments/19a95cl/today_is_y2k38_commemorat=
-ion_day_t14/
-> https://www.reddit.com/r/linux/comments/1i4otpo/today_is_y2k38_commemorat=
-ion_day_t13/
-> https://www.reddit.com/r/linux/comments/xjtf3q/in_the_year_2038/
->=20
-> It is worth remembering that in 12 years from now, after=20
-> 2038-01-19T03:14:07 UTC, the UNIX Epoch will not fit into a signed=20
-> 32-bit integer variable anymore. This will not only affect i586 and=20
-> armv7 platforms, but also x86_64 where in many places 32-bit ints are=20
-> used to keep track of UNIX time values.
->=20
-
-[...]
-
-> I think, some distributions already started to compile their 32-bit code=
+Am Sonntag, 18. Januar 2026, 04:18:20 Mitteleurop=C3=A4ische Normalzeit sch=
+rieb Micha=C5=82 G=C3=B3rny:
+> > I opened a discussion with the gcc devs at
+> > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D118326 about adding=20
+> > warnings for int=3D>time_t conversions. It did not yet get very far, bu=
+t=20
+> > at least a collegue at SUSE made a PoC patch and identified some corner=
 =20
-> with `-D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64` but that is only part o=
-f=20
-> the solution.
-> Code that handles timestamps regularly gets added or rewritten and every=
-=20
-> time, developers need to remember to not use `int` there (nor `long` on=20
-> 32-bit systems) but `long long` or `int64_t` or just `time_t`. I myself=20
-> sent PRs in the past using `atol` for timestamps. We should not do that=20
-> anymore. same for `scanf("%l")`.
+> > cases.
+> >=20
+>=20
+> Thanks for working on this.  Personally, I think the biggest problem is
+> that a lot of people don't test their software on 32-bit platforms at
+> all.  And the primary cause of that problem is that a large number of
+> popular CI platforms don't provide 32-bit environments at all (and
+> people obviously don't go out of their way to, say, run a 32-bit
+> container on top of the 64-bit CI environment).
 
-=46WIW Gentoo is ready for testing 64bit time_t on 32bit architectures; we =
-have bootstrapped=20
-all (*) our 32bit installation stages also separately with this force-enabl=
-ed. The 64bit=20
-time_t installations can be recognized by a ...t64 suffix of the CHOST, e.g=
-=2E,=20
-i486-pc-linux-gnut64.
+^ This, very much.=20
 
-We will prepare an orderly migration for our users sometime this year.
+During the glibc release process I had a hard time finding true 32bit
+installations for testing.
 
-[*] OK, with exception of 32bit sparc, hppa, and 31bit s390. I didn't bothe=
-r with these yet.
-
+(For general glibc testing it might even be more tricky because testing=20
+on a 32bit *kernel* would be much preferred. That should *not* be needed
+for the time issue though.)
 
 =2D-=20
 PD Dr. Andreas K. H=C3=BCttel
@@ -106,30 +85,30 @@ dilfridge@gentoo.org
 Gentoo Linux developer=20
 (council, comrel, toolchain, base-system, perl, libreoffice)
 https://wiki.gentoo.org/wiki/User:Dilfridge
---nextPart2301994.Icojqenx9y
+--nextPart885057723.0ifERbkFSE
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part.
 Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJPBAABCAA5FiEE/Rnm0xsZLuTcY+rT3CsWIV7VQSoFAmmAgdAbFIAAAAAABAAO
-bWFudTIsMi41KzEuMTEsMiwyAAoJENwrFiFe1UEqQkAP/273oiKHR2ZyNmRIPYwW
-buFiv7wbCLsRFuUz1FETJfYy0PcFKc4Q3jjLWbqNKpd7jeRX7z0goHWnL18A/Mcx
-jDgdR68I3fOqTUieYNxyk+OD9D1Yx+f29h1GX86MgeXcYCzsv7yGj+tQVnmyDUVg
-jTe971nMvwtmYkiBGEEbmjZuTK5WOwi98VCX5ePNGL2h4Ru10Es+0vDvFupkAou0
-V+gOS5gy2tu7P2m/lwFZ6LvH43MuKYYtuKqs4TWCCqXLr9Z7uvTaUTrpzBP4yVq+
-lGqSkSRydVdmF6Q/fcbsobo/sp6qxwVPJ9cQ+XJuVB7Hmm4ATHgTObOGGorDH38b
-mHxEZOcKBS1aqDqF4HYI1yO8wUiFGrWonTmiAhPuDUZu7JDPVa2Pk5yxpkdRFu4x
-VicpbFHO22pr5Npyeu7aKAsuEbq7f0UeLfV1KZ+sr/9ckx4SQJ0BXuxr0ZPGZ9Ny
-YhEnhoZ46S8++50fRwxBT/Njht5VNkwwFa5i+yCj79B9XWbO5OU2HIndV0w6K26q
-nIWOpfoCLy/tofIil7fTLWROc95t+pTZNFCdnZd8EUuWPQ/Zkk1JY4VDjoJK7FfS
-2hOK13qabYn5GBDQ4mG2xOnSTEZPkCKIZpCX3wqM/WvV3XZaGpJ95573Iys4WsoR
-6wjnxqYPMBzzZh1wqtMjZbmL
-=oi2F
+iQJPBAABCAA5FiEE/Rnm0xsZLuTcY+rT3CsWIV7VQSoFAmmAjdcbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTEsMiwyAAoJENwrFiFe1UEqgTwQAJaY71preU5kWOqdk83J
+opphZ7hFNyO566pvpeYiO+0oIVgoil34lFjQe1njiOFUHznLYA0RPUhLPeJ9j9WY
+joJr/GOYf9wrEsFPCdEWQy4biKaZQYKOZTk5lo1mxwE8zolNbkMEZFBWCE+aTyp9
+FxbVprq1sidG2NCjnlEsvO0xEjoxVjDtHeLcYp7u9u2TjNauFP7eDuY+wie1wQ2P
+HeheiH+K2/gdwJPebc96qJ0JQv1umlsnr30SFV0OtdRoxwM6pG4MoAAK71y3Tj4J
+oYKcbNHFNGlLXBEP+Z9ud8eAKrugICp6ACDmmVPq1PcxhZQcky7jKa6v5dv5CU5i
+jqrBTBazeleI2r7GNodkRyJCBhAj7qYOsYJ4rT0+pbotYENi1kcNmXLBgeoZ5G1O
+E0Wug9U3MxWnmKWN5Q9PLdflRgzl6CfK8rVSrAqEs5GOs+UQD+ae2lyXuhBE5blm
+9pro7R7Tb+vrGWguflLaSsfiu2GelDoRhS4MDozbQG+KN2W8o98rcQMlg8+6XSL5
+RlY19gfydp9vVZhXjuZAktewrmiXcLKMvURVoiXxsV/zJNOV2kmHiGwIdaSWycaJ
+ZJ/ieh0TiDIsvEe+Pvyt3JpV9ME38UorI0UO81m/92m35r03//pVH5MZwaucDkWG
+bejty+jjANDLjStAR1tni8Hq
+=eTlD
 -----END PGP SIGNATURE-----
 
---nextPart2301994.Icojqenx9y--
+--nextPart885057723.0ifERbkFSE--
 
 
 
