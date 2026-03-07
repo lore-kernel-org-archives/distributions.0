@@ -1,131 +1,135 @@
-Received: from mail.archlinux.org (mail.archlinux.org [95.216.189.61])
+Received: from uggla.sjd.se (uggla.sjd.se [178.174.241.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C069C3D544
-	for <distributions@lists.linux.dev>; Sat,  7 Mar 2026 12:36:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.216.189.61
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F9D3A1E9B
+	for <distributions@lists.linux.dev>; Sat,  7 Mar 2026 15:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.174.241.107
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772886987; cv=none; b=sSDskQn7v9b4s4sTU97BjIAkSjbU0SPLTNYfvf4B1rG+tgZx+KXrjs9d8yDX2/WpzMAb6AC9GoZooOKxCupUUSJ0Pvqya/ElYSnYjNjPRYlU7hRVbe56LJ/29Ob5M8f/TbFAiUlQatc29rTJRad393DGB58c3iLbbhZfPUtgEu4=
+	t=1772899145; cv=none; b=cD5+1oXQBguUuSM6bg5ZvIlQyDzbs2E2+lRmGLLvhgAu04M0B5pIA2SrSi1GyVyyY++QRbIwUHSsn4OynUfQTVBQf9MRaSBuueLE+glynlFm3qRaUNLFje0ELHaGsY88GA38NLOcUw2yrGDTh5G3iiZvUls5u1S3+xTX34oQixA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772886987; c=relaxed/simple;
-	bh=E/3Gv002ku8pfNTVCKBKHgyY5s0Iljt4M5i619WNdXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hvq6SQs0n1JHXfKzc6tYK24WKsiOl0FchiuWgQNY/JxusUJrxCYa+vZhWjZ3CT54W78dwGwkXDcFNBQxN359qxAIYQPossIRGIj7lHStK/eEpgYxMHvq4/reezsnyu+ThigeltxfNAk1A9yD6EqJyZ2q0L5xWly82EYoeAB3ocg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org; spf=pass smtp.mailfrom=archlinux.org; dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=jKWTlYVE; dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b=u5qfJ3/Z; arc=none smtp.client-ip=95.216.189.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=archlinux.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=archlinux.org
+	s=arc-20240116; t=1772899145; c=relaxed/simple;
+	bh=Sj0+NFJsTrzY0XT8FTkTUZwz30z2ULqSOH0GtAtnmTU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=eDuN5GnB5aKZ7B0y4FZNYulc24B8kqCV1U/Jyi5Gg4NAnQ5RJhpYandooT1GUaIDr5KgRUhgeh6+ud4VEaIGEn0lrxowyoVWU5yPNHhMmWN2qLEhfxoYkWi/+nnEUe6SasSWdVHRjSYnZjm8HmJ3HJ4B9HWeFMI40tv3q+IxXLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=josefsson.org; spf=pass smtp.mailfrom=josefsson.org; dkim=permerror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b=sYm4FQzc; dkim=temperror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b=wMaEC/uS; arc=none smtp.client-ip=178.174.241.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=josefsson.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=josefsson.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="jKWTlYVE";
-	dkim=permerror (0-bit key) header.d=archlinux.org header.i=@archlinux.org header.b="u5qfJ3/Z"
-Date: Sat, 7 Mar 2026 13:36:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-rsa; t=1772886982;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=E/3Gv002ku8pfNTVCKBKHgyY5s0Iljt4M5i619WNdXA=;
-	b=jKWTlYVEBveq2WY+uREyHZKTPUXh5uLVZl3rrdOcWQS8/B1W7pKm72bRmbZdw6nV6sog4W
-	BHwXZvu4D0mDis2Ob1QJwSDtkIODJJmT1fFrN+oJbejesHVda7K6vXTB3UVQ7QfTxT6k29
-	M2WNjJeA7cfBysfLkLs4H8hW0iqrG+ulld8eP9dxloeFaCtDzmlRtTQqNvNAk9slExNJi8
-	SQA80sp2YKdTi8XJb1/ZM1pcMYJZD99IqMLH97Vb/7W0pv/qa9bx7hv7MQ8p7pcvUNypRb
-	ig2pmV42M47Q4RUGW4wD6F3qSYl+XwhxrsKwt45/+s7u+iWK7cgrJPuJy2a8GhvQliZFmv
-	JfjU8/Ismo7UyolhPy8tTDdiY4QnxVz2nAgp2vcLR7QaCZWb4BzC5RhquTVsyRIWKyrYxw
-	ARXBu5GzsLXqoOj7naBjfSN8K3pYzjyoSStDMvFhtyRTPeCDnvNh4H3+DjfvTdXpNVdXDy
-	RRrO3hTts1fhbHiu61AHcEZWy9iB38VHTDOJjRQLgG1LerBHbI9uTJctCUoULYSk417qsy
-	bWDk2ecd5qKMdVZf+zyx5ip+2IFfng1osCW2W/3p1ZzYWSV6L9rcF6kT8ASDcp+syx1Rmt
-	UbpkbY5m3/V0Ql4E2/kwCD364K71MvYdiVNOyAWsjlTSl2eaGhlhU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=archlinux.org;
-	s=dkim-ed25519; t=1772886982;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=E/3Gv002ku8pfNTVCKBKHgyY5s0Iljt4M5i619WNdXA=;
-	b=u5qfJ3/ZXqEw60rxqzvNzg+NEoyEhl4fFFU6vnRK0PeFHI1UVtZNbPtLgVpPSYjh0NGcEn
-	UDZscByVpACN8KBA==
-Authentication-Results: mail.archlinux.org;
-	auth=pass smtp.auth=foxboron smtp.mailfrom=foxboron@archlinux.org
-From: Morten Linderud <foxboron@archlinux.org>
-To: =?utf-8?B?TWljaGHFgiBHw7Nybnk=?= <mgorny@gentoo.org>
-Cc: distributions@lists.linux.dev
+	dkim=permerror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b="sYm4FQzc";
+	dkim=temperror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b="wMaEC/uS"
+DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=josefsson.org; s=ed2303; h=Content-Type:MIME-Version:Message-ID:Date:
+	References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=siFT/iH2P2THjg3LeSxP+0aF2vqBv9EcFUMs/nvB5pA=; t=1772899135; x=1774108735; 
+	b=sYm4FQzc57MQKfozM9F9R6e6uD6HX6D1BQNz+vCwGNiQFU4hEGKF9l9PbcMTF5LcWYwW/N5x/pI
+	5dCfBptwcBA==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=josefsson.org; s=rsa2303; h=Content-Type:MIME-Version:Message-ID:Date:
+	References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=siFT/iH2P2THjg3LeSxP+0aF2vqBv9EcFUMs/nvB5pA=; t=1772899135; x=1774108735; 
+	b=wMaEC/uSxKU83g6f1AQ6JwzW3/NwK+aTNkH7S/SOGmnwHJFWYwd4C0Kyx1j0GtBBGB1IKpMiyC9
+	ADbGr6mWPeXv6WlXDlSHPifyh56ZMQNWouJ6GX1oe4kUVnVXg7fwKlAqOlgO+ZP6svSEjqO3Oj6DO
+	9SY123Nd7+xe1pOEB6JAekDxJ6TI1DmEXiNMPBG4Q6LJLuyw2ShDnCWs1Uvod7aOsp/g2ZsZtmh6w
+	Dhow8RE0ZhT/RsCC+qXXy8dHJYCbSLxPdlVIVjxDW8BitTQMhcytjc9wxZvIPl1XsYEiOL2kCZqzp
+	4Wyg/wtuAM0h2gofM6sfkRkAD/pny2zEXBPSqRS5ZIlO0AVf/djSRoYXFCFXur3JHOqpltmJYH2Fk
+	U0GHrEvc1bVQemR2OiZWYKaUksTTtI6WDOHXT2tQiReyJeHK6UxQW/1nyPLY/g27Af/i66u5N;
+Received: from h-178-174-130-130.a498.priv.bahnhof.se ([178.174.130.130]:40316 helo=frallan)
+	by uggla.sjd.se with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <simon@josefsson.org>)
+	id 1vytcK-005OWT-7N;
+	Sat, 07 Mar 2026 15:31:00 +0000
+From: Simon Josefsson <simon@josefsson.org>
+To: Morten Linderud <foxboron@archlinux.org>
+Cc: =?iso-8859-2?Q?Micha=B3_G=F3rny?= <mgorny@gentoo.org>,
+  distributions@lists.linux.dev
 Subject: Re: Looking for advice on how to deal with potential slop packages
-Message-ID: <aawYbre5_xvhfwKA@framework>
+In-Reply-To: <aawYbre5_xvhfwKA@framework> (Morten Linderud's message of "Sat,
+	7 Mar 2026 13:36:18 +0100")
 References: <a3f792e918674e208492a077679ae6ffc88ce0c9.camel@gentoo.org>
+	<aawYbre5_xvhfwKA@framework>
+OpenPGP: id=B1D2BD1375BECB784CF4F8C4D73CF638C53C06BE;
+ url=https://josefsson.org/key-20190320.txt
+X-Hashcash: 1:23:260307:mgorny@gentoo.org::pUgj28pcjLrR9sPa:52L9
+X-Hashcash: 1:23:260307:distributions@lists.linux.dev::w+9hr6VJbI4kx0t0:9B5O
+X-Hashcash: 1:23:260307:foxboron@archlinux.org::sEEty/2cJ008FAvE:9XSG
+Date: Sat, 07 Mar 2026 16:31:18 +0100
+Message-ID: <878qc38xmh.fsf@josefsson.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="kq252hwumeawohhf"
-Content-Disposition: inline
-In-Reply-To: <a3f792e918674e208492a077679ae6ffc88ce0c9.camel@gentoo.org>
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
+--=-=-=
+Content-Type: text/plain
 
---kq252hwumeawohhf
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: Looking for advice on how to deal with potential slop packages
-MIME-Version: 1.0
+Morten Linderud <foxboron@archlinux.org> writes:
 
-A lot of this is probably already a lost cause I think.
+> A lot of this is probably already a lost cause I think.
 
-Linux accept LLM contributions (look for the `Assisted-by` tags), and there=
- are
-already multiple subsystems that are being developed in-part, or full, by L=
-LM
-agents.
++1
 
-See the LWN discussion: https://lwn.net/Articles/1026558/
+I wonder if there is even consensus to refuse to package AI-rewritten
+packages with a different license, such as python-chardet:
 
-`b4` has also incorperated llm agents for the review workflow.
-https://b4.docs.kernel.org/en/latest/maintainer/review.html#configuration
+https://github.com/chardet/chardet/issues/327
+https://github.com/chardet/chardet/issues/331
 
-b4 is also heavily developed by Claude these days.
+I think that is a separate category of LLM contributions, unlike the
+LLM-assistance used for many years in the Linux kernel.
 
-I don't think we can reasonably argue that Linux is not free software, and I
-don't think we can argue for forking Linux to remove llm generated code.
+If AI-rewrites for copyright reasons becomes common, that is problematic
+for a free software perspective.  One recurse is to actively chose to
+not use such rewrites, but to insist on using copyleft packages as a
+policy and preference in order to defend user's rights.
 
-My take on this is mostly apathy. I don't think we can reasonably challenge=
- the
-use in the FOSS community. The productivity boost of experienced developers
-using these is too appealing when we are looking at overburdened FOSS
-maintainers.
+To some extent we already see this split, between copyleft-aligned
+GNU/Linux distributions like Guix that default to GnuPG and GNU
+coreutils, and some commercial distributions that is on a path to
+replace all GPL'd code.
 
-We've aleady been repeadetly DDoSed by these companies. Spending hundreds of
-volunteers hours keeping our services running while the companies extract t=
-he
-labour to sell back to the FOSS community, using their standing in the Linux
-Foundation to further cement their usage in our communities.
+Given that we couldn't establish such consensus in the pre-AI times (for
+GnuPG vs Seqoia and GNU coreutils vs uutils), and there even seem to
+some preference towards the non-copyleft agenda, I think the same will
+happen again for AI-rewrites.
 
-Then the FOSS communities use these models without any care of the ethical =
-considerations.
+The commercial dynamic is pro LLM and against copyleft.  It is possible
+to offer an alternative but it requires an active choice and interested
+developers/users.
 
-Is this depressing? Yes.
+/Simon
 
---=20
-Morten Linderud
-PGP: 9C02FF419FECBE16
-
---kq252hwumeawohhf
+--=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEwQA0ZnZjToDJQPuenAL/QZ/svhYFAmmsG7AACgkQnAL/QZ/s
-vhYBQw/+KqxmLyyKb1uhBPbBcK2Rwq2OZ6y5uYmM/uTHCeDHE8jXuzpUV4kiatS0
-yq6kbcRopZ3/FXcedmQfsGCuE/+8BOmaFW9z3zk7TgFYJwibXfonC02BqlCBj3MS
-fctNF11t6nkJTYPr03Aa2hjLzaYu4H+YuiXSJkAeJQaMdTH6M06cei+PVzI1rPn/
-1hAKidZxQCcfL3kCrXHzJIKau2PizLVG0Sb+4DaSP3loRVOeyxh4cQCCQgxhGL0J
-Rv35nshnyaVsxNF2Bbi01VTaHAHtTWrfQlkWCGVCoZuBoUg5AQj1UDpSz0qFrTJL
-rZws1KbMhVzXZQPhFJlnUkQ9bLrHomDaFeX6AA+lA8FINrvfItbM0oSsCzy7JxMN
-TeXtDL3qUD8ZyTPDngy1O0IRIdtTvW9COuLwuZIUBy8b9bCDWJbtHaPZb6WFUS6R
-2chV6YG5lHHiGfcox/59Y9EYknrjmgRMbPjAHfUHpZHH7PnYVHnx+XWyjbGZijg+
-Ao6WUApKYekTJRuVHh6QqYHYwgBkPt0UyqUyFdoeANgZbqbI0Wecl1hWDVZX6M1F
-3/nwRPFZPhdDykeheBHt+AM2nSmSZ6RsELLk8jMD5DIYx6J9DPSsEzgmrVpuJ2Xq
-OkHiwBx23HaJ0kfgTVgCcXo5+Jy8vBgHZ87UC5tQHh7C9pPPqvo=
-=N8MW
+iQNoBAEWCgMQFiEEo8ychwudMQq61M8vUXIrCP5HRaIFAmmsRMcUHHNpbW9uQGpv
+c2Vmc3Nvbi5vcmfCHCYAmDMEXJLOtBYJKwYBBAHaRw8BAQdACIcrZIvhrxDBkK9f
+V+QlTmXxo2naObDuGtw58YaxlOu0JVNpbW9uIEpvc2Vmc3NvbiA8c2ltb25Aam9z
+ZWZzc29uLm9yZz6IlgQTFggAPgIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgBYh
+BLHSvRN1vst4TPT4xNc89jjFPAa+BQJn0XQkBQkNZGbwAAoJENc89jjFPAa+BtIA
+/iR73CfBurG9y8pASh3cbGOMHpDZfMAtosu6jbpO69GHAP4p7l57d+iVty2VQMsx
++3TCSAvZkpr4P/FuTzZ8JZe8BrgzBFySz4EWCSsGAQQB2kcPAQEHQOxTCIOaeXAx
+I2hIX4HK9bQTpNVei708oNr1Klm8qCGKiPUEGBYIACYCGwIWIQSx0r0Tdb7LeEz0
++MTXPPY4xTwGvgUCZ9F0SgUJDWRmSQCBdiAEGRYIAB0WIQSjzJyHC50xCrrUzy9R
+cisI/kdFogUCXJLPgQAKCRBRcisI/kdFoqdMAQCgH45aseZgIrwKOvUOA9QfsmeE
+8GZHYNuFHmM9FEQS6AD6A4x5aYvoY6lo98pgtw2HPDhmcCXFItjXCrV4A0GmJA4J
+ENc89jjFPAa+wUUBAO64fbZek6FPlRK0DrlWsrjCXuLi6PUxyzCAY6lG2nhUAQC6
+qobB9mkZlZ0qihy1x4JRtflqFcqqT9n7iUZkCDIiDbg4BFySz2oSCisGAQQBl1UB
+BQEBB0AxlRumDW6nZY7A+VCfek9VpEx6PJmdJyYPt3lNHMd6HAMBCAeIfgQYFggA
+JgIbDBYhBLHSvRN1vst4TPT4xNc89jjFPAa+BQJn0XTSBQkNZGboAAoJENc89jjF
+PAa+0M0BAPPRq73kLnHYNDMniVBOzUdi2XeF32idjEWWfjvyIJUOAP4wZ+ALxIeh
+is3Uw2BzGZE6ttXQ2Q+DeCJO3TPpIqaXDAAKCRBRcisI/kdFohFZAQCOzxuWX9tL
+IBmZB8bxVwBvVqCaeojFRIYGNO5oLl7yMwEAl0iHR0ew2D06dqwUN4+lrTNpTddk
+NWT9E8A3y9K5KQw=
+=nJpf
 -----END PGP SIGNATURE-----
-
---kq252hwumeawohhf--
+--=-=-=--
