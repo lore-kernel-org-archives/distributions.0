@@ -1,101 +1,133 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3585695
-	for <distributions@lists.linux.dev>; Thu,  5 Mar 2026 00:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641253876C6
+	for <distributions@lists.linux.dev>; Sat,  7 Mar 2026 10:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772668993; cv=none; b=VGi8jj6XIWguu+PjEPccuMCtq3hOs6RjNiFFZJgMw1yfURtkkZU8npTEkre4ZLaJrcIYJqjnlCoXDmiYImJOw92Pe+umnDBxIm3B66qyP5GaGHZCs6t3Rt/3n73rODCwJyD0RK0M1OzS62yI7EvA7DAgp2frVSa7DbGGr5uR2JE=
+	t=1772879890; cv=none; b=GCGzUMsj54JkPHGy8S+ma8aaUA0U5ejnp29YXa1QGRMnqptMwZDjfSTEgAjVNSwv+DdZZM0Nl0EEM4vC6+rG6Qafjvu46vp3UzEhDOQwmgGB3FwYed9qOVHxofUczYZE4gMGaKCF2Ij+Zuu9DICu9888V8iXwJrf7qYnHjRJrGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772668993; c=relaxed/simple;
-	bh=aGW09GK5hyETrPlZEE+MupIUwA89SHVNKDo73GAC7wY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zi1hnxdpGKhmytnXk1w2WB16a6+HR8dcI6p12m8/91Dww+ppANHgpgNNitUxQtfMLuN265hXjHy9xBio7aO3nAT4lBU9Tksr0HnasqCURK3qVE+4nJvoAKY49V+lx6ma6jqY8osw1Zk9GJd+nggTzF/FGNGQqyt9ChFZj0wGQWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=draconx.ca; spf=none smtp.mailfrom=draconx.ca; dkim=pass (2048-bit key) header.d=draconx-ca.20230601.gappssmtp.com header.i=@draconx-ca.20230601.gappssmtp.com header.b=1OEvVTkN; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=draconx.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=draconx.ca
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=draconx-ca.20230601.gappssmtp.com header.i=@draconx-ca.20230601.gappssmtp.com header.b="1OEvVTkN"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-8c7199e7f79so996936885a.0
-        for <distributions@lists.linux.dev>; Wed, 04 Mar 2026 16:03:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=draconx-ca.20230601.gappssmtp.com; s=20230601; t=1772668991; x=1773273791; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5pc5DqWUZC33VGRN5GsDDjhRomYtwlqBmdPUItTRE+Y=;
-        b=1OEvVTkNEBU3xY4RvX7l9OPHhCmG/Ed2nFBeyLcTGUhDhw12UPAdsh3x4Kz/McIISD
-         ET6WusBDAkMxopGDUtklnetR/WD9/gaX+/LeD1tdxa1m/vT9U7i+Yh6FVYPTXmsl0biU
-         nh5+vk1lQEQhQF+HE1X7K46O8z0lTWdm0f27GlWv3bxezAM62/D0WYaAmBk97OEPhQGB
-         WzOD83Kg00ebCa02b+5gU8hFG2kCT2sNXv0iN+kkjdwmSxou7BA22KicOFGCosdVN92b
-         qYRk7pzJsROpjT2vfefeZm6mufQhhBl1ewPSKNccKM1FC5YYwJVLo/FPsw3+KaACp03O
-         w0YA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772668991; x=1773273791;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5pc5DqWUZC33VGRN5GsDDjhRomYtwlqBmdPUItTRE+Y=;
-        b=ektvqItXQcrROzaxYP3Co14EDS84+XCIc9H4mvjG6E2cGAjHZdPxcGVDIJWhup9EXr
-         5g6dOQD2s1EEi11khpiII15CBtAtIPmFedRSVLeqMJZfyQGWIntLrki2CD4fyqgTK/f8
-         EcYuZIFGn9wLPEz8lZD1B40XSqUs5mDFpA9CkNBa3jnWrc84SbHOel2a/FYdCcOFzDni
-         ghNrD5wFIyh1r8v/bEnnOkiz1Mflt2Og6AlOCtaUoXd3sd7JihvX+zzIp5dIPbyc5qG1
-         UVOC3tDE4gvNRG6MpOhlAXh2h8FCR3Pc/3Bmvi+HfHFIOdYnDZlY5ah8VZfZPe78sLJJ
-         mv1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWisrbG3x2Dc3HfAbQ2qMfXS5A2u04vWHh+R9YmlUXF/C8vLN88iNw/5snf1kBH+KPcBq74hDGYzPcDKceD@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGX5PjPPuy7UzfvQ3yoOu36jAxRHo5np2qWn5R8HZXzaGl92Cc
-	ZHhJ2xAhvWprZ/vS6zr4Ig7LQXuM1U9z0AYnmGqZnrlQjzyNGEVQmVrzcrUYaBwf7YJMdhluIN9
-	TuLgXa1U=
-X-Gm-Gg: ATEYQzxgW1fUFnrxqg6eLmNWKqT85MJ1yfn/Qzt/MTxj+HsoMN06sco8YYdv2wxBPb2
-	sEqY2bdm/0VD6IxrP0pNH4HR6xd/3W8K1RWCTXSmjgoIWiPdvMVcldy+n3tXGzRPNDMk2asVEuN
-	Yj2TM0LqaO5ns0xmiFN1FI8AMEE9nIkzE+Zhrfps7c+3w8POAhieM4Py43NTA+tFWitR6fDvYIW
-	GZcMcBll76VhxgrrEZR65j2phsOE8jH8gjT7rn2pHOqTPBLoLZryFXcWVh3cEeovvU7c0dDI8I/
-	lDbMUf65Gw80ktsGcLnyNCQkuwZhSWa20F9Tj0QHomhdnp2fXUzn8Kh+iZpUQpTByGrLcFR9N98
-	WhNuLp4409MWwjIVXso0lvboZEaaMAuCOlFqFD+F5wRJl52uXNctamu80Rg2mYJ2gfON9pyZM4W
-	X0FJZ+hOnvLuojx5f5oLYJ4uGHXY85NJQ7FkfJ2Lhkx7DY2cpzOw0TktUbH7ScAg==
-X-Received: by 2002:a05:620a:4152:b0:8ca:2cfa:822e with SMTP id af79cd13be357-8cd5afaa585mr501013585a.70.1772668991240;
-        Wed, 04 Mar 2026 16:03:11 -0800 (PST)
-Received: from localhost (ip-24-156-181-135.user.start.ca. [24.156.181.135])
-        by smtp.gmail.com with UTF8SMTPSA id af79cd13be357-8cbbf717301sm1722564685a.36.2026.03.04.16.03.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 16:03:10 -0800 (PST)
-Date: Wed, 4 Mar 2026 19:03:09 -0500
-From: Nick Bowler <nbowler@draconx.ca>
-To: Zack Weinberg <zack@owlfolio.org>
-Cc: Autoconf <autoconf@gnu.org>, Ross Burton <Ross.Burton@arm.com>, 
-	Bruno Haible <bruno@clisp.org>, Paul Eggert <eggert@cs.ucla.edu>, platform-testers@gnu.org, 
-	distributions@lists.linux.dev
-Subject: Re: Please test autoreconf from zack/autoreconf-exclude branch
-Message-ID: <atc7bitk3qvs33z3j6m5qgv7e7ybqt5w4oycbaa4wllvriop3c@wl4e2nallylx>
-References: <eb85c013-42e9-4fb2-b7f3-1213caa9cfe1@app.fastmail.com>
- <mzhyowtgben33uqxnuyeae7yxmeitg4dvdwselbbuqfhkvdldn@6j7b37cptftk>
+	s=arc-20240116; t=1772879890; c=relaxed/simple;
+	bh=FHuHju2Dx6F1m66ZAFlJ3XdjPa1oltqhMK0HsJjaVMQ=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=QqQAbrWBwr9AWU893FqE5qx6kb9bH18zeI8Wa6mS1QDBZ+noIeReiCRy6mVZrCiI3h8oVR8uFhFqXVjyNGbO7pojOFbYJZvBWME6MPIBYzdtvbtA2PFDoZoIsf7l4gWOs/xt5wwxM20qchA24IXOaVf4wM/LrDBtUjUXSbxN6O4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
+Received: from [192.168.0.1] (c144-199.icpnet.pl [85.221.144.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mgorny)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 10267340F06;
+	Sat, 07 Mar 2026 10:38:06 +0000 (UTC)
+Message-ID: <a3f792e918674e208492a077679ae6ffc88ce0c9.camel@gentoo.org>
+Subject: Looking for advice on how to deal with potential slop packages
+From: =?UTF-8?Q?Micha=C5=82_G=C3=B3rny?= <mgorny@gentoo.org>
+To: distributions@lists.linux.dev
+Date: Sat, 07 Mar 2026 11:38:03 +0100
+Organization: Gentoo
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-z1azW52OSxmOzGbU7N3x"
+User-Agent: Evolution 3.58.3 
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <mzhyowtgben33uqxnuyeae7yxmeitg4dvdwselbbuqfhkvdldn@6j7b37cptftk>
 
-On Wed, Mar 04, 2026 at 06:51:18PM -0500, Nick Bowler wrote:
-> On Tue, Mar 03, 2026 at 12:20:32PM -0500, Zack Weinberg wrote:
-> > The last thing I want to squeeze into autoconf 2.73 is a new autoreconf
-> > feature, an option --exclude that can be used to tell autoreconf not to
-> > run particular tools even if its heuristics say they are necessary.  We
-> > had a lot of problems in the past few cycles with autoreconf running
-> > auxiliary tools when people didn't want it to, so I'm hoping this
-> > provides a self-help option for future issues along those lines.
-> 
-> Why implement a new option for this, instead of using the existing
-> environment variables which have been supported by autoreconf since
-> 2001?
-> 
-> For example, to skip running autoheader, you can just do:
-> 
->   AUTOHEADER=: autoreconf
 
-I guess it has to be AUTOHEADER=true but you get the idea.
+--=-z1azW52OSxmOzGbU7N3x
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-  Nick
+Hello, everyone.
+
+Seeing more and more packages embracing LLM-driven development (to the
+point of "vibe coding" or slopware), I'm looking for your ideas on how
+distributions should deal with that.  I'm basically torn between three
+things:
+
+1. My duty towards the users to deliver up-to-date versions of software.
+
+2. My duty towards the users to deliver *good* and *secure* software.
+
+3. My ethical concerns, both directly related to LLM use, and to what
+people are using them for.
+
+
+As you may recall, Gentoo has already a strong policy prohibiting "AI"
+contributions [1].  However, this policy applies merely to contributions
+to the Gentoo projects themselves, and it does not affect the software
+we package.  In fact, compared to binary distributions, Gentoo has had
+rather relaxed approach to what's acceptable, that could be summarized
+as "as long as it's not outright malicious and somebody is going to
+maintain the package".  But over time, I'm having more and more concerns
+about the state of FLOSS in general.
+
+
+The first really doubtful case I've hit was the autobahn project.  I've
+learned that it started using LLM-backend coding after it had a series
+of releases with *really weird* issues (like "how that could even
+happen?!" kind of issues) [2,3,4], and my bug reports were met with lots
+of AI slop generated replies, and pull requests that were also complete
+slop.  I've eventually called the problem out, and upstream pretty much
+lashed at me [5].  Since then, I haven't pushed any new autobahn
+versions.  While the issues I've hit were largely related to packaging,
+I have no reason to believe that the actual code is any better.  So this
+is a case of rejecting slop on basis of low quality.
+
+The second big issue which you probably heard of is one of the
+maintainers of chardet using an LLM to rewrite the code while erasing
+the original autorship and changing the license, and then being an
+asshole about it [6] (you don't want to read that thread, it's complete
+shitshow with almost everyone cosplaying lawyers).  Here the primary
+concern is copyright and ethics, but it also makes you wonder what the
+actual code quality is.
+
+Of course there are just two examples.  There is a lot of projects using
+LLMs to various degree, and raising different concerns.  On the other
+hand, I feel like a lot of these concerns existed before already, and it
+is just that we previously didn't pay attention that much.  I mean, it's
+easier to say "they're using an LLM, it must be slop" than actually
+inspect the code and say "it's really bad quality".  And people were
+being assholes long before LLMs.
+
+
+What are your experiences, thoughts and ideas how to deal with this?  I
+mean, staying on old software versions and hoping people will change
+their minds (or more precisely, LLMs will stop being subsidized and
+people will have to start paying serious money for their usage) is not
+exactly a good idea.  Going around and telling people "please switch
+from dependency X to Y because X is slop (and Y isn't yet)" doesn't
+sound like the best use of our time either.  And forking?  With the
+depressing state of FLOSS these days, I can't even find energy to
+maintain my own projects, let alone take anything else.
+
+
+[1] https://wiki.gentoo.org/wiki/Project:Council/AI_policy
+[2] https://github.com/crossbario/autobahn-python/issues/1716
+[3] https://github.com/crossbario/autobahn-python/issues/1735
+[4] https://github.com/crossbario/autobahn-python/issues/1782
+[5] https://github.com/crossbario/autobahn-python/discussions/1818
+[6] https://github.com/chardet/chardet/issues/327
+
+--=20
+Best regards,
+Micha=C5=82 G=C3=B3rny
+
+
+--=-z1azW52OSxmOzGbU7N3x
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iKQEABYKAEwWIQQcFD0bEK7NPNmWHtiOMjR69AVa6AUCaawACxsUgAAAAAAEAA5t
+YW51MiwyLjUrMS4xMiwyLDISHG1nb3JueUBnZW50b28ub3JnAAoJEI4yNHr0BVro
+GmcBAIZogGljsf33qn7MTnXSQ+B82Zm8YnW+bNABAiyet3imAP0ZBg99Y6hoRxex
+UDPzsCgLSYEFYX07sKTmQV7gtZu3BA==
+=ZqZr
+-----END PGP SIGNATURE-----
+
+--=-z1azW52OSxmOzGbU7N3x--
