@@ -1,135 +1,85 @@
-Received: from uggla.sjd.se (uggla.sjd.se [178.174.241.107])
+Received: from master.debian.org (master.debian.org [82.195.75.110])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F9D3A1E9B
-	for <distributions@lists.linux.dev>; Sat,  7 Mar 2026 15:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.174.241.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC7F30C62E
+	for <distributions@lists.linux.dev>; Sun,  8 Mar 2026 04:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.110
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772899145; cv=none; b=cD5+1oXQBguUuSM6bg5ZvIlQyDzbs2E2+lRmGLLvhgAu04M0B5pIA2SrSi1GyVyyY++QRbIwUHSsn4OynUfQTVBQf9MRaSBuueLE+glynlFm3qRaUNLFje0ELHaGsY88GA38NLOcUw2yrGDTh5G3iiZvUls5u1S3+xTX34oQixA=
+	t=1772943228; cv=none; b=f1ek0iveXlwzVZiEvznUFbo0o6PdTtfqFivbVddtrpll+FC+Z9/t+C2BTOFadnR32GJOg/FNbY5zsZNIRLeh2/EyUa+6nUbG93QH+qfMkBg8dQ+NpIMwU45F/YN/jFD9BXkDVWn76vDcZKBGg7w19/z806T7zAT/CptE22zyUho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772899145; c=relaxed/simple;
-	bh=Sj0+NFJsTrzY0XT8FTkTUZwz30z2ULqSOH0GtAtnmTU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=eDuN5GnB5aKZ7B0y4FZNYulc24B8kqCV1U/Jyi5Gg4NAnQ5RJhpYandooT1GUaIDr5KgRUhgeh6+ud4VEaIGEn0lrxowyoVWU5yPNHhMmWN2qLEhfxoYkWi/+nnEUe6SasSWdVHRjSYnZjm8HmJ3HJ4B9HWeFMI40tv3q+IxXLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=josefsson.org; spf=pass smtp.mailfrom=josefsson.org; dkim=permerror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b=sYm4FQzc; dkim=temperror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b=wMaEC/uS; arc=none smtp.client-ip=178.174.241.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=josefsson.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=josefsson.org
+	s=arc-20240116; t=1772943228; c=relaxed/simple;
+	bh=45d2S5WIf0YwvsANcgPHU8csV4+fMznsvNNuAmxBRGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FzXSF/SiyQyelzAkqGzXIFGcv/eMyEg916nMGXoQeBZq1WgdTKoLZZT7eL6F4lEB4Mk9yRxhDALKQ2mvYXn78os1Bju570/EebSq0SXQrbh4ZgxmhtmzAH/ctnuva3Gk1RjQ+l0Rd3i1CkizfQw+Wefr54w/2SfSusMMlyKrx8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=master.debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=sOqYpYoq; arc=none smtp.client-ip=82.195.75.110
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=master.debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=permerror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b="sYm4FQzc";
-	dkim=temperror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b="wMaEC/uS"
-DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=josefsson.org; s=ed2303; h=Content-Type:MIME-Version:Message-ID:Date:
-	References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=siFT/iH2P2THjg3LeSxP+0aF2vqBv9EcFUMs/nvB5pA=; t=1772899135; x=1774108735; 
-	b=sYm4FQzc57MQKfozM9F9R6e6uD6HX6D1BQNz+vCwGNiQFU4hEGKF9l9PbcMTF5LcWYwW/N5x/pI
-	5dCfBptwcBA==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=josefsson.org; s=rsa2303; h=Content-Type:MIME-Version:Message-ID:Date:
-	References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=siFT/iH2P2THjg3LeSxP+0aF2vqBv9EcFUMs/nvB5pA=; t=1772899135; x=1774108735; 
-	b=wMaEC/uSxKU83g6f1AQ6JwzW3/NwK+aTNkH7S/SOGmnwHJFWYwd4C0Kyx1j0GtBBGB1IKpMiyC9
-	ADbGr6mWPeXv6WlXDlSHPifyh56ZMQNWouJ6GX1oe4kUVnVXg7fwKlAqOlgO+ZP6svSEjqO3Oj6DO
-	9SY123Nd7+xe1pOEB6JAekDxJ6TI1DmEXiNMPBG4Q6LJLuyw2ShDnCWs1Uvod7aOsp/g2ZsZtmh6w
-	Dhow8RE0ZhT/RsCC+qXXy8dHJYCbSLxPdlVIVjxDW8BitTQMhcytjc9wxZvIPl1XsYEiOL2kCZqzp
-	4Wyg/wtuAM0h2gofM6sfkRkAD/pny2zEXBPSqRS5ZIlO0AVf/djSRoYXFCFXur3JHOqpltmJYH2Fk
-	U0GHrEvc1bVQemR2OiZWYKaUksTTtI6WDOHXT2tQiReyJeHK6UxQW/1nyPLY/g27Af/i66u5N;
-Received: from h-178-174-130-130.a498.priv.bahnhof.se ([178.174.130.130]:40316 helo=frallan)
-	by uggla.sjd.se with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <simon@josefsson.org>)
-	id 1vytcK-005OWT-7N;
-	Sat, 07 Mar 2026 15:31:00 +0000
-From: Simon Josefsson <simon@josefsson.org>
-To: Morten Linderud <foxboron@archlinux.org>
-Cc: =?iso-8859-2?Q?Micha=B3_G=F3rny?= <mgorny@gentoo.org>,
-  distributions@lists.linux.dev
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="sOqYpYoq"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.master; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-ID:Content-Description;
+	bh=DrxwfMlnRQGOwNV9p25aLDc2wUP151tVn/jaivYbYdQ=; b=sOqYpYoqzeFBM8tCfXWCGJQz+2
+	OegR01D535oYOx5Dnt59NY2GLP4O/rPgG07/r/LHv0DeSNBANwmxCEhYYso8N63AYjdzIZc0YZOre
+	BnoaS1NLUdxEChZo5VCn33I0mNZ3rot+MadMFkohnUUMM10CvWIucrXjjEdqj2ouKkZUhrgqeH1Dj
+	q395bd9YLEi+gJCAxuOfSWKN3S9DjS3kRGnoBVzwq30rwPrqtUNaJ+KvNOtmLBa3Wo5VxiebkZH0h
+	m2SvEhEuqMBYuMDOtjF99HJs1hGlWSpfG8d4fVEKLwG+ClQSlXHnwwZKN9xx3XaCDkObWZjxBA1SL
+	gNsH5nxw==;
+Received: from guillem by master.debian.org with local (Exim 4.96)
+	(envelope-from <guillem@master.debian.org>)
+	id 1vz5Ji-005VD0-20;
+	Sun, 08 Mar 2026 04:00:34 +0000
+Date: Sun, 8 Mar 2026 05:00:33 +0100
+From: Guillem Jover <guillem@debian.org>
+To: Simon Josefsson <simon@josefsson.org>
+Cc: Morten Linderud <foxboron@archlinux.org>,
+	=?utf-8?B?TWljaGHFgiBHw7Nybnk=?= <mgorny@gentoo.org>,
+	distributions@lists.linux.dev
 Subject: Re: Looking for advice on how to deal with potential slop packages
-In-Reply-To: <aawYbre5_xvhfwKA@framework> (Morten Linderud's message of "Sat,
-	7 Mar 2026 13:36:18 +0100")
+Message-ID: <aaz0Yb3SOXmxiJ5l@thunder.hadrons.org>
 References: <a3f792e918674e208492a077679ae6ffc88ce0c9.camel@gentoo.org>
-	<aawYbre5_xvhfwKA@framework>
-OpenPGP: id=B1D2BD1375BECB784CF4F8C4D73CF638C53C06BE;
- url=https://josefsson.org/key-20190320.txt
-X-Hashcash: 1:23:260307:mgorny@gentoo.org::pUgj28pcjLrR9sPa:52L9
-X-Hashcash: 1:23:260307:distributions@lists.linux.dev::w+9hr6VJbI4kx0t0:9B5O
-X-Hashcash: 1:23:260307:foxboron@archlinux.org::sEEty/2cJ008FAvE:9XSG
-Date: Sat, 07 Mar 2026 16:31:18 +0100
-Message-ID: <878qc38xmh.fsf@josefsson.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ <aawYbre5_xvhfwKA@framework>
+ <878qc38xmh.fsf@josefsson.org>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <878qc38xmh.fsf@josefsson.org>
 
---=-=-=
-Content-Type: text/plain
+On Sat, 2026-03-07 at 16:31:18 +0100, Simon Josefsson wrote:
+> To some extent we already see this split, between copyleft-aligned
+> GNU/Linux distributions like Guix that default to GnuPG and GNU
+> coreutils, and some commercial distributions that is on a path to
+> replace all GPL'd code.
+> 
+> Given that we couldn't establish such consensus in the pre-AI times (for
+> GnuPG vs Seqoia and GNU coreutils vs uutils), and there even seem to
+> some preference towards the non-copyleft agenda, I think the same will
+> happen again for AI-rewrites.
+> 
+> The commercial dynamic is pro LLM and against copyleft. […]
 
-Morten Linderud <foxboron@archlinux.org> writes:
+I'm not sure why you felt the need to drag the GnuPG issue here in
+this context, when that's already messy enough.
 
-> A lot of this is probably already a lost cause I think.
+The reason many upstream projects and distributions are distancing
+themselves from GnuPG (at various speeds), is a thing of GnuPG's
+upstream own making. There's been long standing concerns about its
+UI, security and implementation. Mishandling the OpenPGP RFC process
+and then subsequently getting off it, and not just refusing to implement
+it but in addition creating a schism and a fork in the ecosystem did
+not help matters, which is what has triggered many to seriously look
+into alternative OpenPGP implementations (which thankfully we have many
+to choose from now!). All this has had no relation whatsoever with
+licensing.
 
-+1
+(BTW and AFAIR most of Sequoia components are either LGPL or GPL.)
 
-I wonder if there is even consensus to refuse to package AI-rewritten
-packages with a different license, such as python-chardet:
-
-https://github.com/chardet/chardet/issues/327
-https://github.com/chardet/chardet/issues/331
-
-I think that is a separate category of LLM contributions, unlike the
-LLM-assistance used for many years in the Linux kernel.
-
-If AI-rewrites for copyright reasons becomes common, that is problematic
-for a free software perspective.  One recurse is to actively chose to
-not use such rewrites, but to insist on using copyleft packages as a
-policy and preference in order to defend user's rights.
-
-To some extent we already see this split, between copyleft-aligned
-GNU/Linux distributions like Guix that default to GnuPG and GNU
-coreutils, and some commercial distributions that is on a path to
-replace all GPL'd code.
-
-Given that we couldn't establish such consensus in the pre-AI times (for
-GnuPG vs Seqoia and GNU coreutils vs uutils), and there even seem to
-some preference towards the non-copyleft agenda, I think the same will
-happen again for AI-rewrites.
-
-The commercial dynamic is pro LLM and against copyleft.  It is possible
-to offer an alternative but it requires an active choice and interested
-developers/users.
-
-/Simon
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQNoBAEWCgMQFiEEo8ychwudMQq61M8vUXIrCP5HRaIFAmmsRMcUHHNpbW9uQGpv
-c2Vmc3Nvbi5vcmfCHCYAmDMEXJLOtBYJKwYBBAHaRw8BAQdACIcrZIvhrxDBkK9f
-V+QlTmXxo2naObDuGtw58YaxlOu0JVNpbW9uIEpvc2Vmc3NvbiA8c2ltb25Aam9z
-ZWZzc29uLm9yZz6IlgQTFggAPgIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgBYh
-BLHSvRN1vst4TPT4xNc89jjFPAa+BQJn0XQkBQkNZGbwAAoJENc89jjFPAa+BtIA
-/iR73CfBurG9y8pASh3cbGOMHpDZfMAtosu6jbpO69GHAP4p7l57d+iVty2VQMsx
-+3TCSAvZkpr4P/FuTzZ8JZe8BrgzBFySz4EWCSsGAQQB2kcPAQEHQOxTCIOaeXAx
-I2hIX4HK9bQTpNVei708oNr1Klm8qCGKiPUEGBYIACYCGwIWIQSx0r0Tdb7LeEz0
-+MTXPPY4xTwGvgUCZ9F0SgUJDWRmSQCBdiAEGRYIAB0WIQSjzJyHC50xCrrUzy9R
-cisI/kdFogUCXJLPgQAKCRBRcisI/kdFoqdMAQCgH45aseZgIrwKOvUOA9QfsmeE
-8GZHYNuFHmM9FEQS6AD6A4x5aYvoY6lo98pgtw2HPDhmcCXFItjXCrV4A0GmJA4J
-ENc89jjFPAa+wUUBAO64fbZek6FPlRK0DrlWsrjCXuLi6PUxyzCAY6lG2nhUAQC6
-qobB9mkZlZ0qihy1x4JRtflqFcqqT9n7iUZkCDIiDbg4BFySz2oSCisGAQQBl1UB
-BQEBB0AxlRumDW6nZY7A+VCfek9VpEx6PJmdJyYPt3lNHMd6HAMBCAeIfgQYFggA
-JgIbDBYhBLHSvRN1vst4TPT4xNc89jjFPAa+BQJn0XTSBQkNZGboAAoJENc89jjF
-PAa+0M0BAPPRq73kLnHYNDMniVBOzUdi2XeF32idjEWWfjvyIJUOAP4wZ+ALxIeh
-is3Uw2BzGZE6ttXQ2Q+DeCJO3TPpIqaXDAAKCRBRcisI/kdFohFZAQCOzxuWX9tL
-IBmZB8bxVwBvVqCaeojFRIYGNO5oLl7yMwEAl0iHR0ew2D06dqwUN4+lrTNpTddk
-NWT9E8A3y9K5KQw=
-=nJpf
------END PGP SIGNATURE-----
---=-=-=--
+Regards,
+Guillem
