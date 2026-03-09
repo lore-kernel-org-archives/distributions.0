@@ -1,179 +1,195 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013007.outbound.protection.outlook.com [40.107.159.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1902A41C30A
-	for <distributions@lists.linux.dev>; Mon,  9 Mar 2026 21:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.7
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773090577; cv=fail; b=PYls7JJnpiJ17LLiS7OypsdNKf0uULS4gIkGEc/vnweBc4ITpl6ijPrLTN/S8LYIV4AGiZrkOHOvGHN7FqbhvZhV5hvTQJe3ucg3z5GG1T9l41P4UUnwH2tSZGIIal7qlzBn7kOv58yO27tzrYqipY6zEQYdpKi72mc3afmyfy8=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773090577; c=relaxed/simple;
-	bh=fgXiRlYiso9rdYW2jHCoEU7VcjXlblogkNqjMIyGgAM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=hWQxNJuENLX78/bhVAy7FUbCKdpTAWpzMNpk5REvqytTb+k+RqK+7iLIcfshZ47hq7b+0+Y47KR7aduvgsz7+OrT910cZJwLOxltAiS44ZZLya9Uieia53fG6Ed0QskoP+XQFfc1Iy5WXsIFNB438bewy4vVLovI1wGpLtaVyBU=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=bTrtko5o; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=bTrtko5o; arc=fail smtp.client-ip=40.107.159.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4952A33AD89
+	for <distributions@lists.linux.dev>; Mon,  9 Mar 2026 21:16:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773090990; cv=none; b=LFt/vKrF06Y03BKUbvDuANOKV4UfYRAGBpHJdyOf6mcavzGI/3eLcjNeDNzdkFOq9/5IfvT7t/Y1hwQCGKTq2qiY9tVO8nIROgjFxotemQpNzfpaAJHC9DNFAp6rPk/GwasETVkWmqn9hMsKL4HT7BmxYLNmBJI37Gh/qMuNIIo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773090990; c=relaxed/simple;
+	bh=VKkkxF2g4qZCdot4/5s3Taj0mwzmFjjJsD5MjEM/ivI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=dpmTuHG9u7nXG9jyRkBt26U5RigQSB486lJkUpkk5W/xx0CxoiR5zHCm4IQDJlXLvnP4oHmAbiJCQwebRR0di67abyxcClrAZ1siZ1vEQH6Bhbcob9FdGChj+4a/270s+TQ/+kRDB6H9oTshoEeCZbRPww77lJBX4ATwaQlkA3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Y7vx9eEq; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="bTrtko5o";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="bTrtko5o"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=aPhQN4L1lSyDqVxhxjCu0bKZuc3w9BvNWa9D6BTXAg8i1xwz/hLacNTv1tGENbcLfWZ8/4KcE9zsPvTDEHp/l+TMFhq8tlKJaox3sXUzM1jxCqRogcQ0JXtNbwLDdVoaE8OQNqk9HM3N5lgMAdb3xtnAUA4mhVANgcUPqTaIEvvAsxdbtUybKJJD6yrghBaj2t/kpnYlfUXDtSbt9Tfljspg3/lZEpAZDsOAMEX7zf9sSjmawHVpkrDnhjHynABMQ/jAs/mEvvhqRIICPa5dg+Y8RKBYjPopNZAROzXLFos3q0aUIU6/AT2Q/tQwFzr50csOOEGixPj6qbV8sc4Yxg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fgXiRlYiso9rdYW2jHCoEU7VcjXlblogkNqjMIyGgAM=;
- b=PkDuC0v83KwIiNunHv9HV/a7Btx2amRrunUB3K8yk/pR/fpcxXRZXOkNeJ6ytoVJqosH34uOQ9IbW3FOLNg6LqAty9XMh295vUBX3/FCpmqwOXYYi/sgwGeDby+N1oP1uG/BUfSPMkTA1Pgjhe8qbcrdgVCUTGUlBidI7j2C3A93R9bj5tuiPf2ydX/mZKoT7z/l/GAqp7pvsf6cxqasttHiM8+aodDXfgJQbSKK3fwaQRfR71qnP+tOSPAcrUFswHgBZy426nErD0crozZtz+fOWbfVGoEetSuFEusYS9EJ4xfH///N6FV1EN5TrUzgw/ZoJHgpz8+Aq3GaBKPBUA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=owlfolio.org smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fgXiRlYiso9rdYW2jHCoEU7VcjXlblogkNqjMIyGgAM=;
- b=bTrtko5oavovgohRCaJ5T6Ouk8+mF638VuMB3V1o0g46rhp8VviezxGo9smMy0eyGFM+ZQ4ceTXZME+N+vNnUR2FqEAxDwIDchMEs2sa7Vp+gU8xxYU7myHnqUcrq4stx12unquRwvwx//ab7oxqHHjSDnbwiRt58gA991d9poc=
-Received: from AM0PR02CA0132.eurprd02.prod.outlook.com (2603:10a6:20b:28c::29)
- by PAVPR08MB8822.eurprd08.prod.outlook.com (2603:10a6:102:2ff::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.24; Mon, 9 Mar
- 2026 21:09:24 +0000
-Received: from AM3PEPF0000A79C.eurprd04.prod.outlook.com
- (2603:10a6:20b:28c:cafe::7b) by AM0PR02CA0132.outlook.office365.com
- (2603:10a6:20b:28c::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.24 via Frontend Transport; Mon,
- 9 Mar 2026 21:09:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AM3PEPF0000A79C.mail.protection.outlook.com (10.167.16.107) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.18
- via Frontend Transport; Mon, 9 Mar 2026 21:09:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mN3WqPnxl7o8OrlXTZ+007YYiEV4ToLSt7h0JrHognUivIZHFoWTorbyaY1pHXEF94sbGSGMlxyFygfIT+Q+IQQnYOiAd5+vg4+DozwLlwTeFVXlDuHpPc49Tvsc9AI5G1Tr2ur6/TKxAPj8lLdiUqVk+4EsXIaOveh+g6JNcsNzJCi0XP45JAA8FAWhi/5hXXx90KPYVgPGscgooBRE2mdvvPN2YLO4VZqaVpVZU957JXCjYDN+Nbn22zaFLTSyOocEFfQf1+MSlm4oCFjF0oWM0gX+5UUzIkrMifwEYyxBTyuvBSNHqRCAv3j+WqmwsKyqSnqUHi1N0Z6u92CYbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fgXiRlYiso9rdYW2jHCoEU7VcjXlblogkNqjMIyGgAM=;
- b=TYbKdasB8vxk4cJi5brEQVsxJIWfoRmVqSdfZBZTjl0SbbEn2/QgRG3Ef1W0KsBD+/e9gPJMWQ3SaOCWZSQOXoXha2H4Ku6HqDxXt8vD41ZhejbMVpaB0oQ8x12kpnTXkYHsBLRtt66eqiaZyyJwsEyS6VkaiVZwFuRG1SsdUB/RZPg/tJS2fpaumbnDUC2aKRu66EM98OB/QO57mG3Q35ifoYgJgLwpcDWAJhctIDyVx/CvB36JjGk1J0ZuJZ2Qnr+TZ79VmV3hXb9ekcytefZDd/+qlgBqdQE5atldWgneJj3zOj03qDbqHQApevzJRKo6qrDcFGISp5HaJYGvyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fgXiRlYiso9rdYW2jHCoEU7VcjXlblogkNqjMIyGgAM=;
- b=bTrtko5oavovgohRCaJ5T6Ouk8+mF638VuMB3V1o0g46rhp8VviezxGo9smMy0eyGFM+ZQ4ceTXZME+N+vNnUR2FqEAxDwIDchMEs2sa7Vp+gU8xxYU7myHnqUcrq4stx12unquRwvwx//ab7oxqHHjSDnbwiRt58gA991d9poc=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by PAXPR08MB7672.eurprd08.prod.outlook.com (2603:10a6:102:246::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Mon, 9 Mar
- 2026 21:08:19 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::7f73:806a:3493:7d50%6]) with mapi id 15.20.9678.024; Mon, 9 Mar 2026
- 21:08:19 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Zack Weinberg <zack@owlfolio.org>
-CC: Nick Bowler <nbowler@draconx.ca>, Autoconf <autoconf@gnu.org>,
-	"platform-testers@gnu.org" <platform-testers@gnu.org>,
-	"distributions@lists.linux.dev" <distributions@lists.linux.dev>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Y7vx9eEq"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so27313225e9.0
+        for <distributions@lists.linux.dev>; Mon, 09 Mar 2026 14:16:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1773090986; x=1773695786; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VKkkxF2g4qZCdot4/5s3Taj0mwzmFjjJsD5MjEM/ivI=;
+        b=Y7vx9eEqS11UohMfB1vjf0dQSM3e/90SNE4MPh6g66pF1didht139gDs4vf1Rki5Gh
+         0QC0bqEgDY/y7JgdbEYpZcyd0lWGkdQrYIrke4S45RgkNwFIHpjlDL8LE/QJ8hqGqRJJ
+         +Gacok7KFAicPzcSjZ1Qk6VCo/3a8eUvs+F3Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773090986; x=1773695786;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VKkkxF2g4qZCdot4/5s3Taj0mwzmFjjJsD5MjEM/ivI=;
+        b=cjIQS8od4qAby5NhU1bIEuYlfpUFgGHMOISBh65hj7UvrQc4NMfUXzSZvKixdhqxI+
+         WYqW+SEKCzlTRf1VyXMPBqN92Ffc6JUO9wIR/sixwfkxmyRhhQAtJuPQT3XsPkEn3ts5
+         O344qFZpfkBOxmVCBVEIXtuMfVpB2YaRQNlprc7HjC6oFcRlyPw3NpX/T/qehnz4lrgw
+         CeTpGo89BOKXLRNg6SgrY1jEzoz7Ap+6o9z1qEwZUuPvXBw83ev7LpTUBlhemaGlITj6
+         9Mq7d6W/rPWmsXJsZaswXJNIMvKpKFYeH1HobjA8BAMNxbz77lLw6L24J2zaTpXWrE8n
+         NbtA==
+X-Forwarded-Encrypted: i=1; AJvYcCU1hILnUkKJt58Omq7oA8tE9SpkHiSfyZ7CXE8unO0ESgP0+Syv4vEXiOOc6OG8HcSTni1vM/SjgEPyllVo@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy+aajvuJFPXFHT+7yW6BaYR4UtucK8W/15UU6fVUfkHpnJLsGv
+	qLD3DmSHx3vspSej5gJC+lokfihpR/2OPZ5fshIXn7hvVNllctaHvdz9PMIjK0nW1dg=
+X-Gm-Gg: ATEYQzzLdBKI5miHkM4eXDqYocue/Nm1mD5sRB5ewSnnQbyVyhIkjD8ECXx0QURrAoV
+	GDtPSrTG0lnGiLr88Xr7IUfarhXoh+JzZ3zEGZ35UK0/BPjaUn/yHgpaY9ZurBah2lBmMNcsHNN
+	YW/bbrIKXPQ6+uOv/FT33Os+featttUp8AEBuGmUj71UCaXiN328NkLkllIsLicrsH4G0v/ys9Q
+	dSWHGxsyHSmXcBvTwCLroQ+JYDyhL9qqdRu+YP270LCklWUxD9ueBrPzb/yZADbYBiGJnfLGNVD
+	gcTPXaNTZCZq183896/MbrXYmy7xKfnu4q+hswj4FNxFUJw72kf7rzDMf23fnCUNXmBQ/y9S2GL
+	k3pcFaNx9972k/SLrjWDcUITCA7ZzjoIGgmO4727PJZEBnnEOOidMDxCmgbujK0QdXoCjuUgk4h
+	3HviR8JKuUrGvSqN4bTQmIEi6qxOYoW+nSt/8UIizGK+gnbVCMNrCFKoj3/kNUf8UZuWj/43/EG
+	LiGtIz2/+M7aQaupYdo9hU=
+X-Received: by 2002:a05:600c:1d0b:b0:485:4136:99a8 with SMTP id 5b1f17b1804b1-48541369c0cmr28885395e9.22.1773090986429;
+        Mon, 09 Mar 2026 14:16:26 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:f0f:27a5:814a:c92a? ([2001:8b0:aba:5f3c:f0f:27a5:814a:c92a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae483desm28564542f8f.34.2026.03.09.14.16.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 14:16:25 -0700 (PDT)
+Message-ID: <001fc89a3a73a54e875412f41f1732b151da3670.camel@linuxfoundation.org>
 Subject: Re: Please test autoreconf from zack/autoreconf-exclude branch
-Thread-Topic: Please test autoreconf from zack/autoreconf-exclude branch
-Thread-Index: AQHcqzIbglzek5p51E2IrPgfH3YLWbWfDTIAgAds1ACAABH3AIAAG4WAgAATw4A=
-Date: Mon, 9 Mar 2026 21:08:19 +0000
-Message-ID: <4DE85F69-688B-46B6-A653-2566E834300B@arm.com>
-References: <eb85c013-42e9-4fb2-b7f3-1213caa9cfe1@app.fastmail.com>
- <mzhyowtgben33uqxnuyeae7yxmeitg4dvdwselbbuqfhkvdldn@6j7b37cptftk>
- <eb9f5c99-4b8f-43c1-b527-60200265352c@app.fastmail.com>
- <k655rugxzjvt4tb5o3kc2zos6l7oz3ooqbfuw5j7yl2ls7miud@d7x637tpydpa>
- <692c7a78-3f09-4a2f-9e16-b52885245c54@app.fastmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Zack Weinberg <zack@owlfolio.org>, Nick Bowler <nbowler@draconx.ca>
+Cc: Autoconf <autoconf@gnu.org>, platform-testers@gnu.org, 
+	distributions@lists.linux.dev
+Date: Mon, 09 Mar 2026 21:16:24 +0000
 In-Reply-To: <692c7a78-3f09-4a2f-9e16-b52885245c54@app.fastmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-mailer: Apple Mail (2.3826.700.81.1.4)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic:
-	PA4PR08MB7411:EE_|PAXPR08MB7672:EE_|AM3PEPF0000A79C:EE_|PAVPR08MB8822:EE_
-X-MS-Office365-Filtering-Correlation-Id: d60f83ca-d3b9-48c5-e0fc-08de7e2023ad
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|10070799003|366016|1800799024|376014|38070700021;
-X-Microsoft-Antispam-Message-Info-Original:
- XFqT1cM1JDxZsih9Zmq+ZFtdO4b8W6RNrWOj0an2K7N3c4H4EJ83r6f8E6GzWabWR/5kqcemSoWQLcgZNQSaDzAgwo5BSONHlaFfBfWHp6lEhIQSunfGj16DjqVUNMk/pnWmqm9jxXTlogrn69aqFqLdExNuGyAqFOze2tp/RbP0BDKSrI4g9zymUgQp8eu2+4fbC9mrukSDHV85hJbgq2BP4dyVnB61TrvwjZdZb94yVfOZdkBaGP6tFgLsSVyV0vCY621ybUXT5Ig2RywLMPHOkC0dzFGHGFKLLJbXSvJDz2dyKGmMTi71lvqxRJzGP6UiaH43XyCX28Gb+Pu3ndKOwvQ0sYWzwj6rcKGB/5aa5yWv+MUlmeQhpZYQdmphdmGWX9c6kzVQWxaGlLM+ho3T5CCX5FbsLbPO9c02EPbejK+PQ5Xlk7VJF2AVUBELmEFmw5l/H3/B3dP8Bt2D2ov5fCkHkOSXw6t6LNS/bZiCCvK2cagLLksTgiKETXBOawmaz7OswYFG46JWlY7Xys7sYIE7Eo9XzSAmW8F2Nwwm2z60dmR21K0PrRcSMxnNA40vPa3Ze3T14rkYPvLmkiqpSC88Ki9VeLnCs1S2Yey0AQzWVls33rSah6hQjAiOwPHPkMLJoTg6SnsRFNBdYzntaOK2XBQaOpQVsSkSQZle4/XClDzlUFdfZ7f+Z7aFUFyVNjKVAlv6pOXcmW0aPPKkQgg6ntvqPT3XM9wMRgzMAoAmUyi3rZaOWacH5rKhrWPh5+mrDLBzCeXpJkyK2zwzMBJ1vTvjQHUTMdcHDaU=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(1800799024)(376014)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <25C0E8E0F975E543A8F53BC550647FC7@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+References: <eb85c013-42e9-4fb2-b7f3-1213caa9cfe1@app.fastmail.com>
+	 <mzhyowtgben33uqxnuyeae7yxmeitg4dvdwselbbuqfhkvdldn@6j7b37cptftk>
+	 <eb9f5c99-4b8f-43c1-b527-60200265352c@app.fastmail.com>
+	 <k655rugxzjvt4tb5o3kc2zos6l7oz3ooqbfuw5j7yl2ls7miud@d7x637tpydpa>
+	 <692c7a78-3f09-4a2f-9e16-b52885245c54@app.fastmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0-1ubuntu0.1 
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
- TAiQ/16OwWdKnXok+Ip5/Mjy6zdd+FmE+JEX1wDx5zZRLxRvFcTYFQSXxHsqEemw9UJCqDWpuVxN/SATAcMVE7EkEjN4AR9UACAmEAYGyGpCiXgUbvJDtAKHB1M9VtX77ZsaZ/NRCfaAkvaaaSXlNC9/VxxmpPpQQ/asvkoLY8QgrP7BOZvvUzfV+tKb8+lWFnnY1uGz5CT2boFsnhoJH8N5qWu1W1shppJa/lKh8Qu5zHm6gCyi+xyjj1LLaeO7Iq5n9ugg2Y4W1sfOpMpovqlqBhrfFjIeFDllt6VifYAPpjdGNLz1i+6wFwddN68v9ttOqDmqez2CwhQQEwCzjQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB7672
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- AM3PEPF0000A79C.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	85304dc9-c76f-4de4-48cb-08de7e1ffd8c
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|14060799003|35042699022|36860700016|82310400026|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	R1tQ5DiLA+p9LznB6vDxcIvHjqvfPblzzdYUjL4S3v+UP9PofAgw/lKtmitrbCQQc5zJQ/oYmDkngIlr9jMAxs1rekbVtXQ/M+S1mubYOek/v/LdHgIP1kJSz5yOGBm88LQRQwx2OyyGOgD+e9YTt3Vae8o/DOHf8Yzv80EJ7s+Iq5dg2r7oy9hA1gJ9D/dIYnkFe1Jj7/QYDTRehyzQuz9imEWil2P1Lol5tzozIHOnS8KNyt8piYZ5CEKPXu5jVnx9/n7/ZQYcxwUF0+s6SAUMHF+fv4UTP/SN+/dCbwl3RUI54kya5TEH60c8Y1tVEPmmOH3AzPunFisvlrygv30UyLWiFGFOUw0nmalq0V5qcXL3xTUM5+5HgdnC69rQdnlNRvW00hGH1q1FgVRlA5uZDrbc9BNa9GtSNNHBI3YNPzBO+rjC+4X2RMJ6NBuhU2WCbYCI6axb99ioE5XCSwhsnPQzAVN3vyFGF31OOeXGl6HyiHPGt5gPGatLpBxDg3PQR1xYYkqtyT+SBTO6TMErMlOUDQsH4F9MqEDVRwD6uoWlVurc8i0gugRYCy+KwA2parr41mfGmJcCGyMWiJOqknEvFU3MM6+BbupeSBIuWNm3peiispjjpJVYijEkhJocFR/s4D0ZSVKC83KBZZAaQO4MgpZbHZ9o8akuaGtuViqYksx0zaIrePy30JTfGFhpuvZK4wHLo87vrWhOo1czTeX6Z5u10CqfeDy7w8md5VNs838zx+kaVLLtTUzv5Gig7DbTRC0RmUOiGnEa+A==
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(35042699022)(36860700016)(82310400026)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	8RpMBD2n642VZdim8l7XfmGqg+D4XP0fD6V3Jx+azlp51pM6mzmgy7/8eYm6Dp0J1xZktZz8NLyFrCBEkxHq0m2szG/BtfBr9guB+01HO/TjiPzv6kqZtNcKa4L6KjLrS8hu80yc1SsyK7Qk2dVW7us8m9FMsIiJQ0GJLJuTbiQC622oK8ZY7VqpfiUvTFrwTTtAlw3Gl4V+xhbceJP8Yr1FbNPeN964EjOZvmSR8qLEB56+LV4m+d9qYNdLJrw6EAnUjJHubwZWGKNShdq+skW5SDpru5M79sUK+iPHBUG/T80Appu0EL3wzoXKI37xa3XJEV/kAbKbO+ie2QhIMkMY1NTVq1tt00qjSpweRobjl6FhmL8Ue9dKqg7O0YUAe6SbXqPvH+V1SzSs42/+8cFISULKDbsg5xk5VJYTbZ+y2hEjoprhBw8wTgyIHiBY
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 21:09:23.4933
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d60f83ca-d3b9-48c5-e0fc-08de7e2023ad
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	AM3PEPF0000A79C.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR08MB8822
 
-T24gOSBNYXIgMjAyNiwgYXQgMTk6NTcsIFphY2sgV2VpbmJlcmcgPHphY2tAb3dsZm9saW8ub3Jn
-PiB3cm90ZToNCj4gSSBkaWRu4oCZdCBpbnZlbnQgdGhlIC0tZXhjbHVkZSBvcHRpb247IE9wZW5F
-bWJlZGRlZCBoYXMgYmVlbiBjYXJyeWluZyBhDQo+IHBhdGNoIGZvciBpdCBmb3Igc2V2ZXJhbCB5
-ZWFycy4gIEnigJlkIGxpa2UgdG8gYXNrIHRoZSBvcmlnaW5hbCBhdXRob3INCj4gb2YgdGhhdCBw
-YXRjaCB0byBjaGltZSBpbiBhdCB0aGlzIHBvaW50LiAgUm9zcywgY2FuIHlvdSByZW1lbWJlciB3
-aHkNCj4geW91IG9yaWdpbmFsbHkgd3JvdGUgdGhpcyBwYXRjaD8gIEluIHBhcnRpY3VsYXIsIGRv
-IHlvdSByZW1lbWJlciBpZg0KPiB5b3Uga25ldyB0aGF0IG11Y2ggdGhlIHNhbWUgZWZmZWN0IGNv
-dWxkIGJlIGhhZCBieSBzZXR0aW5nIGUuZy4NCj4gQVVUT1BPSU5UPXRydWUgaW4gdGhlIGVudmly
-b25tZW50PyAgQW5kLCBpZiB5b3UgZGlkIGtub3cgdGhhdCwgZG8geW91DQo+IHJlbWVtYmVyIHdo
-eSB0aGF0IGFwcHJvYWNoIGRpZG7igJl0IHdvcmsgZm9yIE9FPw0KDQpJIGRvbuKAmXQgYmVsaWV2
-ZSBJIHdyb3RlIGl0LCBJIGNhbiB0cmFjZSBpdCBiYWNrIGluIHZjcyBoaXN0b3J5IHRvIDIwMDUg
-d2hlbiBpdCB3YXMgaW1wb3J0ZWQgaW50byBhIGdpdCByZXBvc2l0b3J5IGZyb20gYSBiaXRrZWVw
-ZXIgd2hlcmUgaGlzdG9yeSBiZWNvbWVzIG11cmt5LiAgRm9yIGV4YW1wbGUsIHRoZSBtaWdyYXRl
-ZCBoaXN0b3J5IGRvZXMgd2VpcmQgdGhpbmdzOg0KDQpyZW5hbWUgZnJvbSBhYWxpYi9hYWxpYl8x
-LjRyYzUuYmINCnJlbmFtZSB0byBwYWNrYWdlcy9hdXRvY29uZi9hdXRvY29uZi0yLjU5L2F1dG9y
-ZWNvbmYtZXhjbHVkZS5wYXRjaA0KDQpZZWFoLCBJIGRvdWJ0IHRoYXTigJlzIHdoYXQgaGFwcGVu
-ZWQuDQoNCk15IGh1bmNoIGlzIHRoYXQgdGhlIG5vbi10cml2aWFsIGxvZ2ljIGFyb3VuZCBydW5u
-aW5nIGFjbG9jYWwgbWVhbnQganVzdCBzZXR0aW5nIEFDTE9DQUw9dHJ1ZSBkaWRu4oCZdCBxdWl0
-ZSBkbyBlbm91Z2gsIGJ1dCB3ZeKAmXJlIG5vdyBvZmZpY2lhbGx5IEJlZm9yZSBNeSBUaW1lLCBz
-b3JyeS4NCg0KUm9zcw0KSU1QT1JUQU5UIE5PVElDRTogVGhlIGNvbnRlbnRzIG9mIHRoaXMgZW1h
-aWwgYW5kIGFueSBhdHRhY2htZW50cyBhcmUgY29uZmlkZW50aWFsIGFuZCBtYXkgYWxzbyBiZSBw
-cml2aWxlZ2VkLiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQgcmVjaXBpZW50LCBwbGVhc2Ug
-bm90aWZ5IHRoZSBzZW5kZXIgaW1tZWRpYXRlbHkgYW5kIGRvIG5vdCBkaXNjbG9zZSB0aGUgY29u
-dGVudHMgdG8gYW55IG90aGVyIHBlcnNvbiwgdXNlIGl0IGZvciBhbnkgcHVycG9zZSwgb3Igc3Rv
-cmUgb3IgY29weSB0aGUgaW5mb3JtYXRpb24gaW4gYW55IG1lZGl1bS4gVGhhbmsgeW91Lg0K
+On Mon, 2026-03-09 at 15:57 -0400, Zack Weinberg wrote:
+> (consolidating some replies)
+>=20
+> On Mon, Mar 9, 2026, at 2:18 PM, Nick Bowler wrote:
+> > On Mon, Mar 09, 2026 at 01:14:38PM -0400, Zack Weinberg wrote:
+> > > On Wed, Mar 4, 2026, at 6:51 PM, Nick Bowler wrote:
+> > > > Why implement a new option for this?
+> > >=20
+> > > Discoverability.=C2=A0 If someone's having a problem with autoreconf =
+running
+> > > something it shouldn't, and they look at autoreconf --help, the --exc=
+lude
+> > > option will be right there.
+> >=20
+> > I do think the sentence in the Autoconf manual is better than the
+> > sentence in the autoreconf --help text, because it actually says
+> > what the variables are for:
+> >=20
+> > =C2=A0=C2=A0 The environment variables AUTOM4TE, AUTOCONF, AUTOHEADER, =
+AUTOMAKE,
+> > =C2=A0=C2=A0 ACLOCAL, AUTOPOINT, LIBTOOLIZE, INTLTOOLIZE, GTKDOCIZE, M4=
+, and MAKE
+> > =C2=A0=C2=A0 may be used to override the invocation of the respective t=
+ools.
+> >=20
+> > Surely it does not need to be explained that the ability to choose
+> > the command which is run also includes the ability to choose a command
+> > which does nothing.
+>=20
+> Honestly, I think that *isn=E2=80=99t* clear at all, even with the =E2=80=
+=9Cmay be
+> used to override=E2=80=9D wording.=C2=A0 It is quite plausible to me that=
+ someone
+> would assume this feature is limited to picking *alternative
+> implementations* of the =E2=80=9Crespective tools,=E2=80=9D i.e. that wha=
+tever is
+> picked, it has to actually do what the command=E2=80=99s supposed to do.
+>=20
+> I could address that with another sentence, but, like I said, I think
+> people will not notice that sentence, because they=E2=80=99re too focused=
+ on
+> looking for an *option* to make autoreconf do what they want.
+>=20
+> > Is duplicating a subset of functionality from a longstanding
+> > autoreconf feature really worth this risk?
+>=20
+> Fair question; just the number of tests I feel I need to write before
+> landing the branch is making me reconsider whether this ought to be
+> put into 2.73.=C2=A0 However, against that, the number of complaints we g=
+ot
+> since 2.70 about autoreconf trying to run tools that it shouldn=E2=80=99t
+> argues that this is a real problem and *not* one that=E2=80=99s adequatel=
+y
+> addressed by the existing mechanism, albeit perhaps only because
+> people don=E2=80=99t know about it.
+
+I just replied to one of the other emails, not realising this one has
+consolidated replies in it so sorry about that.
+
+I think the existing functionality is unclear to people. At the very
+least it would need better documentation but I also think it is a poor
+interface for usability.
+
+> I didn=E2=80=99t invent the --exclude option; OpenEmbedded has been carry=
+ing a
+> patch for it for several years.=C2=A0 I=E2=80=99d like to ask the origina=
+l author
+> of that patch to chime in at this point.=C2=A0 Ross, can you remember why
+> you originally wrote this patch?=C2=A0 In particular, do you remember if
+> you knew that much the same effect could be had by setting e.g.
+> AUTOPOINT=3Dtrue in the environment?=C2=A0 And, if you did know that, do =
+you
+> remember why that approach didn=E2=80=99t work for OE?
+
+I'm also from the OE world so I know a little about this patch. OE has
+been carrying it for as long as I remember and I was there early on.
+The first reference I could find is here from 2004:
+
+https://git.openembedded.org/openembedded/commit/autoconf?id=3D95b67de37447=
+d7c30164eeec818429f4b34e6fc4
+
+The commit is broken with a decades old bitkeeper SCM translation but
+the patch name looks right I'm fairly sure it dates from then in 2004
+and we've carried it since. In the time since I'm happy to say we've
+massively improved both our patch documentation and also our commit
+messages but those don't help us in this case.
+
+There are two reasons I can think of that this was probably done.
+Firstly, "ACLOCAL=3Dtrue" can easily be misread as "enable aclocal" which
+is the exact opposite of what it does.
+
+Secondly, environment variables don't really feel like a proper
+interface to the script and are harder for us to to inject. We have a
+variable we can add parameters to our autoreconf calls to quite easily
+and=C2=A0 "--exclude aclocal" is relatively obvious. If we need environment
+variables as well as parameters, we need two variables and they're just
+not as readable.
+
+Perhaps it is better illustrated by looking at how we'd have to write
+that in our metadata:
+
+EXTRA_AUTORECONF +=3D "--exclude=3Daclocal --some-other-option"
+
+vs:
+
+EXTRA_AUTORECONF_ENV +=3D "ACLOCAL=3Dtrue"
+EXTRA_AUTORECONF +=3D "--some-other-option"
+
+I'd argue the latter is pretty horrible, which is why we've gone for
+the former instead even if we had to carry a patch for 20+ years!
+
+Cheers,
+
+Richard
