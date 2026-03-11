@@ -1,16 +1,16 @@
 Received: from smtp.gentoo.org (woodpecker.gentoo.org [140.211.166.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B202B652
-	for <distributions@lists.linux.dev>; Wed, 11 Mar 2026 02:49:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AB8B652
+	for <distributions@lists.linux.dev>; Wed, 11 Mar 2026 02:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773197346; cv=none; b=Ah6voPdS/3bfZXPFoLgxCniKEXyxVolnJDACFXi1xuNzlPmnF5WB4vfEGQrwW3VT5rdBEmkV9/bQiaKxWPjbWdeesTjk9OH7J1lJeJ3UcHC+rq73Y9bvBdyxFNdoN1h/QeBKgtkxaiGf5yzqXa0a6XnG6WeT403IXK48da74Tow=
+	t=1773197492; cv=none; b=lE18L6djEg1Syt9drLTPjvwbywCRJE7+jeO4y64ylrBpbJTyD3WV1L+iRJ3gN1fl5YGKsPS7xGbWvlSXCUf5MvrlXjRBkt/0dL4EPqxtROjZ5L2XmkbMF5niaSCHSREX2vvrzfHx4ZVmHo3blLitPFt11ib+QoLkY8mpHgBjWbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773197346; c=relaxed/simple;
-	bh=fQwbSpG+s7CysH4/FtToOZ3DoqSihYWxrzWFznx2DzY=;
+	s=arc-20240116; t=1773197492; c=relaxed/simple;
+	bh=CpDSEoHco/1lXfVwvH0YvsB7u1yi4bzO5MjUc2X8/Gw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HqYaNkD82gvWWX+B4w9P/RMjEY3zXa0MJd+hGZObEW27stPvKemnu8UQsTGbDiDA8ks47W334RRR3IHjvpU5f4eehbE+mF42DE1hE578wHyKVhn1ZqlV5n21UT2qgPMfGfmBT3DE6E7MZiFQYmvitwymdCp932UyICG2eczo0xs=
+	 MIME-Version:Content-Type; b=gN/o5UZggAUg5pik9NHRG1NNkwlVF4Pd0cvtwo75saXV8PUSTYfz4O+/W+ugfm1TpzKFjutTzIwsONrtkkeQcyphHaXDnoE7Ox6XQ9kkOLa4GyJWB82/+DiXsIALxQHnd0tUjr8oHvkMK63hK0wPw0ES+VDP7uIOW8Tv3JSFUN0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org; spf=pass smtp.mailfrom=gentoo.org; arc=none smtp.client-ip=140.211.166.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gentoo.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gentoo.org
@@ -19,20 +19,18 @@ Received: from mop.sam.mop (2.8.3.0.0.0.0.0.0.0.0.0.0.0.0.0.a.5.c.d.c.d.9.1.0.b.
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sam)
-	by smtp.gentoo.org (Postfix) with ESMTPSA id 19B6A34223D;
-	Wed, 11 Mar 2026 02:49:01 +0000 (UTC)
+	by smtp.gentoo.org (Postfix) with ESMTPSA id 8355D3421F5;
+	Wed, 11 Mar 2026 02:51:03 +0000 (UTC)
 From: Sam James <sam@gentoo.org>
-To: Morten Linderud <foxboron@archlinux.org>
-Cc: =?utf-8?B?TWljaGHFgiBHw7Nybnk=?= <mgorny@gentoo.org>,
-  distributions@lists.linux.dev
+To: =?utf-8?B?TWljaGHFgiBHw7Nybnk=?= <mgorny@gentoo.org>
+Cc: distributions@lists.linux.dev
 Subject: Re: Looking for advice on how to deal with potential slop packages
-In-Reply-To: <aawYbre5_xvhfwKA@framework>
+In-Reply-To: <a3f792e918674e208492a077679ae6ffc88ce0c9.camel@gentoo.org>
 Organization: Gentoo
 References: <a3f792e918674e208492a077679ae6ffc88ce0c9.camel@gentoo.org>
-	<aawYbre5_xvhfwKA@framework>
 User-Agent: mu4e 1.12.15; emacs 31.0.50
-Date: Wed, 11 Mar 2026 02:48:58 +0000
-Message-ID: <87ms0fw06d.fsf@gentoo.org>
+Date: Wed, 11 Mar 2026 02:50:59 +0000
+Message-ID: <87eclrw030.fsf@gentoo.org>
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
@@ -43,73 +41,72 @@ Content-Type: multipart/signed; boundary="=-=-=";
 	micalg=pgp-sha512; protocol="application/pgp-signature"
 
 --=-=-=
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Morten Linderud <foxboron@archlinux.org> writes:
+Micha=C5=82 G=C3=B3rny <mgorny@gentoo.org> writes:
 
-> A lot of this is probably already a lost cause I think.
+> Hello, everyone.
 >
-> Linux accept LLM contributions (look for the `Assisted-by` tags), and there are
-> already multiple subsystems that are being developed in-part, or full, by LLM
-> agents.
+> Seeing more and more packages embracing LLM-driven development (to the
+> point of "vibe coding" or slopware), I'm looking for your ideas on how
+> distributions should deal with that.  I'm basically torn between three
+> things:
+>
+> 1. My duty towards the users to deliver up-to-date versions of software.
+>
+> 2. My duty towards the users to deliver *good* and *secure* software.
+>
+> 3. My ethical concerns, both directly related to LLM use, and to what
+> people are using them for.
 
-There is a distinction between the chardet case [0] or otherwise
-massively-AI driven development introducing instability and bugs, and this.
+For those interested, we've started discussing it on the Gentoo side at
+https://public-inbox.gentoo.org/gentoo-dev/fd8fea8a469a11e302dfd66dad76bbfa=
+230198cf.camel@gentoo.org/
+now too.
+
+> [...]
+>
+> What are your experiences, thoughts and ideas how to deal with this?  I
+> mean, staying on old software versions and hoping people will change
+> their minds (or more precisely, LLMs will stop being subsidized and
+> people will have to start paying serious money for their usage) is not
+> exactly a good idea.  Going around and telling people "please switch
+> from dependency X to Y because X is slop (and Y isn't yet)" doesn't
+> sound like the best use of our time either.  And forking?  With the
+> depressing state of FLOSS these days, I can't even find energy to
+> maintain my own projects, let alone take anything else.
+>
+
+You know my position on this but saying it here for the benefit of the
+list: I think some collaborative effort is needed just like we ask
+people to port away from unmaintained dependencies or something that is
+otherwise broken. chardet has an alternative AFAIK:
+charset-normalizer. And we can lobby upstreams to not depend on new APIs
+introduced only in "infected" versions.
+
+Of course, that's still work, and I'm very tired of all of this already
+too.
 
 >
-> See the LWN discussion: https://lwn.net/Articles/1026558/
->
-> `b4` has also incorperated llm agents for the review workflow.
-> https://b4.docs.kernel.org/en/latest/maintainer/review.html#configuration
->
-> b4 is also heavily developed by Claude these days.
->
-> I don't think we can reasonably argue that Linux is not free software, and I
-> don't think we can argue for forking Linux to remove llm generated code.
->
-> My take on this is mostly apathy. I don't think we can reasonably challenge the
-> use in the FOSS community. The productivity boost of experienced developers
-> using these is too appealing when we are looking at overburdened FOSS
-> maintainers.
-
-It is of course your right to feel that way and I don't entirely
-disagree, but I also think we have some responsibility to our users to
-protect them in the way we always have.
-
-I don't think that Linux having some AI-assisted commits means that we
-can't discuss or perhaps even have some consensus on handling some packages.
-
-Say, by trying to avoid new chardet and lobbying reverse dependencies to
-not require newer versions if they do so, or to port to
-charset-normalizer.
-
-I don't think we'd have this response if some software was being made
-proprietary. It's the same thing in that it requires some effort to
-rebut, just like also if sometihng becomes unmaintained and has a
-suitable alternative, or whatever else. We do that all the time.
-
-> We've aleady been repeadetly DDoSed by these companies. Spending hundreds of
-> volunteers hours keeping our services running while the companies extract the
-> labour to sell back to the FOSS community, using their standing in the Linux
-> Foundation to further cement their usage in our communities.
->
-> Then the FOSS communities use these models without any care of the ethical considerations.
->
-> Is this depressing? Yes.
-
-[0] https://lwn.net/SubscriberLink/1061534/3040c9a3a6271043/
+> [1] https://wiki.gentoo.org/wiki/Project:Council/AI_policy
+> [2] https://github.com/crossbario/autobahn-python/issues/1716
+> [3] https://github.com/crossbario/autobahn-python/issues/1735
+> [4] https://github.com/crossbario/autobahn-python/issues/1782
+> [5] https://github.com/crossbario/autobahn-python/discussions/1818
+> [6] https://github.com/chardet/chardet/issues/327
 
 --=-=-=
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEBBAEWCgCpFiEEJaa7iN2bdkxrVUHCc4QJ9SDfkZAFAmmw2BobFIAAAAAABAAO
+iQEBBAEWCgCpFiEEJaa7iN2bdkxrVUHCc4QJ9SDfkZAFAmmw2JMbFIAAAAAABAAO
 bWFudTIsMi41KzEuMTIsMiwyXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25z
 Lm9wZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXQyNUE2QkI4OEREOUI3NjRDNkI1NTQx
-QzI3Mzg0MDlGNTIwREY5MTkwDxxzYW1AZ2VudG9vLm9yZwAKCRBzhAn1IN+RkHDY
-AP9e7FC1SeD7kNXBnWx01JvpZkLwfCTB3ccPqwECCysS9wEA8TgvwaPBDOeHYZiK
-9yQUN1c/EsP+jL2iFIu13Weryw0=
-=Mwx9
+QzI3Mzg0MDlGNTIwREY5MTkwDxxzYW1AZ2VudG9vLm9yZwAKCRBzhAn1IN+RkOnr
+AQD4L2pP+aovtgy01GFPMeu0e8rLHOw2E4afoxz9UkDEKQD+P1U6Mol3RKrn2tea
+cop4SE2Llz4CZHUIjSc6HKlCHwk=
+=A6Ms
 -----END PGP SIGNATURE-----
 --=-=-=--
