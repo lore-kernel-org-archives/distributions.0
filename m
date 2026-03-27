@@ -1,146 +1,205 @@
-Received: from uggla.sjd.se (uggla.sjd.se [178.174.241.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA9D383C7C
-	for <distributions@lists.linux.dev>; Mon, 23 Mar 2026 08:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.174.241.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FEC03CEB82
+	for <distributions@lists.linux.dev>; Fri, 27 Mar 2026 08:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774256354; cv=none; b=UD6U/GUezsGYVkGn4zzLEsZMMTFvHknu9HacsOLsgXP5JMaDZv87IJF//TQoMzXNWKvEFlw497fgHYl0SG5wug0nECxOx5ITSaVkM//P+hHg3yFmBXY/vqloXRAx/yZfAkS3og1VxMzWzZ3/Lulklrm29c93QOBi30F6d3Wue1g=
+	t=1774598511; cv=none; b=jzbR4yreJo46V2en8vrwwdGnXl4vA/gS+WTwru3jL9mBHMOb33DD98QZI+hNx1NTK6ncgaeM8/5eu85vsXTji6EOa9ucn9LEAJftweEC9KnVQr3zC3vZ5T2nzTFqzEEWB7fmx3fynkvXsVwskiDPvUFJf+CDT62JnghINP547jY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774256354; c=relaxed/simple;
-	bh=/yLcBLBUgoQ2q5eXvBCC7LkEv1xlfOxroZO68CapE9k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=iG/KQtrg/w4w+I4fKmcy9MjiWCtqAIWHWER7X2pUl963nmkKZe8ZYefgX1xI5zcp3+Ji1bEQOwolfyf98G2VpkftBVvysCUBLANSNIuIK6PrDrCqgvM3CsyjcoxCK8TfHPYeW6N4hhJlm5m+Ri5KCJpiRjIJsNdyJ/ma7+0RJhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=josefsson.org; spf=pass smtp.mailfrom=josefsson.org; dkim=permerror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b=1L0lb5h9; dkim=temperror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b=tNSheloh; arc=none smtp.client-ip=178.174.241.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=josefsson.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=josefsson.org
+	s=arc-20240116; t=1774598511; c=relaxed/simple;
+	bh=Yx6+OFw5TyfGfeZs0STBG7J6E0peuQeGq3XtJKtLmbw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=Wdn0fQq2o47/1Ky0wf3YtGLVyoEyV1KdJpjDAXaoQc7248/FsJw3+msaWZZxCZo9a47hH55YMarrrR52+OBUpgRO1I6698WW2H7SWMTcRBfleaIxGyT9i33Shjj26PTTmySK86rMz3oAvDwNwyJltquI1tvZ9aFtW1Kt07iDNlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E0QHwGLP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=hEgXxY+6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=CdC1Q+1U; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=To9YTVW5; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=permerror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b="1L0lb5h9";
-	dkim=temperror (0-bit key) header.d=josefsson.org header.i=@josefsson.org header.b="tNSheloh"
-DKIM-Signature: v=1; a=ed25519-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=josefsson.org; s=ed2303; h=Content-Type:MIME-Version:Message-ID:Date:
-	References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Xll/WAHTC5HXlQCERr99XWDTJcfnmkF1TPtjImBDHvg=; t=1774256338; x=1775465938; 
-	b=1L0lb5h9UUEMWmkpJveLcKIzwxptuWMhtRXW9lbH3GBAEj4mUvx2du4IUJNllnA5qyqR+zipfn2
-	FpDCy70/eDQ==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=josefsson.org; s=rsa2303; h=Content-Type:MIME-Version:Message-ID:Date:
-	References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=Xll/WAHTC5HXlQCERr99XWDTJcfnmkF1TPtjImBDHvg=; t=1774256338; x=1775465938; 
-	b=tNShelohqHyozXr9js7qk6DV3589aIgr4X1pwpA+r4rw8TLnknfNLAaM0aZI38S0gmAkbMCF7yj
-	sR2dARzlE8EImSU7NQ1B8YjNrBQS2aHcciRJPFUKCLCedcqspd91Hi31zLo05GpPTi61luLxZhOZq
-	p52tM3KUfrFQUVtHy1fJtBJS5b+uiIJ0vjMXBa0PT9qBLRMAZmEvnlU1iJjiWQDLNPfoCMHpZkAW3
-	Vg1r5ozshBKsQukIBbtBerpws24kUC9pe4O7GoVbaQURM7wT4k2KQoQH3vta4zgGKspQ5C/nEiLhU
-	+ZAQkDNfS1FiLKd1swpBOuL3HvLarVdcrnbbu2vAIAeNVxJSKQZ5LQ9+Ns/etBQcnlwODDBR+TYQi
-	FQkwK4TFvXcMMvSBjnm64XH7mszwmi8hFjTHHuRUOedjRYaYCgQveCZflvWE553JyOL2iVVz5;
-Received: from h-178-174-130-130.a498.priv.bahnhof.se ([178.174.130.130]:42338 helo=frallan)
-	by uggla.sjd.se with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <simon@josefsson.org>)
-	id 1w4aPs-00Fozo-0v;
-	Mon, 23 Mar 2026 08:13:40 +0000
-From: Simon Josefsson <simon@josefsson.org>
-To: "Andreas K. Huettel" <dilfridge@gentoo.org>
-Cc: Morten Linderud <foxboron@archlinux.org>,  =?iso-8859-2?Q?Micha=B3_G?=
- =?iso-8859-2?Q?=F3rny?=
- <mgorny@gentoo.org>,  distributions@lists.linux.dev
-Subject: Re: Looking for advice on how to deal with potential slop packages
-In-Reply-To: <2081671.zToM8qfIzz@noumea> (Andreas K. Huettel's message of
-	"Mon, 23 Mar 2026 00:53:45 +0100")
-References: <a3f792e918674e208492a077679ae6ffc88ce0c9.camel@gentoo.org>
-	<aawYbre5_xvhfwKA@framework> <878qc38xmh.fsf@josefsson.org>
-	<2081671.zToM8qfIzz@noumea>
-OpenPGP: id=B1D2BD1375BECB784CF4F8C4D73CF638C53C06BE;
- url=https://josefsson.org/key-20190320.txt
-X-Hashcash: 1:23:260323:foxboron@archlinux.org::AJonNXXuHM+/sBbR:03Qt
-X-Hashcash: 1:23:260323:distributions@lists.linux.dev::GT2DzgZsShWfW/8Y:1XXo
-X-Hashcash: 1:23:260323:mgorny@gentoo.org::DMj2Sw/M2tlE+gKs:4/qY
-X-Hashcash: 1:23:260323:dilfridge@gentoo.org::ItVUtWmdwdojIp5F:EP+e
-Date: Mon, 23 Mar 2026 09:14:12 +0100
-Message-ID: <875x6nt12j.fsf@josefsson.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E0QHwGLP";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="hEgXxY+6";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CdC1Q+1U";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="To9YTVW5"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 31ABB4D30D;
+	Fri, 27 Mar 2026 08:01:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774598501; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Yx6+OFw5TyfGfeZs0STBG7J6E0peuQeGq3XtJKtLmbw=;
+	b=E0QHwGLPVchQfRPTmXCy2zY12oRpWxZpvnIrEanuke1Kb015l9OcVUeqg/CoYRLkvjXDO+
+	ZwR6QF2hqSlepifnAlSaVe3DzW8I8rsgZzhTMuXTkBUZh9v9YY2EhsQTLjboyWb5RdxrkA
+	U/gYAUwZ4h/EVraEvuX81jxEIqw/atY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774598501;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Yx6+OFw5TyfGfeZs0STBG7J6E0peuQeGq3XtJKtLmbw=;
+	b=hEgXxY+6DqiNMLJmkzbqB8W4S409o7I4UUd1q0ZFV/Iyrhz84M8Fw7Kw/1tB6ATuoDH0pM
+	ZO3HyqFTYr/f5PAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=CdC1Q+1U;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=To9YTVW5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1774598500; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Yx6+OFw5TyfGfeZs0STBG7J6E0peuQeGq3XtJKtLmbw=;
+	b=CdC1Q+1UvpYu78KzSFIodwj/lRHIyr8cY6IV8OsnJZYKNSRkl+/bLLAC5KzcwkPVtg3aha
+	cn/CRzLH5wwGrHKgtUzbufByCXGgVwZSk77ZYkMeNrvb3r0cB8aNq0AVBZoAq99epNycBa
+	6rs5xkvMZeZV5j40uhEaoAG9lIPwNQQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1774598500;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Yx6+OFw5TyfGfeZs0STBG7J6E0peuQeGq3XtJKtLmbw=;
+	b=To9YTVW5xWfBCl80xI424zcPW0/srpKL5PfQjhzr8b6MOX4M51voiqe9riHuRVABvS6xSW
+	FQvz6gP+dQ/RhbCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B8DE4A0A2;
+	Fri, 27 Mar 2026 08:01:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id isfkI2M5xmkARQAAD6G6ig
+	(envelope-from <bwiedemann@suse.de>); Fri, 27 Mar 2026 08:01:39 +0000
+Message-ID: <28bcbf0a-00b1-45fb-b61f-e5043d078d3e@suse.de>
+Date: Fri, 27 Mar 2026 09:01:39 +0100
 Precedence: bulk
 X-Mailing-List: distributions@lists.linux.dev
 List-Id: <distributions.lists.linux.dev>
 List-Subscribe: <mailto:distributions+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:distributions+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
-	micalg=pgp-sha512; protocol="application/pgp-signature"
+User-Agent: Mozilla Thunderbird
+Subject: Re: Looking for advice on how to deal with potential slop packages
+To: =?UTF-8?B?TWljaGHFgiBHw7Nybnk=?= <mgorny@gentoo.org>,
+ distributions@lists.linux.dev
+References: <a3f792e918674e208492a077679ae6ffc88ce0c9.camel@gentoo.org>
+Content-Language: en-US
+From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+Autocrypt: addr=bwiedemann@suse.de; keydata=
+ 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
+ 12bW2FfpiwAGOQ==
+In-Reply-To: <a3f792e918674e208492a077679ae6ffc88ce0c9.camel@gentoo.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------SoM1UgWfdccUj0MxHBBBxUET"
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-6.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SIGNED_PGP(-2.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_BASE64_TEXT(0.10)[];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RCPT_COUNT_TWO(0.00)[2];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	HAS_ATTACHMENT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lwn.net:url,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
+X-Rspamd-Queue-Id: 31ABB4D30D
+X-Spam-Flag: NO
+X-Spam-Score: -6.51
+X-Spam-Level: 
 
---=-=-=
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------SoM1UgWfdccUj0MxHBBBxUET
+Content-Type: multipart/mixed; boundary="------------1TCrv92MkO0UKTj6OkI4GgHH";
+ protected-headers="v1"
+From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+To: =?UTF-8?B?TWljaGHFgiBHw7Nybnk=?= <mgorny@gentoo.org>,
+ distributions@lists.linux.dev
+Message-ID: <28bcbf0a-00b1-45fb-b61f-e5043d078d3e@suse.de>
+Subject: Re: Looking for advice on how to deal with potential slop packages
+References: <a3f792e918674e208492a077679ae6ffc88ce0c9.camel@gentoo.org>
+In-Reply-To: <a3f792e918674e208492a077679ae6ffc88ce0c9.camel@gentoo.org>
 
-"Andreas K. Huettel" <dilfridge@gentoo.org> writes:
+--------------1TCrv92MkO0UKTj6OkI4GgHH
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Am Samstag, 7. M=E4rz 2026, 16:31:18 Mitteleurop=E4ische Normalzeit
-> schrieb Simon Josefsson:
->> Morten Linderud <foxboron@archlinux.org> writes:
->>=20
->> > A lot of this is probably already a lost cause I think.
->>=20
->> +1
->
-> Here's another example of a (cryptography-related) package gone full auto.
->
-> https://github.com/cpan-authors/Crypt-OpenSSL-RSA/commits/main/?after=3D5=
-d7e2e6faf3d6938b55aeebd40f5fb2379248c36+34
->
-> Lost cause or not, shouldnt we even try to fight this tendency?
+DQoNCk9uIDA3LzAzLzIwMjYgMTEuMzgsIE1pY2hhxYIgR8Ozcm55IHdyb3RlOg0KPiBIZWxs
+bywgZXZlcnlvbmUuDQo+IA0KPiBTZWVpbmcgbW9yZSBhbmQgbW9yZSBwYWNrYWdlcyBlbWJy
+YWNpbmcgTExNLWRyaXZlbiBkZXZlbG9wbWVudCAodG8gdGhlDQo+IHBvaW50IG9mICJ2aWJl
+IGNvZGluZyIgb3Igc2xvcHdhcmUpLCBJJ20gbG9va2luZyBmb3IgeW91ciBpZGVhcyBvbiBo
+b3cNCj4gZGlzdHJpYnV0aW9ucyBzaG91bGQgZGVhbCB3aXRoIHRoYXQuDQoNCmh0dHBzOi8v
+bHduLm5ldC9TdWJzY3JpYmVyTGluay8xMDY0NTQxL2Q3MWYzNjJmOTY4MWFkMmIvDQpwaWNr
+ZWQgdXAgb24gdGhpcyB0b3BpYy4NCldoaWxlIGl0IG1lbnRpb25zIGNoYXJkZXQsIHRoZSBm
+b2N1cyBpcyBvbiBhIHN1Ym1pc3Npb24gdG8gb3BlbkJTRC4NCkNvcHlyaWdodCBpcyBhIG1h
+am9yIGNvbmNlcm4uDQpNYWludGFpbmFiaWxpdHkgaXMgYW5vdGhlciwgYmVjYXVzZSBub2Jv
+ZHkgZnVsbHkgdW5kZXJzdGFuZHMgdGhlIA0KZ2VuZXJhdGVkIGNvZGUgYW5kIGl0IG9mdGVu
+IGR1cGxpY2F0ZXMgcGxlbnR5IGV4aXN0aW5nIGNvZGUsIHZpb2xhdGluZyANCkRSWS9TUE9U
+IC4NCg0KDQpDaWFvDQpCZXJuaGFyZCBNLg0K
 
-Could the answer be in the follow-on question "How?"?
+--------------1TCrv92MkO0UKTj6OkI4GgHH--
 
-I can't think of any feasible way to oppose this tendency today.
-
-LLM-authored code is already part of a growing list of low-level and/or
-security critical components of the free software eco-system --
-including, if I'm not mistaken, Linux, systemd, OpenSSL, Go crypto, etc.
-
-One reaction could be to build a GNU distribution based only on software
-components that doesn't contain LLM-authored code.  This assumes we can
-even identify that code.  I think that will be challenging -- some
-projects are adopting policies to accept LLM-contributions that doesn't
-acknowledge or mention that a LLM-assistant was used.  How to make a
-decision in that case?
-
-A stronger reaction could be to build a GNU distribution based only on
-software components that have a sufficiently strong no-LLM policy.  A
-100% "Human-written Software" distribution, based on something similar
-to Debian's DFSG but replacing (or augmenting) 'free software' with
-'human-written software'.
-
-These things are do-able, but I don't see anyone verbalize the ideas and
-starting the work involved.
-
-/Simon
-
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+--------------SoM1UgWfdccUj0MxHBBBxUET
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQNoBAEWCgMQFiEEo8ychwudMQq61M8vUXIrCP5HRaIFAmnA9lQUHHNpbW9uQGpv
-c2Vmc3Nvbi5vcmfCHCYAmDMEXJLOtBYJKwYBBAHaRw8BAQdACIcrZIvhrxDBkK9f
-V+QlTmXxo2naObDuGtw58YaxlOu0JVNpbW9uIEpvc2Vmc3NvbiA8c2ltb25Aam9z
-ZWZzc29uLm9yZz6IlgQTFggAPgIbAwULCQgHAgYVCAkKCwIEFgIDAQIeAQIXgBYh
-BLHSvRN1vst4TPT4xNc89jjFPAa+BQJn0XQkBQkNZGbwAAoJENc89jjFPAa+BtIA
-/iR73CfBurG9y8pASh3cbGOMHpDZfMAtosu6jbpO69GHAP4p7l57d+iVty2VQMsx
-+3TCSAvZkpr4P/FuTzZ8JZe8BrgzBFySz4EWCSsGAQQB2kcPAQEHQOxTCIOaeXAx
-I2hIX4HK9bQTpNVei708oNr1Klm8qCGKiPUEGBYIACYCGwIWIQSx0r0Tdb7LeEz0
-+MTXPPY4xTwGvgUCZ9F0SgUJDWRmSQCBdiAEGRYIAB0WIQSjzJyHC50xCrrUzy9R
-cisI/kdFogUCXJLPgQAKCRBRcisI/kdFoqdMAQCgH45aseZgIrwKOvUOA9QfsmeE
-8GZHYNuFHmM9FEQS6AD6A4x5aYvoY6lo98pgtw2HPDhmcCXFItjXCrV4A0GmJA4J
-ENc89jjFPAa+wUUBAO64fbZek6FPlRK0DrlWsrjCXuLi6PUxyzCAY6lG2nhUAQC6
-qobB9mkZlZ0qihy1x4JRtflqFcqqT9n7iUZkCDIiDbg4BFySz2oSCisGAQQBl1UB
-BQEBB0AxlRumDW6nZY7A+VCfek9VpEx6PJmdJyYPt3lNHMd6HAMBCAeIfgQYFggA
-JgIbDBYhBLHSvRN1vst4TPT4xNc89jjFPAa+BQJn0XTSBQkNZGboAAoJENc89jjF
-PAa+0M0BAPPRq73kLnHYNDMniVBOzUdi2XeF32idjEWWfjvyIJUOAP4wZ+ALxIeh
-is3Uw2BzGZE6ttXQ2Q+DeCJO3TPpIqaXDAAKCRBRcisI/kdFomZFAQD8Azxl0BX2
-guL/SuZcFQTNcNzW+SHEBlAhJy3w9dYC7wEA98V2FybvlmGlOp0LljmXroqoCbsz
-ALj12bzhV7SutQA=
-=bZyO
+wnsEABYIACMWIQTykslvYmKwlIQesLNdovN53d8CLgUCacY5YwUDAAAAAAAKCRBdovN53d8CLv+C
+AP9QZ0oScwGwpZtSf6tjjGJz2QpqlcB+II0aszcDbqIsIgEA2F7v/s3y1jThvTL0QaTH/C4PvUYf
+FtkfRIv69ibSlwM=
+=cFex
 -----END PGP SIGNATURE-----
---=-=-=--
+
+--------------SoM1UgWfdccUj0MxHBBBxUET--
